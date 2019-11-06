@@ -2,6 +2,21 @@
 
 Political Observer app.
 
+## Repository Instructions
+Never work off of Master or Develop branches.
+Always start a new branch off of Develop as feature/branchname.
+Always comment your commits and explain what you did.
+
+Before committing code run `eslint src/* --fix` in project root 
+to fix ESLint/Prettier errors and standardize code.
+
+When your feature branch is complete, submit a pull request.
+Please explain in detail what the pull request accomplishes and link to any
+project docs or card related to the feature or fix.
+Assign yourself as an Assignee and the rest of the team as Reviewers.
+Assign a label to the pull request if applicable such as bug, feature, etcetera.
+
+
 ## Installation
 
 After cloning the project repository, open the root of the project in a
