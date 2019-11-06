@@ -17,7 +17,7 @@ command: `npm install`
 
 #### Xcode
 
-1.  Use Xcode to open the iOS workspace file located at /ios/nasm.xcworkspace
+1.  Use Xcode to open the iOS workspace file located at /ios/PoliticalObserver.xcworkspace
 2.  Select a simulator and run the project.
     - Xcode will launch a separate terminal window to run the React packager
       which manages a javascript bundle necessary to run the app
