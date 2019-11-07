@@ -1,6 +1,58 @@
-# PoliticalObserver
+# Political Observer Mobile App
 
-Political Observer app.
+## Overview
+
+Political Observer is an educational application that encourages users to become 
+more informed and involved with U.S politics by providing an interactive learning 
+experience on current events and the U.S governmental system. 
+
+Politics and government directly impact every aspect of our lives. 
+In spite of this, only 61.4 percent of citizens participated in the 2016 
+presidential election. Local elections suffer even lower voter turnout hovered 
+between 11 to 44 percent. Political Observer addresses this issue by providing 
+one convenient application for users to learn about the various aspects of the 
+U.S political system, voice their opinion on trending policy issues, and track 
+their political affiliation over time through an easily navigable interface. 
+Users often hesitate to get involved because they think they’re uninformed about 
+politics and how the government works. Clunky UIs further serve as a barrier and 
+have been a source of frustration for end-users and we aim to increase involvement 
+by combating these issues. No other apps combine both political education and 
+self reporting data tracking. As the number of users continues to grow, this will 
+provide a valuable and unique data set that can easily be marketed to provide 
+revenue for the application.
+
+## Key Features
+
+1. Easy access to publicly recorded information.
+2. Educational section with definitions and explanation of political topics.
+3. Political questionnaire's and interactive experiences such as polling on hot
+topics to aggregate data and assist users in determining their affiliation on the 
+political spectrum
+
+
+## Dependencies
+
+This project is built with React Native to support iOS and Android. 
+React-Native is an open source framework developed by Facebook that provides a 
+javascript API to access the native methods of each respective platform. 
+This allows us to build a cross platform app from a unified codebase. 
+Unlike other cross platform frameworks such as Cordova or Sencha which render 
+HTML in a web view, React Native leverages each platform's native UI layers, 
+resulting in an app that looks, feels and performs like a native app.
+
+You can learn more about React Native here: 
+https://facebook.github.io/react-native/
+
+Node.js
+You'll need to install Node.js and its package manager npm in order to set up 
+and run this project. We recommend using the lateset LTS version of Node which 
+can be found here: https://nodejs.org/en/
+
+Xcode
+The latest stable release of Xcode 9 is required to build and run the iOS project
+
+Android Studio
+Android studio is required to build and run the Android project
 
 ## Repository Instructions
 Never work off of Master or Develop branches.
@@ -38,9 +90,8 @@ command: `npm install`
       which manages a javascript bundle necessary to run the app
       
 #### Terminal
-Navigate to project root directory.
-
-Run: `npm run ios` or `react-native run-ios`
+1. Navigate to project root directory.
+2. Run: `npm run ios` or `react-native run-ios`
 
 ### Android
 
@@ -54,6 +105,7 @@ Run: `npm run ios` or `react-native run-ios`
 4.  Build and run the project using Android Studio
 
 #### Terminal
-Navigate to project root directory.
-
-Run: `npm run android` or `react-native run-android`
+1. Navigate to project root directory.
+2. Start the packager by running: `npm start`
+3. Install and run the project on an emulator by running: 
+`npm run android` or `react-native run-android`
