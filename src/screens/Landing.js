@@ -2,6 +2,10 @@ import React from 'react';
 import {Button, Text, View} from 'react-native';
 
 export default class LandingScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
