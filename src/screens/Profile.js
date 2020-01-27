@@ -1,12 +1,21 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Button, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 export default class ProfileScreen extends React.Component {
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Profile Screen</Text>
-      </View>
+      <SafeAreaView
+        style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ScrollView scrollEnabled={true}>
+          <Text>Profile Screen</Text>
+          <Button
+            title="Settings"
+            onPress={() =>
+              this.props.navigation.navigate({routeName: 'Settings'})
+            }
+          />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
