@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import {colors} from '../styles';
 import {NavigationActions} from 'react-navigation';
+import auth from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/auth';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
