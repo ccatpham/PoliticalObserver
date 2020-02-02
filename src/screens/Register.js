@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import {colors} from '../styles';
 import {NavigationActions} from 'react-navigation';
+import {Platform} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { firebase } from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/auth';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
@@ -21,11 +22,45 @@ export default class RegisterScreen extends React.Component {
     };
   }
 
+  //register with valid user name and password
+  async register(email, password) {
+    try {
+      await auth().createUserWithEmailAndPassword(email, password);
+    } catch (e) {
+      console.error(e.message);
+    }
+  }
+
   onPressLogin = () => {
     this.props.navigation.reset(
       [NavigationActions.navigate({routeName: 'Dashboard'})],
       0,
     );
+
+    // pluck values from your `google-services.json` file you created on the firebase console
+    const androidConfig = {
+      clientId:
+        '779830787631-frm6o8rcpr1hs4mapu4rkub9advt9dm5.apps.googleusercontent.com',
+      appId: '1:779830787631:android:a33884db73c09845d850da',
+      apiKey: 'AIzaSyBFYatMeWlnfPeljCRTzm0sXRKfKqkOkLE',
+      databaseURL: 'https://politicalobserver-2e4ab.firebaseio.com',
+      storageBucket: 'politicalobserver-2e4ab.appspot.com',
+      messagingSenderId: '779830787631',
+      projectId: 'politicalobserver-2e4ab',
+
+      // enable persistence by adding the below flag
+      persistence: true,
+    };
+    //check if app instance is initialized do not duplicate
+    if (!firebase.apps.length) {
+      firebase
+        .initializeApp(
+          // use platform-specific firebase config
+          androidConfig,
+        )
+        .then(app => console.log('initialized apps ->', firebase.apps));
+    }
+    this.register(this.state.email, this.state.password);
   };
 
   onChangeEmail(email) {
@@ -51,11 +86,18 @@ export default class RegisterScreen extends React.Component {
             onChangeText={email => this.onChangeEmail(email)}
             value={this.state.email}
           />
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Password'}
+            placeholderTextColor={colors.paleGreen}
+            onChangeText={password => this.onChangePassword(password)}
+            value={this.state.password}
+          />
         </View>
         <TouchableOpacity
           style={styles.loginButtonContainer}
           onPress={this.onPressLogin}>
-          <Text style={styles.loginButtonText}>Next</Text>
+          <Text style={styles.loginButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
