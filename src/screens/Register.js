@@ -19,24 +19,11 @@ export default class RegisterScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
+      errormsg: '',
     };
   }
 
-  //register with valid user name and password
-  async register(email, password) {
-    try {
-      await auth().createUserWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-
   onPressLogin = () => {
-    this.props.navigation.reset(
-      [NavigationActions.navigate({routeName: 'Dashboard'})],
-      0,
-    );
-
     // pluck values from your `google-services.json` file you created on the firebase console
     const androidConfig = {
       clientId:
@@ -60,7 +47,27 @@ export default class RegisterScreen extends React.Component {
         )
         .then(app => console.log('initialized apps ->', firebase.apps));
     }
-    this.register(this.state.email, this.state.password);
+    if (this.state.email != '' && this.state.password != '') {
+      auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(
+          () => {
+            this.props.navigation.reset(
+              [NavigationActions.navigate({routeName: 'Dashboard'})],
+              0,
+            );
+          },
+          value => {
+            this.setState({
+              errormsg: value.message,
+            });
+          },
+        );
+    } else {
+      this.setState({
+        errormsg: 'Required field cannot be empty.',
+      });
+    }
   };
 
   onChangeEmail(email) {
@@ -92,6 +99,11 @@ export default class RegisterScreen extends React.Component {
             placeholderTextColor={colors.paleGreen}
             onChangeText={password => this.onChangePassword(password)}
             value={this.state.password}
+          />
+          <TextInput
+            style={styles.textInput}
+            onChangeText={errormsg => this.onChangePassword(errormsg)}
+            value={this.state.errormsg}
           />
         </View>
         <TouchableOpacity
