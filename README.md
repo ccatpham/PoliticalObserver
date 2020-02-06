@@ -75,6 +75,9 @@ After cloning the project repository, open the root of the project in a
 terminal. To confirm you're in the project root you should have a package.json
 file in your current working directory.
 
+It can also be useful to delete your node_modules folder if you've ran npm install 
+before and also delete the package-lock.json if there is one before installing.
+
 You can now install the remaining dependencies with the following terminal 
 command: `npm install`
 
