@@ -6,9 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ImageBackground,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {colors} from '../styles';
+import backgroundImage from '../../res/images/background.jpg';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -68,6 +70,14 @@ export default class LoginScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundContainer: {
+    flex: 1,
+    width: null,
+    height: null,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
