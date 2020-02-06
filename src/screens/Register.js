@@ -6,9 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import {colors} from '../styles';
 import {NavigationActions} from 'react-navigation';
+import auth from '@react-native-firebase/auth';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
@@ -20,10 +22,30 @@ export default class RegisterScreen extends React.Component {
   }
 
   onPressLogin = () => {
-    this.props.navigation.reset(
-      [NavigationActions.navigate({routeName: 'Dashboard'})],
-      0,
-    );
+    if (this.state.email !== '' && this.state.password !== '') {
+      auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(() => {
+          this.props.navigation.reset(
+            [NavigationActions.navigate({routeName: 'Dashboard'})],
+            0,
+          );
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } else {
+      Alert.alert('Error', 'Required fields must be filled', [{text: 'OK'}], {
+        cancelable: false,
+      });
+    }
   };
 
   onChangeEmail(email) {
@@ -49,11 +71,18 @@ export default class RegisterScreen extends React.Component {
             onChangeText={email => this.onChangeEmail(email)}
             value={this.state.email}
           />
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Password'}
+            placeholderTextColor={colors.paleGreen}
+            onChangeText={password => this.onChangePassword(password)}
+            value={this.state.password}
+          />
         </View>
         <TouchableOpacity
           style={styles.loginButtonContainer}
           onPress={this.onPressLogin}>
-          <Text style={styles.loginButtonText}>Next</Text>
+          <Text style={styles.loginButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
