@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   View,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import {colors} from '../styles';
 import backgroundImage from '../../res/images/background.jpg';
+import auth from '@react-native-firebase/auth';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -22,10 +24,30 @@ export default class LoginScreen extends React.Component {
   }
 
   onPressLogin = () => {
-    this.props.navigation.reset(
-      [NavigationActions.navigate({routeName: 'Dashboard'})],
-      0,
-    );
+    if (this.state.email !== '' && this.state.password !== '') {
+      auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(() => {
+          this.props.navigation.reset(
+            [NavigationActions.navigate({routeName: 'Dashboard'})],
+            0,
+          );
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } else {
+      Alert.alert('Error', 'Required fields must be filled', [{text: 'OK'}], {
+        cancelable: false,
+      });
+    }
   };
 
   onChangeEmail(email) {
