@@ -81,7 +81,7 @@ export default class RegisterScreen extends React.Component {
             style={styles.textInput}
             secureTextEntry={true}
             placeholder={'Password'}
-            onChangeText={password => this.onChangeEmail(password)}
+            onChangeText={password => this.onChangePassword(password)}
             value={this.state.password}
           />
           <Picker
@@ -93,11 +93,12 @@ export default class RegisterScreen extends React.Component {
               }
             }}>
             <Picker.Item label="Select a political affiliation" value="0" />
-            <Picker.Item label="Democrat" value="Under 18" />
-            <Picker.Item label="Republican" value="18-25" />
-            <Picker.Item label="Libertarian" value="25-64" />
-            <Picker.Item label="Green" value="65 and over" />
-            <Picker.Item label="Constitution" value="65 and over" />
+            <Picker.Item label="Democrat" value="Democrat" />
+            <Picker.Item label="Republican" value="Republican" />
+            <Picker.Item label="Libertarian" value="Libertarian" />
+            <Picker.Item label="Green" value="Green" />
+            <Picker.Item label="Constitution" value="Constitution" />
+            <Picker.Item label="Unaligned" value="Unaligned" />
           </Picker>
           <Text style={styles.headerDescription}>
             Selecting a political party will help curate app content.
