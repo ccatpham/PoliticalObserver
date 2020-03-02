@@ -13,6 +13,7 @@ import {
 import {colors} from '../styles';
 import profilePicture from '../../res/images/profile_pic.jpg';
 import book from '../../res/icons/book_filled.png';
+import spectrum from '../../res/images/political_spectrum.jpg';
 const DeviceWidth = Dimensions.get('window').width;
 
 export default class ProfileScreen extends React.Component {
@@ -61,7 +62,7 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text>Issues</Text>
+                  <Text style={styles.squareText}>Issues</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -73,7 +74,7 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text>Affiliations</Text>
+                  <Text style={styles.squareText}>Affiliations</Text>
                 </TouchableOpacity>
               </View>
               <View>
@@ -88,7 +89,7 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text>Personalities</Text>
+                  <Text style={styles.squareText}>Personalities</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -101,7 +102,7 @@ export default class ProfileScreen extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text>Demographics</Text>
+                  <Text style={styles.squareText}>Demographics</Text>
                 </TouchableOpacity>
               </View>
               <View>
@@ -131,6 +132,8 @@ export default class ProfileScreen extends React.Component {
                 />
               </View>
             </View>
+              <Text style={styles.headerText}>Political Spectrum</Text>
+              <Image source={spectrum} style={styles.spectrum}/>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -154,6 +157,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
   },
+  spectrum: {
+    width: 350,
+    height: 350,
+  },
   notification: {
     flex: 1,
     backgroundColor: 'red',
@@ -173,9 +180,14 @@ const styles = StyleSheet.create({
     color: colors.gray,
     fontWeight: 'bold',
   },
-  textContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  squareText: {
+    fontSize: 16,
+    color: colors.white,
+    fontWeight: 'bold',
   },
+    headerText: {
+        fontSize: 16,
+        color: colors.black,
+        fontWeight: 'bold',
+    },
 });
