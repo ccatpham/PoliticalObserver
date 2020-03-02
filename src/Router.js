@@ -9,6 +9,7 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
+import IssuesScreen from './screens/Issues';
 
 /*
   Education - Search specifics, definitions
@@ -29,6 +30,9 @@ const ProfileStack = createStackNavigator({
   Profile: ProfileScreen,
   Settings: SettingsScreen,
 });
+const IssuesStack = createStackNavigator({
+  Issues: IssuesScreen,
+})
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -36,6 +40,7 @@ const BottomTabNavigator = createBottomTabNavigator(
     Education: EducationStack,
     Dashboard: DashboardStack,
     Profile: ProfileStack,
+    Issues: IssuesStack,
   },
   {
     navigationOptions: {
