@@ -7,8 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-//import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
+import {colors} from '../styles';
 
 var item_date = 'March, 1, 2020';
 var item_description =
@@ -16,32 +16,66 @@ var item_description =
 var item_pro = 'Reasons to vote yes.';
 var item_con = 'Reasons to Vote no.';
 var item_notes = 'Here are some important and controvertial notes to consider.';
+
+//List Items
 var CONTENT = [
   {
     title: 'Issue 1',
+    date: item_date,
     content: item_description,
+    pro: item_pro,
+    con: item_con,
+    note: item_notes,
   },
   {
     title: 'Issue 2',
+    date: item_date,
     content: item_description,
+    pro: item_pro,
+    con: item_con,
+    note: item_notes,
   },
   {
     title: 'Issue 3',
+    date: item_date,
     content: item_description,
+    pro: item_pro,
+    con: item_con,
+    note: item_notes,
   },
   {
     title: 'Issue 4',
+    date: item_date,
     content: item_description,
+    pro: item_pro,
+    con: item_con,
+    note: item_notes,
   },
   {
     title: 'Issue 5',
+    date: item_date,
     content: item_description,
+    pro: item_pro,
+    con: item_con,
+    note: item_notes,
   },
 ];
 
 export default class IssuesScreen extends React.Component {
-  state = {
-    activeSections: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeSections: [],
+      voted: 'not voted', //yes, no, none
+    };
+  }
+
+  onPressVoteYes = () => {
+    this.state.voted = 'voted yes';
+  };
+
+  onPressVoteNo = () => {
+    this.state.voted = 'voted no';
   };
 
   //keeps a list of active (expanded issues)
@@ -53,12 +87,13 @@ export default class IssuesScreen extends React.Component {
 
   //header of the Issue
   renderHeader = (section, _, isActive) => {
+    var status = this.state.voted;
     return (
       <Animatable.View
         duration={400}
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title}</Text>
+        <Text style={styles.headerText}>{section.title + '  ' + status}</Text>
       </Animatable.View>
     );
   };
@@ -71,8 +106,30 @@ export default class IssuesScreen extends React.Component {
         style={[styles.content, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {section.content}
+          {'Date: ' + section.date}
         </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Description: ' + section.content}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Pros: ' + section.pro}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Cons: ' + section.con}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Important Notes: ' + section.note}
+        </Animatable.Text>
+        <TouchableOpacity
+          style={styles.voteYesButtonContainer}
+          onPress={this.onPressVoteYes}>
+          <Text style={styles.voteButtonText}>Vote Yes!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.voteNoButtonContainer}
+          onPress={this.onPressVoteNo}>
+          <Text style={styles.voteButtonText}>Vote No!</Text>
+        </TouchableOpacity>
       </Animatable.View>
     );
   }
@@ -84,7 +141,6 @@ export default class IssuesScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
           <Text style={styles.title}>Vote on Political Issues</Text>
-
           <Accordion
             activeSections={activeSections}
             sections={CONTENT}
@@ -113,10 +169,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   header: {
-    backgroundColor: '#F5FCFF',
-    padding: 10,
+    padding: 5,
   },
   headerText: {
+    backgroundColor: 'rgba(95, 183, 162, 1)',
+    padding: 10,
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '500',
@@ -135,5 +192,31 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     padding: 10,
+  },
+  voteYesButtonContainer: {
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: 'rgba(58, 153, 68, 1)',
+    width: 100,
+    alignSelf: 'center',
+  },
+  voteButtonText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    padding: 5,
+    fontSize: 12,
+    color: colors.white,
+    overflow: 'hidden',
+  },
+  voteNoButtonContainer: {
+    marginBottom: 40,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: 'rgba(206, 49, 49, 1)',
+    width: 100,
+    alignSelf: 'center',
   },
 });
