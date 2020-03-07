@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {colors} from '../styles';
-import {NavigationActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
 export default class RegisterScreen extends React.Component {
@@ -31,9 +31,11 @@ export default class RegisterScreen extends React.Component {
       auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          this.props.navigation.reset(
-            [NavigationActions.navigate({routeName: 'Dashboard'})],
-            0,
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{name: 'TabNavigator'}],
+            }),
           );
         })
         .catch(error => {

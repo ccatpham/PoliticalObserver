@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {CommonActions} from '@react-navigation/routers';
 
 export default class ProfileScreen extends React.Component {
   render() {
@@ -11,7 +12,11 @@ export default class ProfileScreen extends React.Component {
           <Button
             title="Settings"
             onPress={() =>
-              this.props.navigation.navigate({routeName: 'Settings'})
+              this.props.navigation.dispatch(
+                CommonActions.navigate({
+                  name: 'Login',
+                }),
+              )
             }
           />
         </ScrollView>
