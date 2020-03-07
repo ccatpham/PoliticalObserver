@@ -8,7 +8,7 @@ import {
   View,
   Alert,
 } from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
 import auth from '@react-native-firebase/auth';
 
@@ -26,9 +26,11 @@ export default class LoginScreen extends React.Component {
       auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          this.props.navigation.reset(
-            [NavigationActions.navigate({routeName: 'Dashboard'})],
-            0,
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{name: 'TabNavigator'}],
+            }),
           );
         })
         .catch(error => {
@@ -90,6 +92,14 @@ export default class LoginScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundContainer: {
+    flex: 1,
+    width: null,
+    height: null,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

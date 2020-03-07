@@ -5,8 +5,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
+import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
+import backgroundImage from '../../res/images/background.jpg';
 
 export default class LandingScreen extends React.Component {
   static navigationOptions = {
@@ -14,28 +17,46 @@ export default class LandingScreen extends React.Component {
   };
 
   onPressLogin = () => {
-    this.props.navigation.navigate('Login');
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Login',
+      }),
+    );
   };
 
   onPressSignUp = () => {
-    this.props.navigation.navigate('Register');
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Register',
+      }),
+    );
   };
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.contentContainer} />
-        <TouchableOpacity
-          style={styles.signUpButtonContainer}
-          onPress={this.onPressSignUp}>
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.loginButtonContainer}
-          onPress={this.onPressLogin}>
-          <Text style={styles.loginButtonText}>Login</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
+      <ImageBackground
+        source={backgroundImage}
+        style={styles.backgroundContainer}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.overlay} />
+          <Text style={styles.appTitle}>Political Observer</Text>
+          <View>
+            <Text style={styles.appDescription}>
+              Your companion for reliable political content
+            </Text>
+            <TouchableOpacity
+              style={styles.signUpButtonContainer}
+              onPress={this.onPressSignUp}>
+              <Text style={styles.signUpButtonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.loginButtonContainer}
+              onPress={this.onPressLogin}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
     );
   }
 }
@@ -44,6 +65,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  backgroundContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    width: null,
+    height: null,
+    alignContent: 'center',
   },
   contentContainer: {
     flex: 1,
@@ -81,5 +109,35 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.paleGreen,
     overflow: 'hidden',
+  },
+  appTitle: {
+    textAlign: 'left',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    padding: 20,
+    fontSize: 50,
+    color: colors.white,
+    overflow: 'hidden',
+    fontWeight: 'bold',
+  },
+  appDescription: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    padding: 20,
+    fontSize: 25,
+    color: colors.white,
+    overflow: 'hidden',
+  },
+  overlay: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.2,
+    backgroundColor: 'black',
   },
 });
