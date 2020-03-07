@@ -1,6 +1,6 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LandingScreen from './screens/Landing';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
@@ -10,45 +10,80 @@ import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
 
-/*
-  Education - Search specifics, definitions
-  Dashboard -
-  Profile/Settings -
- */
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const SearchStack = createStackNavigator({
-  Search: SearchScreen,
-});
-const EducationStack = createStackNavigator({
-  Education: EducationScreen,
-});
-const DashboardStack = createStackNavigator({
-  Dashboard: DashboardScreen,
-});
-const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen,
-  Settings: SettingsScreen,
-});
+function SearchStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Search"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Search" component={SearchScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const BottomTabNavigator = createBottomTabNavigator(
-  {
-    Search: SearchStack,
-    Education: EducationStack,
-    Dashboard: DashboardStack,
-    Profile: ProfileStack,
-  },
-  {
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-);
+function EducationStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Education"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Education" component={EducationScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const AppNavigator = createStackNavigator({
-  Landing: LandingScreen,
-  Login: LoginScreen,
-  Register: RegisterScreen,
-  Dashboard: BottomTabNavigator,
-});
+function DashboardStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+    </Stack.Navigator>
+  );
+}
 
-export default createAppContainer(AppNavigator);
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function TabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{gestureEnabled: false, headerShown: false}}>
+      <Tab.Screen name="Dashboard" component={DashboardStack} />
+      <Tab.Screen name="Education" component={EducationStack} />
+      <Tab.Screen name="Search" component={SearchStack} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
+    </Tab.Navigator>
+  );
+}
+
+export default function AppStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Landing"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen
+        name="Landing"
+        component={LandingScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="TabNavigator"
+        component={TabNavigator}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}

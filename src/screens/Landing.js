@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
 import backgroundImage from '../../res/images/background.jpg';
 
@@ -16,11 +17,19 @@ export default class LandingScreen extends React.Component {
   };
 
   onPressLogin = () => {
-    this.props.navigation.navigate('Login');
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Login',
+      }),
+    );
   };
 
   onPressSignUp = () => {
-    this.props.navigation.navigate('Register');
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Register',
+      }),
+    );
   };
 
   render() {
