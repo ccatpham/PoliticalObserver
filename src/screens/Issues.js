@@ -71,11 +71,15 @@ export default class IssuesScreen extends React.Component {
   }
 
   onPressVoteYes = () => {
-    this.state.voted = 'voted yes';
+    this.setState({
+      voted: 'voted yes',
+    });
   };
 
   onPressVoteNo = () => {
-    this.state.voted = 'voted no';
+    this.setState({
+      voted: 'voted no',
+    });
   };
 
   //keeps a list of active (expanded issues)
