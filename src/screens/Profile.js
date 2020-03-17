@@ -58,31 +58,31 @@ export default class ProfileScreen extends React.Component {
           </View>
         </TouchableOpacity>
         <View>
-          <View style={styles.iconContainer}>
+          <View style={styles.shadowContainerRow}>
             <TouchableOpacity onPress={() => this.onPressPolitician()}>
               <Image
                 style={styles.imageStyle}
-                source={require('../../res/images/yang.jpg')}
+                source={require('../../res/icons/issues.png')}
               />
               <Text style={styles.captionStyle}>Issues</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.onPressTopic()}>
               <Image
                 style={styles.imageStyle}
-                source={require('../../res/images/bernie.png')}
+                source={require('../../res/icons/politician.png')}
               />
               <Text style={styles.captionStyle}>Politicians</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.onPressIssue()}>
               <Image
                 style={styles.imageStyle}
-                source={require('../../res/images/trump.jpg')}
+                source={require('../../res/icons/personality.png')}
               />
               <Text style={styles.captionStyle}>Personality</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{padding: 20}}>
+        <View style={{paddingTop: 20}}>
           <TouchableOpacity style={styles.shadowContainerColumn}>
             <Text style={styles.profileTextStyle}>Political Compass</Text>
             <Image
@@ -162,11 +162,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     bottom: 0,
-    top: 50,
-    left: 25,
+    top: 0,
+    left: 20,
     right: 0,
-    position: 'absolute',
-    color: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'black',
   },
   imageStyle: {
     // aspectRatio: 1,
