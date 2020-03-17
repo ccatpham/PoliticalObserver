@@ -1,25 +1,14 @@
 import React from 'react';
 import {
   Image,
-  Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
-  TouchableOpacity,
-  Image,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
-import alert from '../../res/icons/exclamation.png';
-import compass from '../../res/images/political_spectrum.jpg';
 import {colors} from '../styles';
-import profilePicture from '../../res/images/profile_pic.jpg';
-import book from '../../res/icons/book_filled.png';
-import spectrum from '../../res/images/political_spectrum.jpg';
-const DeviceWidth = Dimensions.get('window').width;
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -144,7 +133,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignContent: 'center',
     flex: 1,
-    justifyContent: 'center',
   },
   textContainer: {
     flexDirection: 'row',
