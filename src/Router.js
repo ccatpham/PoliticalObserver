@@ -9,7 +9,13 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
-
+import PoliticianScreen from './screens/Politician';
+import IssuesScreen from './screens/Issues';
+import TopicsScreen from './screens/Topics';
+import PoliticianProfile from './screens/Components/PoliticianPage';
+import SettingIcon from '../res/icons/gear.png';
+import React from 'react';
+import {TouchableOpacity, Text} from 'react-native';
 /*
   Education - Search specifics, definitions
   Dashboard -
@@ -26,8 +32,20 @@ const DashboardStack = createStackNavigator({
   Dashboard: DashboardScreen,
 });
 const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen,
-  Settings: SettingsScreen,
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: ({navigate, navigation}) => ({
+      headerTitle: 'Profile',
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+          <Text>Setting</Text>
+        </TouchableOpacity>
+      ),
+    }),
+  },
+  Settings: {
+    screen: SettingsScreen,
+  },
 });
 
 const BottomTabNavigator = createBottomTabNavigator(
