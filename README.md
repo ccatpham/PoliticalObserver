@@ -83,6 +83,8 @@ command: `npm install`
 
 ### iOS
 
+If you already have /Pods/ folder in your /ios/ directory, delete Pods folder and podfile.lock
+
 Next, for iOS we need to install the dependencies as cocoa pods.
 Navigate to /ios folder in the root project directory and run: `pod install` 
 
