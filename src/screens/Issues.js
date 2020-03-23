@@ -18,68 +18,21 @@ var item_con = 'Reasons to Vote no.';
 var item_notes = 'Here are some important and controvertial notes to consider.';
 
 //List Items
-var CONTENT = [
-  {
-    title: 'Issue 1',
-    date: item_date,
-    content: item_description,
-    pro: item_pro,
-    con: item_con,
-    note: item_notes,
-  },
-  {
-    title: 'Issue 2',
-    date: item_date,
-    content: item_description,
-    pro: item_pro,
-    con: item_con,
-    note: item_notes,
-  },
-  {
-    title: 'Issue 3',
-    date: item_date,
-    content: item_description,
-    pro: item_pro,
-    con: item_con,
-    note: item_notes,
-  },
-  {
-    title: 'Issue 4',
-    date: item_date,
-    content: item_description,
-    pro: item_pro,
-    con: item_con,
-    note: item_notes,
-  },
-  {
-    title: 'Issue 5',
-    date: item_date,
-    content: item_description,
-    pro: item_pro,
-    con: item_con,
-    note: item_notes,
-  },
-];
+var CONTENT = [];
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeSections: [],
-      voted: 'not voted', //yes, no, none
+      fetched: false,
     };
   }
 
   onPressVoteYes = () => {
-    this.setState({
-      voted: 'voted yes',
-    });
   };
 
   onPressVoteNo = () => {
-    this.setState({
-      voted: 'voted no',
-    });
   };
 
   //keeps a list of active (expanded issues)
@@ -91,13 +44,12 @@ export default class IssuesScreen extends React.Component {
 
   //header of the Issue
   renderHeader = (section, _, isActive) => {
-    var status = this.state.voted;
     return (
       <Animatable.View
         duration={400}
         style={[styles.header, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title + '  ' + status}</Text>
+        <Text style={styles.headerText}>{section.title}</Text>
       </Animatable.View>
     );
   };
@@ -116,13 +68,13 @@ export default class IssuesScreen extends React.Component {
           {'Description: ' + section.content}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Pros: ' + section.pro}
+          {'Pros: ' + section.pros}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Cons: ' + section.con}
+          {'Cons: ' + section.cons}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Important Notes: ' + section.note}
+          {'Important Notes: ' + section.notes}
         </Animatable.Text>
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
@@ -137,6 +89,47 @@ export default class IssuesScreen extends React.Component {
       </Animatable.View>
     );
   }
+
+  componentDidMount = () => {
+    fetch('http://10.0.2.2:3000/issues/all/', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+    })
+      .then(
+        response => {
+          console.log('response1:', response);
+          return response.json();
+        },
+        exception => {
+          console.log('exception 1', exception);
+        },
+      )
+      .then(responseJson => {
+        console.log(responseJson);
+        var s = JSON.stringify(responseJson);
+        var list = JSON.parse(s);
+        for (var i = 0; i < list.length; i += 1) {
+          var item = {
+            title: list[i].title,
+            date: list[i].date,
+            content: list[i].description,
+            pros: list[i].pros,
+            cons: list[i].cons,
+            notes: list[i].notes,
+          };
+          CONTENT.push(item);
+        }
+        this.setState({
+          fetched: true,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   render() {
     const {activeSections} = this.state;
