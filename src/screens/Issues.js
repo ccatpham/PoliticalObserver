@@ -11,12 +11,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import {colors} from '../styles';
 //List Items
 var CONTENT = [];
-var CONTENT_VIEW = [
-  {
-    title: 'issue 1',
-    date: '3-23-202',
-  },
-];
+var CONTENT_VIEW = [];
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -134,8 +129,8 @@ export default class IssuesScreen extends React.Component {
     );
   }
 
-  componentDidMount = () => {
-    fetch('http://10.0.2.2:3000/issues/all/', {
+  fetchAllIssues(url) {
+    fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -173,6 +168,66 @@ export default class IssuesScreen extends React.Component {
       .catch(error => {
         console.error(error);
       });
+  }
+
+  getUserVotedIssues(userIssuesUrl) {
+    fetch(userIssuesUrl)
+      .then(
+        response => {
+          return response.json();
+        },
+        exception => {
+          console.log(exception);
+        },
+      )
+      .then(
+        async results => {
+          //console.log("primary: ", results);
+          var s = JSON.stringify(results);
+          var obj = JSON.parse(s);
+          for (var i = 0; i < obj.length; i += 1) {
+            var issue = await this.getUserVotedIssueHelper(
+              'http://10.0.2.2:3000/issues/id/',
+              obj[i].issueId,
+            );
+            console.log(
+              issue.title,
+              ', voted: ',
+              obj[i].vote,
+              ', by: ',
+              obj[i].username,
+            );
+          }
+          this.setState({
+            fetched: true,
+          });
+        },
+        exception => {
+          console.log(exception);
+        },
+      );
+  }
+
+  //gets an issue by issue id
+  getUserVotedIssueHelper(url, issueId) {
+    return fetch(url + issueId).then(
+      response => {
+        var res = response.json();
+        return res;
+      },
+      exception => {
+        console.log(exception);
+      },
+    );
+  }
+
+  componentDidMount = () => {
+    //fetch all the political issues
+    this.fetchAllIssues('http://10.0.2.2:3000/issues/all/');
+    //fetch all the user-voted political issues for the logged in user
+    this.getUserVotedIssues(
+      'http://10.0.2.2:3000/userissues/username/myEmail@gmail.com',
+    );
   };
 
   render() {
