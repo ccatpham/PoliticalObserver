@@ -9,36 +9,39 @@ import {
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {colors} from '../styles';
-
-var item_date = 'March, 1, 2020';
-var item_description =
-  'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
-var item_pro = 'Reasons to vote yes.';
-var item_con = 'Reasons to Vote no.';
-var item_notes = 'Here are some important and controvertial notes to consider.';
-
 //List Items
 var CONTENT = [];
-
+var CONTENT_VIEW = [
+  {
+    title: 'issue 1',
+    date: '3-23-202',
+  },
+];
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeSections: [],
+      activeVotedSections: [],
       fetched: false,
     };
   }
 
-  onPressVoteYes = () => {
-  };
+  onPressVoteYes = () => {};
 
-  onPressVoteNo = () => {
-  };
+  onPressVoteNo = () => {};
 
-  //keeps a list of active (expanded issues)
+  //keeps a list of active/expanded issue items
   setSections = sections => {
     this.setState({
       activeSections: sections.includes(undefined) ? [] : sections,
+    });
+  };
+
+  //keeps a list of active/expanded voted-issue items
+  setVotedSections = sections => {
+    this.setState({
+      activeVotedSections: sections.includes(undefined) ? [] : sections,
     });
   };
 
@@ -90,6 +93,47 @@ export default class IssuesScreen extends React.Component {
     );
   }
 
+  //header of the Issue
+  renderVotedHeader = (section, _, isActive) => {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.header, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Text style={styles.votedHeaderText}>{section.title}</Text>
+      </Animatable.View>
+    );
+  };
+
+  //content of the issue
+  renderVotedContent(section, _, isActive) {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.content, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Date: ' + section.date}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Description: ' + section.content}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Pros: ' + section.pros}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Cons: ' + section.cons}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Important Notes: ' + section.notes}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Your Vote: ' + 'Yes'}
+        </Animatable.Text>
+      </Animatable.View>
+    );
+  }
+
   componentDidMount = () => {
     fetch('http://10.0.2.2:3000/issues/all/', {
       method: 'GET',
@@ -132,12 +176,11 @@ export default class IssuesScreen extends React.Component {
   };
 
   render() {
-    const {activeSections} = this.state;
-
+    const {activeSections, activeVotedSections} = this.state;
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>Vote on Political Issues</Text>
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
-          <Text style={styles.title}>Vote on Political Issues</Text>
           <Accordion
             activeSections={activeSections}
             sections={CONTENT}
@@ -147,6 +190,19 @@ export default class IssuesScreen extends React.Component {
             renderContent={this.renderContent}
             duration={400}
             onChange={this.setSections}
+          />
+        </ScrollView>
+        <Text style={styles.title}>View Political Votes</Text>
+        <ScrollView contentContainerStyle={{paddingTop: 30}}>
+          <Accordion
+            activeSections={activeVotedSections}
+            sections={CONTENT}
+            touchableComponent={TouchableOpacity}
+            expandMultiple={true}
+            renderHeader={this.renderVotedHeader}
+            renderContent={this.renderVotedContent}
+            duration={400}
+            onChange={this.setVotedSections}
           />
         </ScrollView>
       </View>
@@ -169,6 +225,13 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   headerText: {
+    backgroundColor: 'rgba(67, 142, 200, 1)',
+    padding: 10,
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  votedHeaderText: {
     backgroundColor: 'rgba(95, 183, 162, 1)',
     padding: 10,
     textAlign: 'center',
