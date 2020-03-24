@@ -11,7 +11,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import {colors} from '../styles';
 //List Items
 var CONTENT = [];
-var CONTENT_VIEW = [];
+var CONTENT_VOTE = [];
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -108,7 +108,13 @@ export default class IssuesScreen extends React.Component {
         style={[styles.content, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date: ' + section.date}
+          {'Username: ' + section.username}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Date Voted: ' + section.datevoted}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Your Vote: ' + section.vote}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Description: ' + section.content}
@@ -121,9 +127,6 @@ export default class IssuesScreen extends React.Component {
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Important Notes: ' + section.notes}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Your Vote: ' + 'Yes'}
         </Animatable.Text>
       </Animatable.View>
     );
@@ -184,19 +187,23 @@ export default class IssuesScreen extends React.Component {
         async results => {
           //console.log("primary: ", results);
           var s = JSON.stringify(results);
-          var obj = JSON.parse(s);
-          for (var i = 0; i < obj.length; i += 1) {
+          var list = JSON.parse(s);
+          for (var i = 0; i < list.length; i += 1) {
             var issue = await this.getUserVotedIssueHelper(
               'http://10.0.2.2:3000/issues/id/',
-              obj[i].issueId,
+              list[i].issueId,
             );
-            console.log(
-              issue.title,
-              ', voted: ',
-              obj[i].vote,
-              ', by: ',
-              obj[i].username,
-            );
+            var item = {
+              username: list[i].username,
+              datevoted: list[i].date,
+              vote: list[i].vote,
+              title: issue.title,
+              content: issue.description,
+              pros: issue.pros,
+              cons: issue.cons,
+              notes: issue.notes,
+            };
+            CONTENT_VOTE.push(item);
           }
           this.setState({
             fetched: true,
@@ -251,7 +258,7 @@ export default class IssuesScreen extends React.Component {
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
           <Accordion
             activeSections={activeVotedSections}
-            sections={CONTENT}
+            sections={CONTENT_VOTE}
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderVotedHeader}
