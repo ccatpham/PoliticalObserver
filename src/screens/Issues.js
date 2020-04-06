@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
@@ -22,9 +23,66 @@ export default class IssuesScreen extends React.Component {
     };
   }
 
-  onPressVoteYes = () => {};
-
   onPressVoteNo = () => {};
+
+  onPressVoteYes = (issueId, username) => {
+    this.addUserIssueVote(
+      'http://10.0.2.2:3000/userissues/',
+      issueId,
+      'myemail@gmail.com',
+      'yes',
+    );
+  };
+
+  //add or update a new vote to issue by user
+  addUserIssueVote = (userIssueUrl, issueId, username, vote) => {
+    let date =
+      String(new Date().getMonth() + 1) +
+      '-' +
+      String(new Date().getDate()) +
+      '-' +
+      String(new Date().getFullYear()); //Current Date
+    fetch(userIssueUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        issueId: issueId,
+        username: username,
+        vote: vote,
+        date: date,
+      }),
+    })
+      .then(
+        res => {
+          return res.text();
+        },
+        exception => {
+          console.log('exc1', exception);
+        },
+      )
+      .then(
+        restext => {
+          if (restext == '1') {
+            Alert.alert(
+              'Already Voted!',
+              'You have already voted once on this issue',
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          }
+          console.log('restext: ', restext);
+          // Do something with the returned data.
+        },
+        exception => {
+          console.log('exc2', exception);
+        },
+      );
+  };
 
   //keeps a list of active/expanded issue items
   setSections = sections => {
@@ -63,6 +121,9 @@ export default class IssuesScreen extends React.Component {
           {'Date: ' + section.date}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Issue Id: ' + section.id}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Description: ' + section.content}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
@@ -76,7 +137,7 @@ export default class IssuesScreen extends React.Component {
         </Animatable.Text>
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
-          onPress={this.onPressVoteYes}>
+          onPress={() => this.onPressVoteYes(section.id, 'myemail@gmail.com')}>
           <Text style={styles.voteButtonText}>Vote Yes!</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -155,6 +216,7 @@ export default class IssuesScreen extends React.Component {
         var list = JSON.parse(s);
         for (var i = 0; i < list.length; i += 1) {
           var item = {
+            id: list[i]._id,
             title: list[i].title,
             date: list[i].date,
             content: list[i].description,
@@ -233,7 +295,7 @@ export default class IssuesScreen extends React.Component {
     this.fetchAllIssues('http://10.0.2.2:3000/issues/all/');
     //fetch all the user-voted political issues for the logged in user
     this.getUserVotedIssues(
-      'http://10.0.2.2:3000/userissues/username/myEmail@gmail.com',
+      'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
     );
   };
 
@@ -249,7 +311,7 @@ export default class IssuesScreen extends React.Component {
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderHeader}
-            renderContent={this.renderContent}
+            renderContent={this.renderContent.bind(this)}
             duration={400}
             onChange={this.setSections}
           />
