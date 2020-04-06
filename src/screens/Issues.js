@@ -23,19 +23,26 @@ export default class IssuesScreen extends React.Component {
     };
   }
 
-  onPressVoteNo = () => {};
+  onPressVoteNo(issueId, username) {
+    this.addUserIssueVote(
+      'http://10.0.2.2:3000/userissues/',
+      issueId,
+      'myemail@gmail.com',
+      'no',
+    );
+  }
 
-  onPressVoteYes = (issueId, username) => {
+  onPressVoteYes(issueId, username) {
     this.addUserIssueVote(
       'http://10.0.2.2:3000/userissues/',
       issueId,
       'myemail@gmail.com',
       'yes',
     );
-  };
+  }
 
   //add or update a new vote to issue by user
-  addUserIssueVote = (userIssueUrl, issueId, username, vote) => {
+  addUserIssueVote(userIssueUrl, issueId, username, vote){
     let date =
       String(new Date().getMonth() + 1) +
       '-' +
@@ -82,7 +89,7 @@ export default class IssuesScreen extends React.Component {
           console.log('exc2', exception);
         },
       );
-  };
+  }
 
   //keeps a list of active/expanded issue items
   setSections = sections => {
@@ -142,7 +149,7 @@ export default class IssuesScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
-          onPress={this.onPressVoteNo}>
+          onPress={() => this.onPressVoteNo(section.id, 'myemail@gmail.com')}>
           <Text style={styles.voteButtonText}>Vote No!</Text>
         </TouchableOpacity>
       </Animatable.View>
