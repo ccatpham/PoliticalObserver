@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
+import {SearchBar} from 'react-native-elements';
+
 import {colors} from '../styles';
 //List Items
 var CONTENT = [];
@@ -20,8 +22,17 @@ export default class IssuesScreen extends React.Component {
       activeSections: [],
       activeVotedSections: [],
       fetched: false,
+      search: '',
     };
   }
+
+  updateSearch = search => {
+    this.setState({search});
+  };
+
+  getSearchResults = keyword => {
+    console.log(keyword);
+  };
 
   onPressVoteNo(issueId, username) {
     this.addUserIssueVote(
@@ -42,7 +53,7 @@ export default class IssuesScreen extends React.Component {
   }
 
   //add or update a new vote to issue by user
-  addUserIssueVote(userIssueUrl, issueId, username, vote){
+  addUserIssueVote(userIssueUrl, issueId, username, vote) {
     let date =
       String(new Date().getMonth() + 1) +
       '-' +
@@ -310,6 +321,16 @@ export default class IssuesScreen extends React.Component {
     const {activeSections, activeVotedSections} = this.state;
     return (
       <View style={styles.container}>
+        <SearchBar
+          noIcon
+          lightTheme
+          round
+          icon={{type: 'font-awesome', name: 'search'}}
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={this.state.search}
+          onSubmitEditing={() => this.getSearchResults(this.state.search)}
+        />
         <Text style={styles.title}>Vote on Political Issues</Text>
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
           <Accordion
@@ -350,7 +371,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 22,
     fontWeight: '300',
-    marginBottom: 20,
+    margin: 15,
   },
   header: {
     padding: 5,
@@ -370,7 +391,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   content: {
-    padding: 20,
+    padding: 10,
     backgroundColor: '#fff',
   },
   active: {
