@@ -155,12 +155,27 @@ export default class IssuesScreen extends React.Component {
         </Animatable.Text>
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
-          onPress={() => this.onPressVoteYes(section.id, 'myemail@gmail.com')}>
+          onPress={() => {
+            this.onPressVoteYes(section.id, 'myemail@gmail.com');
+            //this.setVotedSections(this.state.activeVotedSections);
+            this.setState({activeVotedSections: []});
+            CONTENT_VOTE = [];
+            this.getUserVotedIssues(
+              'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
+            );
+          }}>
           <Text style={styles.voteButtonText}>Vote Yes!</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
-          onPress={() => this.onPressVoteNo(section.id, 'myemail@gmail.com')}>
+          onPress={() => {
+            this.onPressVoteNo(section.id, 'myemail@gmail.com');
+            this.setState({activeVotedSections: []});
+            CONTENT_VOTE = [];
+            this.getUserVotedIssues(
+              'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
+            );
+          }}>
           <Text style={styles.voteButtonText}>Vote No!</Text>
         </TouchableOpacity>
       </Animatable.View>
