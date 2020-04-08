@@ -30,15 +30,21 @@ export default class IssuesScreen extends React.Component {
     this.setState({search});
   };
 
-  getSearchResults = keyword => {
-    console.log(keyword);
+  getSearchResults = async keyword => {
+    if (keyword == '') {
+      keyword = 'all';
+    }
+    var url = 'http://10.0.2.2:3000/issues/filter/' + keyword;
+    console.log(url);
+    //fetch all the political issues with keyword in them
+    await this.fetchAllIssues(url);
   };
 
   onPressVoteNo(issueId, username) {
     this.addUserIssueVote(
       'http://10.0.2.2:3000/userissues/',
       issueId,
-      'myemail@gmail.com',
+      username.toLowerCase(),
       'no',
     );
   }
@@ -47,7 +53,7 @@ export default class IssuesScreen extends React.Component {
     this.addUserIssueVote(
       'http://10.0.2.2:3000/userissues/',
       issueId,
-      'myemail@gmail.com',
+      username.toLowerCase(),
       'yes',
     );
   }
@@ -161,7 +167,7 @@ export default class IssuesScreen extends React.Component {
             this.setState({activeVotedSections: []});
             CONTENT_VOTE = [];
             this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
+              'http://10.0.2.2:3000/userissues/username/' + 'myemail@gmail.com',
             );
           }}>
           <Text style={styles.voteButtonText}>Vote Yes!</Text>
@@ -173,7 +179,7 @@ export default class IssuesScreen extends React.Component {
             this.setState({activeVotedSections: []});
             CONTENT_VOTE = [];
             this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
+              'http://10.0.2.2:3000/userissues/username/' + 'myemail@gmail.com',
             );
           }}>
           <Text style={styles.voteButtonText}>Vote No!</Text>
@@ -244,7 +250,7 @@ export default class IssuesScreen extends React.Component {
         },
       )
       .then(responseJson => {
-        console.log(responseJson);
+        console.log('response jason: ', responseJson);
         var s = JSON.stringify(responseJson);
         var list = JSON.parse(s);
         for (var i = 0; i < list.length; i += 1) {
@@ -325,7 +331,7 @@ export default class IssuesScreen extends React.Component {
 
   componentDidMount = () => {
     //fetch all the political issues
-    this.fetchAllIssues('http://10.0.2.2:3000/issues/all/');
+    this.fetchAllIssues('http://10.0.2.2:3000/issues/filter/all');
     //fetch all the user-voted political issues for the logged in user
     this.getUserVotedIssues(
       'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
@@ -344,7 +350,11 @@ export default class IssuesScreen extends React.Component {
           placeholder="Type Here..."
           onChangeText={this.updateSearch}
           value={this.state.search}
-          onSubmitEditing={() => this.getSearchResults(this.state.search)}
+          onSubmitEditing={() => {
+            this.setState({activeVotedSections: []});
+            CONTENT = [];
+            this.getSearchResults(this.state.search);
+          }}
         />
         <Text style={styles.title}>Vote on Political Issues</Text>
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
@@ -359,7 +369,7 @@ export default class IssuesScreen extends React.Component {
             onChange={this.setSections}
           />
         </ScrollView>
-        <Text style={styles.title}>View Political Votes</Text>
+        <Text style={styles.title}>View Your Political Votes</Text>
         <ScrollView contentContainerStyle={{paddingTop: 30}}>
           <Accordion
             activeSections={activeVotedSections}
