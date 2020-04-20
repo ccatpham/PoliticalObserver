@@ -1,52 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Alert,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors} from '../styles';
 
 const propTypes = {
   selected: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
+  label: PropTypes.string,
 };
 
 const defaultProps = {
-  selected: false,
+  label: '',
 };
 
 export default class RadioButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: this.props.selected,
-    };
-  }
-
-  onPressRadioButton = () => {
-    this.setState({
-      selected: !this.state.selected,
-    });
-  };
-
   render() {
     return (
-      <TouchableOpacity
-        style={styles.RadioButton}
-        onPress={this.onPressRadioButton}>
-        <View
-          style={[
-            styles.RadioButtonSelection,
-            this.state.selected
-              ? styles.RadioButtonSelected
-              : styles.RadioButtonUnselected,
-          ]}
-        />
-      </TouchableOpacity>
+      <View style={styles.RadioButtonContainer}>
+        <TouchableOpacity
+          style={styles.RadioButton}
+          onPress={this.props.onPress}>
+          <View
+            style={[
+              styles.RadioButtonSelection,
+              this.props.selected
+                ? styles.RadioButtonSelected
+                : styles.RadioButtonUnselected,
+            ]}
+          />
+        </TouchableOpacity>
+        <Text style={styles.RadioButtonText}>{this.props.label}</Text>
+      </View>
     );
   }
 }
@@ -55,6 +39,10 @@ RadioButton.propTypes = propTypes;
 RadioButton.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
+  RadioButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   RadioButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -75,5 +63,9 @@ const styles = StyleSheet.create({
   },
   RadioButtonUnselected: {
     backgroundColor: colors.white,
+  },
+  RadioButtonText: {
+      marginLeft: 10,
+      fontSize: 16,
   },
 });
