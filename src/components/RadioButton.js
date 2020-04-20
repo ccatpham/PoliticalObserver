@@ -7,29 +7,35 @@ const propTypes = {
   selected: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   label: PropTypes.string,
+  color: PropTypes.string,
 };
 
 const defaultProps = {
   label: '',
+  color: colors.black,
 };
 
 export default class RadioButton extends React.Component {
   render() {
     return (
-      <View style={styles.RadioButtonContainer}>
+      <View style={styles.RadioButtonViewContainer}>
         <TouchableOpacity
-          style={styles.RadioButton}
+          style={styles.RadioButtonContainer}
           onPress={this.props.onPress}>
-          <View
-            style={[
-              styles.RadioButtonSelection,
-              this.props.selected
-                ? styles.RadioButtonSelected
-                : styles.RadioButtonUnselected,
-            ]}
-          />
+          <View style={[styles.RadioButton, {borderColor: this.props.color}]}>
+            <View
+              style={[
+                styles.RadioButtonSelection,
+                this.props.selected
+                  ? styles.RadioButtonSelected && {
+                      backgroundColor: this.props.color,
+                    }
+                  : styles.RadioButtonUnselected,
+              ]}
+            />
+          </View>
+          <Text style={styles.RadioButtonText}>{this.props.label}</Text>
         </TouchableOpacity>
-        <Text style={styles.RadioButtonText}>{this.props.label}</Text>
       </View>
     );
   }
@@ -39,6 +45,9 @@ RadioButton.propTypes = propTypes;
 RadioButton.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
+  RadioButtonViewContainer: {
+    alignItems: 'flex-start',
+  },
   RadioButtonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -50,22 +59,22 @@ const styles = StyleSheet.create({
     width: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: colors.paleGreen,
-    backgroundColor: colors.white,
+    borderColor: colors.black,
+    backgroundColor: colors.clear,
   },
   RadioButtonSelection: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
+    height: 12,
+    width: 12,
+    borderRadius: 6,
   },
   RadioButtonSelected: {
-    backgroundColor: colors.paleGreen,
+    backgroundColor: colors.black,
   },
   RadioButtonUnselected: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.clear,
   },
   RadioButtonText: {
-      marginLeft: 10,
-      fontSize: 16,
+    marginLeft: 10,
+    fontSize: 16,
   },
 });
