@@ -8,11 +8,13 @@ const propTypes = {
   onPress: PropTypes.func.isRequired,
   label: PropTypes.string,
   color: PropTypes.string,
+  textStyle: PropTypes.object,
 };
 
 const defaultProps = {
   label: '',
   color: colors.black,
+  textStyle: null,
 };
 
 export default class RadioButton extends React.Component {
@@ -34,7 +36,9 @@ export default class RadioButton extends React.Component {
               ]}
             />
           </View>
-          <Text style={styles.RadioButtonText}>{this.props.label}</Text>
+          <Text style={[styles.RadioButtonText, this.props.textStyle]}>
+            {this.props.label}
+          </Text>
         </TouchableOpacity>
       </View>
     );
