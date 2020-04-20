@@ -9,6 +9,8 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
+import PoliticalCompassScreen from './screens/PoliticalCompass';
+import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
 import React from 'react';
 import {TouchableOpacity, Text} from 'react-native';
 /*
@@ -40,6 +42,20 @@ const ProfileStack = createStackNavigator({
   },
   Settings: {
     screen: SettingsScreen,
+    navigationOptions: ({navigate, navigation}) => ({
+      headerTitle: 'Settings',
+      headerTitleStyle: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1,
+      },
+    }),
+  },
+  PoliticalCompass: {
+    screen: PoliticalCompassScreen,
+  },
+  PoliticalCompassLanding: {
+    screen: PoliticalCompassLanding,
   },
 });
 

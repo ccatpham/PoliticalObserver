@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle';
 import {colors} from '../styles';
@@ -14,7 +15,6 @@ export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-
   onPressPolitician = () => {
     alert('hello');
   };
@@ -82,8 +82,8 @@ export default class ProfileScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{paddingTop: 20}}>
-          <TouchableOpacity style={styles.shadowContainerColumn}>
+        <View>
+          <View style={styles.shadowContainerColumn}>
             <Text style={styles.profileTextStyle}>Political Compass</Text>
             <Image
               style={{
@@ -93,7 +93,37 @@ export default class ProfileScreen extends React.Component {
                 alignSelf: 'center',
               }}
               source={require('../../res/images/political_spectrum.jpg')}
-            ></Image>
+            />
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('PoliticalCompassLanding')
+              }>
+              <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>
+                Go to Quiz
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.shadowContainerColumn}>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>
+            Election Starter Pack
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://voterstatus.sos.ca.gov/');
+            }}
+            style={styles.shadowContainerColumn}>
+            <Text>1.) Check Your Voter Registration Status</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://covr.sos.ca.gov/');
+            }}
+            style={styles.shadowContainerColumn}>
+            <Text>2.) Register to vote </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.shadowContainerColumn}>
+            <Text>3.) Find what's on your ballot </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -170,13 +200,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   imageStyle: {
-    // aspectRatio: 1,
     width: 115,
     height: 115,
-  },
-  largeImageStyle: {
-    // aspectRatio: 1,
-    width: 200,
-    height: 200,
   },
 });
