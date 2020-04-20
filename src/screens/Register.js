@@ -10,6 +10,7 @@ import {
   Picker,
   Alert,
 } from 'react-native';
+import RadioButton from '../components/RadioButton';
 import {colors} from '../styles';
 import {CommonActions} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
@@ -24,6 +25,56 @@ export default class RegisterScreen extends React.Component {
       age: '',
       party: '',
       marital: '',
+      genderChoices: [
+        {
+          label: 'Male',
+          selected: false,
+        },
+        {
+          label: 'Female',
+          selected: false,
+        },
+        {
+          label: 'Other',
+          selected: false,
+        },
+      ],
+      polAffChoices: [
+        {
+          label: 'Democrat',
+          selected: false,
+        },
+        {
+          label: 'Republican',
+          selected: false,
+        },
+        {
+          label: 'Libertarian',
+          selected: false,
+        },
+        {
+          label: 'Green',
+          selected: false,
+        },
+        {
+          label: 'Constitution',
+          selected: false,
+        },
+        {
+          label: 'Unaligned',
+          selected: false,
+        },
+      ],
+      maritalStatus: [
+        {
+          label: 'Married',
+          selected: false,
+        },
+        {
+          label: 'Single',
+          selected: false,
+        },
+      ],
     };
   }
 
@@ -83,6 +134,34 @@ export default class RegisterScreen extends React.Component {
     });
   }
 
+  onPressGenderRadioButton = selectedGender => {
+    let genderChoices = this.state.genderChoices;
+    genderChoices.forEach(function(gender) {
+      if (gender === selectedGender) {
+        gender.selected = !gender.selected;
+      } else {
+        gender.selected = false;
+      }
+    });
+    this.setState({
+      genderChoices: genderChoices,
+    });
+  };
+
+  onPressPoliticalAffiliationRadioButton = selectedPolAff => {
+    let polAffChoices = this.state.polAffChoices;
+    polAffChoices.forEach(function(polAff) {
+      if (polAff === selectedPolAff) {
+        polAff.selected = !polAff.selected;
+      } else {
+        polAff.selected = false;
+      }
+    });
+    this.setState({
+      polAffChoices: polAffChoices,
+    });
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -102,6 +181,37 @@ export default class RegisterScreen extends React.Component {
             onChangeText={password => this.onChangePassword(password)}
             value={this.state.password}
           />
+          <View>
+            <Text>Gender</Text>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              {this.state.genderChoices.map(gender => (
+                <RadioButton
+                  key={gender.label}
+                  selected={gender.selected}
+                  onPress={() => this.onPressGenderRadioButton(gender)}
+                  label={gender.label}
+                  color={colors.paleGreen}
+                  textStyle={{color: colors.paleGreen}}
+                />
+              ))}
+            </View>
+          </View>
+          <View>
+            <Text>Political Affiliation</Text>
+            <View style={{flex: 1}}>
+              {this.state.polAffChoices.map(polAff => (
+                <RadioButton
+                  key={polAff.label}
+                  selected={polAff.selected}
+                  onPress={() =>
+                    this.onPressPoliticalAffiliationRadioButton(polAff)
+                  }
+                  label={polAff.label}
+                />
+              ))}
+            </View>
+          </View>
           <Picker
             mode={'dropdown'}
             selectedValue={this.state.party}
