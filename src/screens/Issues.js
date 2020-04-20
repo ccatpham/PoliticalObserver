@@ -10,11 +10,15 @@ import {
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {SearchBar} from 'react-native-elements';
+import {VictoryPie} from 'victory-native';
 
 import {colors} from '../styles';
 //List Items
 var CONTENT = [];
 var CONTENT_VOTE = [];
+const graphicData = [{y: 10}, {y: 50}, {y: 40}];
+const graphicColor = ['#388087', '#6fb3b8', '#badfe7'];
+
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -228,6 +232,13 @@ export default class IssuesScreen extends React.Component {
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Important Notes: ' + section.notes}
         </Animatable.Text>
+        <VictoryPie
+          data={graphicData}
+          height={170}
+          colorScale={graphicColor}
+          innerRadius={30}
+          padding={30}
+        />
       </Animatable.View>
     );
   }
@@ -350,6 +361,7 @@ export default class IssuesScreen extends React.Component {
           placeholder="Type Here..."
           onChangeText={this.updateSearch}
           value={this.state.search}
+          containerStyle={styles.searchContainer}
           onSubmitEditing={() => {
             this.setState({activeVotedSections: []});
             CONTENT = [];
@@ -357,7 +369,7 @@ export default class IssuesScreen extends React.Component {
           }}
         />
         <Text style={styles.title}>Vote on Political Issues</Text>
-        <ScrollView contentContainerStyle={{paddingTop: 30}}>
+        <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeSections}
             sections={CONTENT}
@@ -370,7 +382,7 @@ export default class IssuesScreen extends React.Component {
           />
         </ScrollView>
         <Text style={styles.title}>View Your Political Votes</Text>
-        <ScrollView contentContainerStyle={{paddingTop: 30}}>
+        <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeVotedSections}
             sections={CONTENT_VOTE}
@@ -394,29 +406,30 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: '300',
-    margin: 15,
+    margin: 5,
+    paddingTop: 10,
   },
   header: {
     padding: 5,
   },
   headerText: {
     backgroundColor: 'rgba(67, 142, 200, 1)',
-    padding: 10,
+    padding: 5,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
   },
   votedHeaderText: {
     backgroundColor: 'rgba(95, 183, 162, 1)',
-    padding: 10,
+    padding: 5,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
   },
   content: {
-    padding: 10,
+    padding: 5,
     backgroundColor: '#fff',
   },
   active: {
@@ -426,14 +439,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245,252,255,1)',
   },
   selectTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
-    padding: 10,
+    padding: 5,
   },
   voteYesButtonContainer: {
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 20,
+    marginTop: 15,
+    marginBottom: 0,
+    borderRadius: 15,
     borderWidth: 0,
     backgroundColor: 'rgba(58, 153, 68, 1)',
     width: 100,
@@ -449,11 +462,19 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   voteNoButtonContainer: {
-    marginBottom: 40,
-    borderRadius: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 15,
     borderWidth: 0,
     backgroundColor: 'rgba(206, 49, 49, 1)',
     width: 100,
     alignSelf: 'center',
+  },
+  searchContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    padding: 0,
+    borderWidth: 0,
+    margin: 0,
+    height: 40,
   },
 });
