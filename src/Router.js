@@ -9,7 +9,8 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
-import PoliticalCompassScreen from './screens/PoliticalCompass';
+import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
+import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
 import React from 'react';
 import {TouchableOpacity, Text} from 'react-native';
@@ -51,8 +52,11 @@ const ProfileStack = createStackNavigator({
       },
     }),
   },
-  PoliticalCompass: {
-    screen: PoliticalCompassScreen,
+  PoliticalCompassEconomic: {
+    screen: PoliticalCompassEcon,
+  },
+  PoliticalCompassSocial: {
+    screen: PoliticalCompassSocial,
   },
   PoliticalCompassLanding: {
     screen: PoliticalCompassLanding,

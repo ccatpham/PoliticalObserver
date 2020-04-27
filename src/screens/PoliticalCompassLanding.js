@@ -14,19 +14,21 @@ export default class PoliticalCompassLanding extends React.Component {
     return (
       <ImageBackground source={background} style={styles.image}>
         <View style={styles.overlay} />
-          <View style={{alignSelf: 'center'}}>
-            <Text style={styles.titleFont}> Political Compass Test </Text>
-          </View>
-          <View style={styles.descriptionStyle}>
-            <Text style={styles.descriptionTextStyle}>
-              Some propositions are extreme, and some are moderate. That’s how
-              we can show you whether you lean towards extremism or moderation
-              on the Compass. Your responses should not be overthought.
-            </Text>
-          </View>
+        <View style={{alignSelf: 'center'}}>
+          <Text style={styles.titleFont}> Political Compass Test </Text>
+        </View>
+        <View style={styles.descriptionStyle}>
+          <Text style={styles.descriptionTextStyle}>
+            Some propositions are extreme, and some are moderate. That’s how we
+            can show you whether you lean towards extremism or moderation on the
+            Compass. Your responses should not be overthought.
+          </Text>
+        </View>
         <View style={styles.startButtonStyle}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('PoliticalCompass')}>
+            onPress={() =>
+              this.props.navigation.navigate('PoliticalCompassEconomic')
+            }>
             <Text style={styles.startButtonFont}>Start the test</Text>
           </TouchableOpacity>
         </View>
