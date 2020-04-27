@@ -11,10 +11,8 @@ import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {SearchBar} from 'react-native-elements';
 import {VictoryPie} from 'victory-native';
-
 import {colors} from '../styles';
-//List Items
-var CONTENT = [];
+
 var CONTENT_VOTE = [];
 const USERNAME = 'myemail@gmail.com'; //this is a temporary value
 
@@ -22,6 +20,7 @@ export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      CONTENT: [],
       activeSections: [],
       activeVotedSections: [],
       fetched: false,
@@ -152,9 +151,8 @@ export default class IssuesScreen extends React.Component {
         },
       )
       .then(responseJson => {
-        CONTENT = responseJson;
         this.setState({
-          fetched: true,
+          CONTENT: responseJson,
         });
       })
       .catch(error => {
@@ -183,19 +181,6 @@ export default class IssuesScreen extends React.Component {
           console.log(exception);
         },
       );
-  }
-
-  //gets an issue by issue id
-  getUserVotedIssueHelper(url, issueId) {
-    return fetch(url + issueId).then(
-      response => {
-        var res = response.json();
-        return res;
-      },
-      exception => {
-        console.log(exception);
-      },
-    );
   }
 
   //header of the Issue
@@ -325,8 +310,7 @@ export default class IssuesScreen extends React.Component {
           value={this.state.search}
           containerStyle={styles.searchContainer}
           onSubmitEditing={() => {
-            this.setState({activeVotedSections: []});
-            CONTENT = [];
+            this.setState({activeVotedSections: [], CONTENT: []});
             this.getSearchResults(this.state.search);
           }}
         />
@@ -334,7 +318,7 @@ export default class IssuesScreen extends React.Component {
         <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeSections}
-            sections={CONTENT}
+            sections={this.state.CONTENT}
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderHeader}
