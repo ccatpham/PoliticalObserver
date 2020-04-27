@@ -152,21 +152,7 @@ export default class IssuesScreen extends React.Component {
         },
       )
       .then(responseJson => {
-        console.log('response jason: ', responseJson);
-        var s = JSON.stringify(responseJson);
-        var list = JSON.parse(s);
-        for (var i = 0; i < list.length; i += 1) {
-          var item = {
-            id: list[i]._id,
-            title: list[i].title,
-            date: list[i].date,
-            content: list[i].description,
-            pros: list[i].pros,
-            cons: list[i].cons,
-            notes: list[i].notes,
-          };
-          CONTENT.push(item);
-        }
+        CONTENT = responseJson;
         this.setState({
           fetched: true,
         });
@@ -187,30 +173,8 @@ export default class IssuesScreen extends React.Component {
         },
       )
       .then(
-        async results => {
-          //console.log("primary: ", results);
-          var s = JSON.stringify(results);
-          var list = JSON.parse(s);
-          for (var i = 0; i < list.length; i += 1) {
-            var issue = await this.getUserVotedIssueHelper(
-              'http://10.0.2.2:3000/issues/id/',
-              list[i].issueId,
-            );
-            var item = {
-              username: list[i].username,
-              datevoted: list[i].date,
-              vote: list[i].vote,
-              title: issue.title,
-              content: issue.description,
-              pros: issue.pros,
-              cons: issue.cons,
-              notes: issue.notes,
-              numVoteYes: list[i].yes,
-              numVoteNo: list[i].no,
-              numVoteTotal: list[i].total,
-            };
-            CONTENT_VOTE.push(item);
-          }
+        results => {
+          CONTENT_VOTE = results;
           this.setState({
             fetched: true,
           });
@@ -257,10 +221,10 @@ export default class IssuesScreen extends React.Component {
           {'Date: ' + section.date}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Issue Id: ' + section.id}
+          {'Issue Id: ' + section._id}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.content}
+          {'Description: ' + section.description}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Pros: ' + section.pros}
@@ -274,7 +238,7 @@ export default class IssuesScreen extends React.Component {
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
           onPress={() => {
-            this.onPressVoteYes(section.id, USERNAME);
+            this.onPressVoteYes(section._id, USERNAME);
             //this.setVotedSections(this.state.activeVotedSections);
             this.setState({activeVotedSections: []});
             CONTENT_VOTE = [];
@@ -287,7 +251,7 @@ export default class IssuesScreen extends React.Component {
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
           onPress={() => {
-            this.onPressVoteNo(section.id, USERNAME);
+            this.onPressVoteNo(section._id, USERNAME);
             this.setState({activeVotedSections: []});
             CONTENT_VOTE = [];
             this.getUserVotedIssues(
@@ -323,13 +287,13 @@ export default class IssuesScreen extends React.Component {
           {'Username: ' + section.username}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date Voted: ' + section.datevoted}
+          {'Date Voted: ' + section.date}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Your Vote: ' + section.vote}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.content}
+          {'Description: ' + section.description}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
           {'Pros: ' + section.pros}
@@ -338,13 +302,10 @@ export default class IssuesScreen extends React.Component {
           {'Cons: ' + section.cons}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Important Notes: ' + section.notes}
+          {'Total number of users who voted yes: ' + section.yes}
         </Animatable.Text>
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Total number of users who voted yes: ' + section.numVoteYes}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Total number of users who voted no: ' + section.numVoteNo}
+          {'Total number of users who voted no: ' + section.no}
         </Animatable.Text>
       </Animatable.View>
     );
