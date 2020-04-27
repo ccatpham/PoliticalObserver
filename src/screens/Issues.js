@@ -16,8 +16,7 @@ import {colors} from '../styles';
 //List Items
 var CONTENT = [];
 var CONTENT_VOTE = [];
-const graphicData = [{y: 10}, {y: 50}, {y: 40}];
-const graphicColor = ['#388087', '#6fb3b8', '#badfe7'];
+const USERNAME = 'myemail@gmail.com'; //this is a temporary value
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {
@@ -29,6 +28,15 @@ export default class IssuesScreen extends React.Component {
       search: '',
     };
   }
+
+  componentDidMount = () => {
+    //fetch all the political issues
+    this.fetchAllIssues('http://10.0.2.2:3000/issues/filter/all');
+    //fetch all the user-voted political issues for the logged in user
+    this.getUserVotedIssues(
+      'http://10.0.2.2:3000/userissues/username/' + USERNAME,
+    );
+  };
 
   updateSearch = search => {
     this.setState({search});
@@ -42,6 +50,20 @@ export default class IssuesScreen extends React.Component {
     console.log(url);
     //fetch all the political issues with keyword in them
     await this.fetchAllIssues(url);
+  };
+
+  //keeps a list of active/expanded issue items
+  setSections = sections => {
+    this.setState({
+      activeSections: sections.includes(undefined) ? [] : sections,
+    });
+  };
+
+  //keeps a list of active/expanded voted-issue items
+  setVotedSections = sections => {
+    this.setState({
+      activeVotedSections: sections.includes(undefined) ? [] : sections,
+    });
   };
 
   onPressVoteNo(issueId, username) {
@@ -110,137 +132,6 @@ export default class IssuesScreen extends React.Component {
           console.log('exc2', exception);
         },
       );
-  }
-
-  //keeps a list of active/expanded issue items
-  setSections = sections => {
-    this.setState({
-      activeSections: sections.includes(undefined) ? [] : sections,
-    });
-  };
-
-  //keeps a list of active/expanded voted-issue items
-  setVotedSections = sections => {
-    this.setState({
-      activeVotedSections: sections.includes(undefined) ? [] : sections,
-    });
-  };
-
-  //header of the Issue
-  renderHeader = (section, _, isActive) => {
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.header, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title}</Text>
-      </Animatable.View>
-    );
-  };
-
-  //content of the issue
-  renderContent(section, _, isActive) {
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.content, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date: ' + section.date}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Issue Id: ' + section.id}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.content}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Pros: ' + section.pros}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Cons: ' + section.cons}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Important Notes: ' + section.notes}
-        </Animatable.Text>
-        <TouchableOpacity
-          style={styles.voteYesButtonContainer}
-          onPress={() => {
-            this.onPressVoteYes(section.id, 'myemail@gmail.com');
-            //this.setVotedSections(this.state.activeVotedSections);
-            this.setState({activeVotedSections: []});
-            CONTENT_VOTE = [];
-            this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/' + 'myemail@gmail.com',
-            );
-          }}>
-          <Text style={styles.voteButtonText}>Vote Yes!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.voteNoButtonContainer}
-          onPress={() => {
-            this.onPressVoteNo(section.id, 'myemail@gmail.com');
-            this.setState({activeVotedSections: []});
-            CONTENT_VOTE = [];
-            this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/' + 'myemail@gmail.com',
-            );
-          }}>
-          <Text style={styles.voteButtonText}>Vote No!</Text>
-        </TouchableOpacity>
-      </Animatable.View>
-    );
-  }
-
-  //header of the Issue
-  renderVotedHeader = (section, _, isActive) => {
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.header, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Text style={styles.votedHeaderText}>{section.title}</Text>
-      </Animatable.View>
-    );
-  };
-
-  //content of the issue
-  renderVotedContent(section, _, isActive) {
-    return (
-      <Animatable.View
-        duration={400}
-        style={[styles.content, isActive ? styles.active : styles.inactive]}
-        transition="backgroundColor">
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Username: ' + section.username}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date Voted: ' + section.datevoted}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Your Vote: ' + section.vote}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.content}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Pros: ' + section.pros}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Cons: ' + section.cons}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Important Notes: ' + section.notes}
-        </Animatable.Text>
-        <VictoryPie
-          data={graphicData}
-          height={170}
-          colorScale={graphicColor}
-          innerRadius={30}
-          padding={30}
-        />
-      </Animatable.View>
-    );
   }
 
   fetchAllIssues(url) {
@@ -314,6 +205,9 @@ export default class IssuesScreen extends React.Component {
               pros: issue.pros,
               cons: issue.cons,
               notes: issue.notes,
+              numVoteYes: list[i].yes,
+              numVoteNo: list[i].no,
+              numVoteTotal: list[i].total,
             };
             CONTENT_VOTE.push(item);
           }
@@ -340,14 +234,121 @@ export default class IssuesScreen extends React.Component {
     );
   }
 
-  componentDidMount = () => {
-    //fetch all the political issues
-    this.fetchAllIssues('http://10.0.2.2:3000/issues/filter/all');
-    //fetch all the user-voted political issues for the logged in user
-    this.getUserVotedIssues(
-      'http://10.0.2.2:3000/userissues/username/myemail@gmail.com',
+  //header of the Issue
+  renderHeader = (section, _, isActive) => {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.header, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Text style={styles.headerText}>{section.title}</Text>
+      </Animatable.View>
     );
   };
+
+  //content of the issue
+  renderContent(section, _, isActive) {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.content, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Date: ' + section.date}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Issue Id: ' + section.id}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Description: ' + section.content}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Pros: ' + section.pros}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Cons: ' + section.cons}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Important Notes: ' + section.notes}
+        </Animatable.Text>
+        <TouchableOpacity
+          style={styles.voteYesButtonContainer}
+          onPress={() => {
+            this.onPressVoteYes(section.id, USERNAME);
+            //this.setVotedSections(this.state.activeVotedSections);
+            this.setState({activeVotedSections: []});
+            CONTENT_VOTE = [];
+            this.getUserVotedIssues(
+              'http://10.0.2.2:3000/userissues/username/' + USERNAME,
+            );
+          }}>
+          <Text style={styles.voteButtonText}>Vote Yes!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.voteNoButtonContainer}
+          onPress={() => {
+            this.onPressVoteNo(section.id, USERNAME);
+            this.setState({activeVotedSections: []});
+            CONTENT_VOTE = [];
+            this.getUserVotedIssues(
+              'http://10.0.2.2:3000/userissues/username/' + USERNAME,
+            );
+          }}>
+          <Text style={styles.voteButtonText}>Vote No!</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+    );
+  }
+
+  //header of the Issue
+  renderVotedHeader = (section, _, isActive) => {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.header, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Text style={styles.votedHeaderText}>{section.title}</Text>
+      </Animatable.View>
+    );
+  };
+
+  //content of the issue
+  renderVotedContent(section, _, isActive) {
+    return (
+      <Animatable.View
+        duration={400}
+        style={[styles.content, isActive ? styles.active : styles.inactive]}
+        transition="backgroundColor">
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Username: ' + section.username}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Date Voted: ' + section.datevoted}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Your Vote: ' + section.vote}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Description: ' + section.content}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Pros: ' + section.pros}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Cons: ' + section.cons}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Important Notes: ' + section.notes}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Total number of users who voted yes: ' + section.numVoteYes}
+        </Animatable.Text>
+        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Total number of users who voted no: ' + section.numVoteNo}
+        </Animatable.Text>
+      </Animatable.View>
+    );
+  }
 
   render() {
     const {activeSections, activeVotedSections} = this.state;
