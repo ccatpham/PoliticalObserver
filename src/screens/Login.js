@@ -6,12 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ImageBackground,
   Alert,
 } from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
-import backgroundImage from '../../res/images/background.jpg';
 import auth from '@react-native-firebase/auth';
 
 export default class LoginScreen extends React.Component {
@@ -28,9 +26,11 @@ export default class LoginScreen extends React.Component {
       auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          this.props.navigation.reset(
-            [NavigationActions.navigate({routeName: 'Dashboard'})],
-            0,
+          this.props.navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{name: 'TabNavigator'}],
+            }),
           );
         })
         .catch(error => {

@@ -1,6 +1,6 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LandingScreen from './screens/Landing';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Register';
@@ -12,76 +12,84 @@ import SettingsScreen from './screens/Settings';
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
-import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-/*
-  Education - Search specifics, definitions
-  Dashboard -
-  Profile/Settings -
- */
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const SearchStack = createStackNavigator({
-  Search: SearchScreen,
-});
-const EducationStack = createStackNavigator({
-  Education: EducationScreen,
-});
-const DashboardStack = createStackNavigator({
-  Dashboard: DashboardScreen,
-});
-const ProfileStack = createStackNavigator({
-  Profile: {
-    screen: ProfileScreen,
-    navigationOptions: ({navigate, navigation}) => ({
-      headerTitle: 'Profile',
-      headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-          <Text>Setting</Text>
-        </TouchableOpacity>
-      ),
-    }),
-  },
-  Settings: {
-    screen: SettingsScreen,
-    navigationOptions: ({navigate, navigation}) => ({
-      headerTitle: 'Settings',
-      headerTitleStyle: {
-        textAlign: 'center',
-        alignSelf: 'center',
-        flex: 1,
-      },
-    }),
-  },
-  PoliticalCompassEconomic: {
-    screen: PoliticalCompassEcon,
-  },
-  PoliticalCompassSocial: {
-    screen: PoliticalCompassSocial,
-  },
-  PoliticalCompassLanding: {
-    screen: PoliticalCompassLanding,
-  },
-});
 
-const BottomTabNavigator = createBottomTabNavigator(
-  {
-    Search: SearchStack,
-    Education: EducationStack,
-    Dashboard: DashboardStack,
-    Profile: ProfileStack,
-  },
-  {
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-);
+function SearchStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Search"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Search" component={SearchScreen} />
+    </Stack.Navigator>
+  );
+}
 
-const AppNavigator = createStackNavigator({
-  Landing: LandingScreen,
-  Login: LoginScreen,
-  Register: RegisterScreen,
-  Dashboard: BottomTabNavigator,
-});
+function EducationStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Education"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Education" component={EducationScreen} />
+    </Stack.Navigator>
+  );
+}
 
-export default createAppContainer(AppNavigator);
+function DashboardStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Profile"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="PoliticalCompassLanding" component={PoliticalCompassLanding} />
+      <Stack.Screen name="PoliticalCompassEconomic" component={PoliticalCompassEcon} />
+      <Stack.Screen name="PoliticalCompassSocial" component={PoliticalCompassSocial} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function TabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Dashboard"
+      screenOptions={{gestureEnabled: false, headerShown: false}}>
+      <Tab.Screen name="Dashboard" component={DashboardStack} />
+      <Tab.Screen name="Education" component={EducationStack} />
+      <Tab.Screen name="Search" component={SearchStack} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
+    </Tab.Navigator>
+  );
+}
+
+export default function AppStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Landing"
+      screenOptions={{gestureEnabled: false}}>
+      <Stack.Screen
+        name="Landing"
+        component={LandingScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="TabNavigator"
+        component={TabNavigator}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}

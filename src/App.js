@@ -1,9 +1,7 @@
 import React from 'react';
-import {createAppContainer} from 'react-navigation';
-import AppNavigator from './Router';
+import {NavigationContainer} from '@react-navigation/native';
+import AppStack from './Router';
 import app from '@react-native-firebase/app';
-
-const AppContainer = createAppContainer(AppNavigator);
 
 const firebaseConfig = {
   clientId:
@@ -25,6 +23,10 @@ export default class App extends React.Component {
     }
   }
   render() {
-    return <AppContainer />;
+    return (
+      <NavigationContainer>
+        <AppStack />
+      </NavigationContainer>
+    );
   }
 }
