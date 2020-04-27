@@ -23,8 +23,10 @@ export default class RegisterScreen extends React.Component {
       email: '',
       password: '',
       age: '',
-      party: '',
-      marital: '',
+      occupation: '',
+      income: '',
+      state: '',
+      politicalIdeology: '',
       genderChoices: [
         {
           label: 'Male',
@@ -39,7 +41,7 @@ export default class RegisterScreen extends React.Component {
           selected: false,
         },
       ],
-      polAffChoices: [
+      partyAffiliation: [
         {
           label: 'Democrat',
           selected: false,
@@ -75,6 +77,178 @@ export default class RegisterScreen extends React.Component {
           selected: false,
         },
       ],
+      ethnicity: [
+        {
+          label: 'White',
+          selected: false,
+        },
+        {
+          label: 'Black or African American',
+          selected: false,
+        },
+        {
+          label: 'Asian',
+          selected: false,
+        },
+        {
+          label: 'American Indian or Alaskan Native',
+          selected: false,
+        },
+        {
+          label: 'Native Hawaiian or Other Pacific Islander',
+          selected: false,
+        },
+        {
+          label: 'Other',
+          selected: false,
+        },
+      ],
+      education: [
+        {
+          label: 'General Education Development',
+          selected: false,
+        },
+        {
+          label: 'High School Diploma',
+          selected: false,
+        },
+        {
+          label: "Associate's Degree",
+          selected: false,
+        },
+        {
+          label: "Bachelor's Degree",
+          selected: false,
+        },
+        {
+          label: "Master's Degree",
+          selected: false,
+        },
+        {
+          label: 'Doctoral Degree',
+          selected: false,
+        },
+      ],
+      incomeLevel: [
+        {
+          label: '1k-20k',
+          selected: false,
+        },
+        {
+          label: '41k-60k',
+          selected: false,
+        },
+        {
+          label: '61k-80k',
+          selected: false,
+        },
+        {
+          label: '81k-100k',
+          selected: false,
+        },
+        {
+          label: '101k-120k',
+          selected: false,
+        },
+        {
+          label: '121k-140k',
+          selected: false,
+        },
+        {
+          label: '141k-160k',
+          selected: false,
+        },
+        {
+          label: '161k-180k',
+          selected: false,
+        },
+        {
+          label: '181k-200k',
+          selected: false,
+        },
+        {
+          label: '200k-300k',
+          selected: false,
+        },
+        {
+          label: '300k-400k',
+          selected: false,
+        },
+        {
+          label: '400k-500k',
+          selected: false,
+        },
+        {
+          label: '500k-1m',
+          selected: false,
+        },
+      ],
+      personalityType: [
+        {
+          label: 'INTJ',
+          selected: false,
+        },
+        {
+          label: 'INTP',
+          selected: false,
+        },
+        {
+          label: 'ENTJ',
+          selected: false,
+        },
+        {
+          label: 'ENTP',
+          selected: false,
+        },
+        {
+          label: 'INFJA',
+          selected: false,
+        },
+        {
+          label: 'INFP',
+          selected: false,
+        },
+        {
+          label: 'ENFJ',
+          selected: false,
+        },
+        {
+          label: 'ENFP',
+          selected: false,
+        },
+        {
+          label: 'ISTJ',
+          selected: false,
+        },
+        {
+          label: 'ISFJ',
+          selected: false,
+        },
+        {
+          label: 'ESTJ',
+          selected: false,
+        },
+        {
+          label: 'ESFJ',
+          selected: false,
+        },
+        {
+          label: 'ISTP',
+          selected: false,
+        },
+        {
+          label: 'ISFP',
+          selected: false,
+        },
+        {
+          label: 'ESTP',
+          selected: false,
+        },
+        {
+          label: 'ESFP',
+          selected: false,
+        },
+      ],
     };
   }
 
@@ -83,9 +257,20 @@ export default class RegisterScreen extends React.Component {
       auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          const userObject = this.state;
+          // let user = {
+          //   email: this.state.email,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          //   age: this.state.age,
+          // };
           pol.api
-            .createUser(userObject)
+            .createUser(user)
             .then(() => {
               this.props.navigation.dispatch(
                 CommonActions.reset({
@@ -148,17 +333,87 @@ export default class RegisterScreen extends React.Component {
     });
   };
 
-  onPressPoliticalAffiliationRadioButton = selectedPolAff => {
-    let polAffChoices = this.state.polAffChoices;
-    polAffChoices.forEach(function(polAff) {
-      if (polAff === selectedPolAff) {
-        polAff.selected = !polAff.selected;
+  onPressPartyAffiliationRadioButton = selectedPartyAff => {
+    let partyAffChoices = this.state.partyAffiliation;
+    partyAffChoices.forEach(function(partyAff) {
+      if (partyAff === selectedPartyAff) {
+        partyAff.selected = !partyAff.selected;
       } else {
-        polAff.selected = false;
+        partyAff.selected = false;
       }
     });
     this.setState({
-      polAffChoices: polAffChoices,
+      partyAffiliation: partyAffChoices,
+    });
+  };
+
+  onPressMaritalStatusRadioButton = selectedMaritalStatus => {
+    let maritalStatusChoices = this.state.maritalStatus;
+    maritalStatusChoices.forEach(function(maritalStatus) {
+      if (maritalStatus === selectedMaritalStatus) {
+        maritalStatus.selected = !maritalStatus.selected;
+      } else {
+        maritalStatus.selected = false;
+      }
+    });
+    this.setState({
+      maritalStatus: maritalStatusChoices,
+    });
+  };
+
+  onPressEthnicityRadioButton = selectedEthnicity => {
+    let ethnicityChoices = this.state.ethnicity;
+    ethnicityChoices.forEach(function(ethnicity) {
+      if (ethnicity === selectedEthnicity) {
+        ethnicity.selected = !ethnicity.selected;
+      } else {
+        ethnicity.selected = false;
+      }
+    });
+    this.setState({
+      ethnicity: ethnicityChoices,
+    });
+  };
+
+  onPressEducationRadioButton = selectedEducation => {
+    let educationChoices = this.state.education;
+    educationChoices.forEach(function(education) {
+      if (education === selectedEducation) {
+        education.selected = !education.selected;
+      } else {
+        education.selected = false;
+      }
+    });
+    this.setState({
+      education: educationChoices,
+    });
+  };
+
+  onPressIncomeLevelRadioButton = selectedIncomeLevel => {
+    let incomeLevelChoices = this.state.incomeLevel;
+    incomeLevelChoices.forEach(function(incomeLevel) {
+      if (incomeLevel === selectedIncomeLevel) {
+        incomeLevel.selected = !incomeLevel.selected;
+      } else {
+        incomeLevel.selected = false;
+      }
+    });
+    this.setState({
+      incomeLevel: incomeLevelChoices,
+    });
+  };
+
+  onPressPersonalityTypeRadioButton = selectedPersonalityType => {
+    let personalityTypeChoices = this.state.personalityType;
+    personalityTypeChoices.forEach(function(personalityType) {
+      if (personalityType === selectedPersonalityType) {
+        personalityType.selected = !personalityType.selected;
+      } else {
+        personalityType.selected = false;
+      }
+    });
+    this.setState({
+      personalityType: personalityTypeChoices,
     });
   };
 
@@ -191,72 +446,97 @@ export default class RegisterScreen extends React.Component {
                   selected={gender.selected}
                   onPress={() => this.onPressGenderRadioButton(gender)}
                   label={gender.label}
-                  color={colors.paleGreen}
-                  textStyle={{color: colors.paleGreen}}
                 />
               ))}
             </View>
           </View>
           <View>
-            <Text>Political Affiliation</Text>
+            <Text>Party Affiliation</Text>
             <View style={{flex: 1}}>
-              {this.state.polAffChoices.map(polAff => (
+              {this.state.partyAffiliation.map(partyAff => (
                 <RadioButton
-                  key={polAff.label}
-                  selected={polAff.selected}
+                  key={partyAff.label}
+                  selected={partyAff.selected}
                   onPress={() =>
-                    this.onPressPoliticalAffiliationRadioButton(polAff)
+                    this.onPressPartyAffiliationRadioButton(partyAff)
                   }
-                  label={polAff.label}
+                  label={partyAff.label}
                 />
               ))}
             </View>
           </View>
-          <Picker
-            mode={'dropdown'}
-            selectedValue={this.state.party}
-            onValueChange={itemValue => {
-              if (itemValue != '0') {
-                this.setState({party: itemValue});
-              }
-            }}>
-            <Picker.Item label="Select a political affiliation" value="0" />
-            <Picker.Item label="Democrat" value="Democrat" />
-            <Picker.Item label="Republican" value="Republican" />
-            <Picker.Item label="Libertarian" value="Libertarian" />
-            <Picker.Item label="Green" value="Green" />
-            <Picker.Item label="Constitution" value="Constitution" />
-            <Picker.Item label="Unaligned" value="Unaligned" />
-          </Picker>
-          <Text style={styles.headerDescription}>
-            Selecting a political party will help curate app content.
-          </Text>
-          <Picker
-            mode={'dropdown'}
-            selectedValue={this.state.age}
-            onValueChange={itemValue => {
-              if (itemValue != '0') {
-                this.setState({age: itemValue});
-              }
-            }}>
-            <Picker.Item label="Select Age Range" value="0" />
-            <Picker.Item label="Under 18" value="Under 18" />
-            <Picker.Item label="18-25" value="18-25" />
-            <Picker.Item label="25-64" value="25-64" />
-            <Picker.Item label="65 and over" value="65 and over" />
-          </Picker>
-          <Picker
-            mode={'dropdown'}
-            selectedValue={this.state.maritalStatus}
-            onValueChange={itemValue => {
-              if (itemValue != '0') {
-                this.setState({maritalStatus: itemValue});
-              }
-            }}>
-            <Picker.Item label="Select marital Status" value="0" />
-            <Picker.Item label="Single" value="Single" />
-            <Picker.Item label="Married" value="Married" />
-          </Picker>
+          <View>
+            <Text>Marital Status</Text>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              {this.state.maritalStatus.map(maritalStatus => (
+                <RadioButton
+                  key={maritalStatus.label}
+                  selected={maritalStatus.selected}
+                  onPress={() =>
+                    this.onPressMaritalStatusRadioButton(maritalStatus)
+                  }
+                  label={maritalStatus.label}
+                />
+              ))}
+            </View>
+          </View>
+          <View>
+            <Text>Ethnicity</Text>
+            <View style={{flex: 1}}>
+              {this.state.ethnicity.map(ethnicity => (
+                <RadioButton
+                  key={ethnicity.label}
+                  selected={ethnicity.selected}
+                  onPress={() => this.onPressEthnicityRadioButton(ethnicity)}
+                  label={ethnicity.label}
+                />
+              ))}
+            </View>
+          </View>
+          <View>
+            <Text>Highest Education</Text>
+            <View style={{flex: 1}}>
+              {this.state.education.map(education => (
+                <RadioButton
+                  key={education.label}
+                  selected={education.selected}
+                  onPress={() => this.onPressEducationRadioButton(education)}
+                  label={education.label}
+                />
+              ))}
+            </View>
+          </View>
+          <View>
+            <Text>Income Level</Text>
+            <View style={{flex: 1}}>
+              {this.state.incomeLevel.map(incomeLevel => (
+                <RadioButton
+                  key={incomeLevel.label}
+                  selected={incomeLevel.selected}
+                  onPress={() =>
+                    this.onPressIncomeLevelRadioButton(incomeLevel)
+                  }
+                  label={incomeLevel.label}
+                />
+              ))}
+            </View>
+          </View>
+          <View>
+            <Text>Personality Type</Text>
+            <View style={{flex: 1}}>
+              {this.state.personalityType.map(personalityType => (
+                <RadioButton
+                  key={personalityType.label}
+                  selected={personalityType.selected}
+                  onPress={() =>
+                    this.onPressPersonalityTypeRadioButton(personalityType)
+                  }
+                  label={personalityType.label}
+                />
+              ))}
+            </View>
+          </View>
         </ScrollView>
         <TouchableOpacity
           style={styles.signUpButtonContainer}
