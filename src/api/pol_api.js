@@ -2,7 +2,7 @@ import request from './request';
 
 const parseApiResponse = response => {
   if (response != null) {
-    return Promise.resolve(response.result);
+    return Promise.resolve(response);
   } else {
     return Promise.reject(
       new Error('Error, Request response was null or undefined'),
@@ -88,7 +88,7 @@ export default class Api {
    * Users Endpoints
    */
 
-  createUser(userData) {
+  async createUser(userData) {
     const config = {
       method: 'post',
       endpoint: '/users/',
@@ -98,47 +98,78 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
-  getUser(userEmail) {
+  async getUserById(id) {
     const config = {
       method: 'get',
-      endpoint: `/users/${userEmail}`,
+      endpoint: `/users/id/${id}`,
     };
 
-    return request(config).then(parseApiResponse);
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getUserByEmail(userEmail) {
+    const config = {
+      method: 'get',
+      endpoint: `/users/email/${userEmail}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
+   * Dashboard Endpoints
+   */
+
+  async getAllDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getGenderDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/gender',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
   }
 
   /*
    * Settings Endpoints
    */
 
-  getUserSettings(userId) {
+  async getUserSettings(userId) {
     const config = {
       method: 'get',
       endpoint: `/settings/${userId}`,
     };
 
-    return request(config).then(parseApiResponse);
+    return this.apiRequest(config).then(parseApiResponse);
   }
 
   /*
    * Politicians Endpoints
    */
 
-  getPolitician(politicianName) {
+  async getPoliticianById(id) {
     const config = {
       method: 'get',
-      endpoint: `/politicians/${politicianName}`,
+      endpoint: `/politicians/id/${id}`,
     };
 
-    return request(config).then(parseApiResponse);
+    return this.apiRequest(config).then(parseApiResponse);
   }
 
-  getAllPoliticians(userEmail) {
+  async getAllPoliticians() {
     const config = {
       method: 'get',
-      endpoint: '/politicians/',
+      endpoint: '/politicians',
     };
 
-    return request(config).then(parseApiResponse);
+    return this.apiRequest(config).then(parseApiResponse);
   }
 }
