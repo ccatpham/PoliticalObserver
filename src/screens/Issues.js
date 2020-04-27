@@ -13,7 +13,7 @@ import {SearchBar} from 'react-native-elements';
 import {VictoryPie} from 'victory-native';
 import {colors} from '../styles';
 
-var CONTENT_VOTE = [];
+//var CONTENT_VOTE = [];
 const USERNAME = 'myemail@gmail.com'; //this is a temporary value
 
 export default class IssuesScreen extends React.Component {
@@ -21,9 +21,9 @@ export default class IssuesScreen extends React.Component {
     super(props);
     this.state = {
       CONTENT: [],
+      CONTENT_VOTE: [],
       activeSections: [],
       activeVotedSections: [],
-      fetched: false,
       search: '',
     };
   }
@@ -172,9 +172,8 @@ export default class IssuesScreen extends React.Component {
       )
       .then(
         results => {
-          CONTENT_VOTE = results;
           this.setState({
-            fetched: true,
+            CONTENT_VOTE: results,
           });
         },
         exception => {
@@ -225,8 +224,7 @@ export default class IssuesScreen extends React.Component {
           onPress={() => {
             this.onPressVoteYes(section._id, USERNAME);
             //this.setVotedSections(this.state.activeVotedSections);
-            this.setState({activeVotedSections: []});
-            CONTENT_VOTE = [];
+            this.setState({activeVotedSections: [], CONTENT_VOTE: []});
             this.getUserVotedIssues(
               'http://10.0.2.2:3000/userissues/username/' + USERNAME,
             );
@@ -237,8 +235,7 @@ export default class IssuesScreen extends React.Component {
           style={styles.voteNoButtonContainer}
           onPress={() => {
             this.onPressVoteNo(section._id, USERNAME);
-            this.setState({activeVotedSections: []});
-            CONTENT_VOTE = [];
+            this.setState({activeVotedSections: [], CONTENT_VOTE: []});
             this.getUserVotedIssues(
               'http://10.0.2.2:3000/userissues/username/' + USERNAME,
             );
@@ -331,7 +328,7 @@ export default class IssuesScreen extends React.Component {
         <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeVotedSections}
-            sections={CONTENT_VOTE}
+            sections={this.state.CONTENT_VOTE}
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderVotedHeader}
