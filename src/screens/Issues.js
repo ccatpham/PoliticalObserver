@@ -13,7 +13,6 @@ import {SearchBar} from 'react-native-elements';
 import {VictoryPie} from 'victory-native';
 import {colors} from '../styles';
 
-//var CONTENT_VOTE = [];
 const USERNAME = 'myemail@gmail.com'; //this is a temporary value
 
 export default class IssuesScreen extends React.Component {
@@ -332,7 +331,7 @@ export default class IssuesScreen extends React.Component {
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderVotedHeader}
-            renderContent={this.renderVotedContent}
+            renderContent={this.renderVotedContent.bind(this)}
             duration={400}
             onChange={this.setVotedSections}
           />
