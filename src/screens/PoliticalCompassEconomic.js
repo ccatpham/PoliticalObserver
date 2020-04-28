@@ -11,167 +11,97 @@ export default class PoliticalCompassEconomic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizChoices1: [
+      questions: [
         {
-          label: 'Strongly Agree',
-          selected: false,
+          prompt:
+            'If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.',
+          number: 0,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
         },
         {
-          label: 'Agree',
-          selected: false,
+          prompt:
+            'I’d always support my country, whether it was right or wrong.',
+          number: 1,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
         },
         {
-          label: 'Disagree',
-          selected: false,
-        },
-        {
-          label: 'Strongly Disagree',
-          selected: false,
+          prompt:
+            'Military action that defies international law is sometimes justified.',
+          number: 2,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
         },
       ],
-      quizChoices2: [
-        {
-          label: 'Strongly Agree',
-          selected: false,
-        },
-        {
-          label: 'Agree',
-          selected: false,
-        },
-        {
-          label: 'Disagree',
-          selected: false,
-        },
-        {
-          label: 'Strongly Disagree',
-          selected: false,
-        },
-      ],
-      quizChoices3: [
-        {
-          label: 'Strongly Agree',
-          selected: false,
-        },
-        {
-          label: 'Agree',
-          selected: false,
-        },
-        {
-          label: 'Disagree',
-          selected: false,
-        },
-        {
-          label: 'Strongly Disagree',
-          selected: false,
-        },
-      ],
-      answers: [],
+      answers: [0, 0, 0],
     };
   }
 
-  onPressQuest1RadioButton = selectedAnswer => {
-    let quizChoices1 = this.state.quizChoices1;
-    let answer;
-    quizChoices1.forEach(function(answer) {
-      if (answer === selectedAnswer) {
-        answer.selected = !answer.selected;
-        console.log(selectedAnswer);
-        if (selectedAnswer.label === 'Strongly Agree') {
-          answer = 1;
-          console.log('I"m in option strongly agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Agree') {
-          answer = 2;
-          console.log('I"m in option agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Disagree') {
-          answer = 3;
-          console.log('I"m in option disagree');
-          console.log('answer: ' + answer);
-        } else {
-          answer = 4;
-          console.log('I"m in option strongly disagree');
-          console.log('answer: ' + answer);
-        }
+  onPressQuestRadioButton = (questionNumber, selection) => {
+    let questions = this.state.questions;
+    for (let i = 0; i < questions[questionNumber].choices.length; i++) {
+      if (i === selection) {
+        questions[questionNumber].choices[i].selected = !questions[
+          questionNumber
+        ].choices[i].selected;
       } else {
-        answer.selected = false;
+        questions[questionNumber].choices[i].selected = false;
       }
-    });
-    let answers = {...this.state.answers}; // create the copy of state array
-    answers[1] = answer; //new value
+    }
+    let answers = this.state.answers; // create the copy of state array
+    answers[questionNumber] = selection + 1; //new value
     this.setState({
-      quizChoices1: quizChoices1,
-      answers: {answers},
-    });
-  };
-  onPressQuest2RadioButton = selectedAnswer => {
-    let quizChoices2 = this.state.quizChoices2;
-    let answer;
-    quizChoices2.forEach(function(answer) {
-      if (answer === selectedAnswer) {
-        answer.selected = !answer.selected;
-        console.log(selectedAnswer);
-        if (selectedAnswer.label === 'Strongly Agree') {
-          answer = 1;
-          console.log('I"m in option strongly agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Agree') {
-          answer = 2;
-          console.log('I"m in option agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Disagree') {
-          answer = 3;
-          console.log('I"m in option disagree');
-          console.log('answer: ' + answer);
-        } else {
-          answer = 4;
-          console.log('I"m in option strongly disagree');
-          console.log('answer: ' + answer);
-        }
-      } else {
-        answer.selected = false;
-      }
-    });
-    let answers = {...this.state.answers}; // create the copy of state array
-    answers[2] = answer; //new value
-    this.setState({
-      quizChoices2: quizChoices2,
-      answers: {answers},
-    });
-  };
-  onPressQuest3RadioButton = selectedAnswer => {
-    let quizChoices3 = this.state.quizChoices3;
-    let answer;
-    quizChoices3.forEach(function(answer) {
-      if (answer === selectedAnswer) {
-        answer.selected = !answer.selected;
-        console.log(selectedAnswer);
-        if (selectedAnswer.label === 'Strongly Agree') {
-          answer = 1;
-          console.log('I"m in option strongly agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Agree') {
-          answer = 2;
-          console.log('I"m in option agree');
-          console.log('answer: ' + answer);
-        } else if (selectedAnswer.label === 'Disagree') {
-          answer = 3;
-          console.log('I"m in option disagree');
-          console.log('answer: ' + answer);
-        } else {
-          answer = 4;
-          console.log('I"m in option strongly disagree');
-          console.log('answer: ' + answer);
-        }
-      } else {
-        answer.selected = false;
-      }
-    });
-    let answers = {...this.state.answers}; // create the copy of state array
-    answers[3] = answer; //new value
-    this.setState({
-      quizChoices3: quizChoices3,
-      answers: {answers},
+      questions: questions,
+      answers: answers,
     });
   };
 
@@ -180,53 +110,28 @@ export default class PoliticalCompassEconomic extends React.Component {
       <View style={{flex: 1}}>
         <Text style={{fontWeight: 'bold', fontSize: 30}}> Economy </Text>
         <ScrollView>
-          <View style={styles.questionBox}>
-            <Text style={styles.questionFont}>
-              If economic globalisation is inevitable, it should primarily serve
-              humanity rather than the interests of trans-national corporations.
-            </Text>
-            {this.state.quizChoices1.map(answer => (
-              <RadioButton
-                key={answer.label}
-                selected={answer.selected}
-                onPress={() => this.onPressQuest1RadioButton(answer)}
-                label={answer.label}
-                colors={'#f1c40f'}
-                textStyle={{color: '#f1c40f'}}
-              />
-            ))}
-          </View>
-          <View style={styles.questionBox}>
-            <Text style={styles.questionFont}>
-              I’d always support my country, whether it was right or wrong.
-            </Text>
-            {this.state.quizChoices2.map(answer => (
-              <RadioButton
-                key={answer.label}
-                selected={answer.selected}
-                onPress={() => this.onPressQuest2RadioButton(answer)}
-                label={answer.label}
-                colors={'#f1c40f'}
-                textStyle={{color: '#f1c40f'}}
-              />
-            ))}
-          </View>
-          <View style={styles.questionBox}>
-            <Text style={styles.questionFont}>
-              Military action that defies international law is sometimes
-              justified.
-            </Text>
-            {this.state.quizChoices3.map(answer => (
-              <RadioButton
-                key={answer.label}
-                selected={answer.selected}
-                onPress={() => this.onPressQuest3RadioButton(answer)}
-                label={answer.label}
-                colors={'#f1c40f'}
-                textStyle={{color: '#f1c40f'}}
-              />
-            ))}
-          </View>
+          {this.state.questions.map(question => (
+            <View style={styles.questionBox}>
+              <Text style={styles.questionFont}>
+                {question.prompt}
+              </Text>
+              {question.choices.map(choice => (
+                <RadioButton
+                  key={choice.label}
+                  selected={choice.selected}
+                  onPress={() =>
+                    this.onPressQuestRadioButton(
+                      question.number,
+                      question.choices.indexOf(choice),
+                    )
+                  }
+                  label={choice.label}
+                  colors={'#f1c40f'}
+                  textStyle={{color: '#f1c40f'}}
+                />
+              ))}
+            </View>
+          ))}
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() =>
