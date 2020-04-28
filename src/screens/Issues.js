@@ -10,17 +10,20 @@ import {
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {SearchBar} from 'react-native-elements';
-import {VictoryPie} from 'victory-native';
 import {colors} from '../styles';
 
-const USERNAME = 'myemail@gmail.com'; //this is a temporary value
+const USERID = '5ea787f9d545973e382ac01d'; //this is a temporary value
+const URL_GET_USER_ISSUES = 'http://10.0.2.2:3000/userissues/userid/';
+const URL_POST_USER_ISSUE = 'http://10.0.2.2:3000/userissues/';
+const URL_GET_ISSUES = 'http://10.0.2.2:3000/issues/filter/all';
+const URL_GET_FILTERED_ISSUES = 'http://10.0.2.2:3000/issues/filter/';
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      CONTENT: [],
-      CONTENT_VOTE: [],
+      issues: [],
+      VotedIssues: [],
       activeSections: [],
       activeVotedSections: [],
       search: '',
@@ -28,26 +31,21 @@ export default class IssuesScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    //fetch all the political issues
-    this.fetchAllIssues('http://10.0.2.2:3000/issues/filter/all');
-    //fetch all the user-voted political issues for the logged in user
-    this.getUserVotedIssues(
-      'http://10.0.2.2:3000/userissues/username/' + USERNAME,
-    );
+    this.fetchAllIssues(URL_GET_ISSUES);
+    this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
   };
 
   updateSearch = search => {
     this.setState({search});
+    if (search == '') {
+      this.fetchAllIssues(URL_GET_ISSUES);
+    }
   };
 
   getSearchResults = async keyword => {
-    if (keyword == '') {
-      keyword = 'all';
+    if (keyword != '') {
+      await this.fetchAllIssues(URL_GET_FILTERED_ISSUES + keyword);
     }
-    var url = 'http://10.0.2.2:3000/issues/filter/' + keyword;
-    console.log(url);
-    //fetch all the political issues with keyword in them
-    await this.fetchAllIssues(url);
   };
 
   //keeps a list of active/expanded issue items
@@ -66,7 +64,7 @@ export default class IssuesScreen extends React.Component {
 
   onPressVoteNo(issueId, username) {
     this.addUserIssueVote(
-      'http://10.0.2.2:3000/userissues/',
+      URL_POST_USER_ISSUE,
       issueId,
       username.toLowerCase(),
       'no',
@@ -75,21 +73,20 @@ export default class IssuesScreen extends React.Component {
 
   onPressVoteYes(issueId, username) {
     this.addUserIssueVote(
-      'http://10.0.2.2:3000/userissues/',
+      URL_POST_USER_ISSUE,
       issueId,
       username.toLowerCase(),
       'yes',
     );
   }
 
-  //add or update a new vote to issue by user
-  addUserIssueVote(userIssueUrl, issueId, username, vote) {
+  addUserIssueVote(userIssueUrl, issueId, userId, vote) {
     let date =
       String(new Date().getMonth() + 1) +
       '-' +
       String(new Date().getDate()) +
       '-' +
-      String(new Date().getFullYear()); //Current Date
+      String(new Date().getFullYear());
     fetch(userIssueUrl, {
       method: 'POST',
       headers: {
@@ -98,38 +95,11 @@ export default class IssuesScreen extends React.Component {
       },
       body: JSON.stringify({
         issueId: issueId,
-        username: username,
+        userId: userId,
         vote: vote,
         date: date,
       }),
-    })
-      .then(
-        res => {
-          return res.text();
-        },
-        exception => {
-          console.log('exc1', exception);
-        },
-      )
-      .then(
-        restext => {
-          if (restext == '1') {
-            Alert.alert(
-              'Already Voted!',
-              'You have already voted once on this issue',
-              [{text: 'OK'}],
-              {
-                cancelable: false,
-              },
-            );
-          }
-          console.log('restext: ', restext);
-          // Do something with the returned data.
-        },
-        exception => {
-          console.log('exc2', exception);
-        },
-      );
+    }).then(res => {});
   }
 
   fetchAllIssues(url) {
@@ -140,48 +110,31 @@ export default class IssuesScreen extends React.Component {
         'Content-type': 'application/json',
       },
     })
-      .then(
-        response => {
-          console.log('response1:', response);
-          return response.json();
-        },
-        exception => {
-          console.log('exception 1', exception);
-        },
-      )
+      .then(response => {
+        return response.json();
+      })
       .then(responseJson => {
         this.setState({
-          CONTENT: responseJson,
+          issues: responseJson,
         });
       })
-      .catch(error => {
-        console.error(error);
-      });
+      .catch(error => {});
   }
 
   getUserVotedIssues(userIssuesUrl) {
     fetch(userIssuesUrl)
-      .then(
-        response => {
-          return response.json();
-        },
-        exception => {
-          console.log(exception);
-        },
-      )
-      .then(
-        results => {
-          this.setState({
-            CONTENT_VOTE: results,
-          });
-        },
-        exception => {
-          console.log(exception);
-        },
-      );
+      .then(response => {
+        return response.json();
+      })
+      .then(results => {
+        this.setState({
+          VotedIssues: results,
+        });
+      })
+      .catch(error => {});
   }
 
-  //header of the Issue
+  //header of the Issues
   renderHeader = (section, _, isActive) => {
     return (
       <Animatable.View
@@ -201,43 +154,28 @@ export default class IssuesScreen extends React.Component {
         style={[styles.content, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date: ' + section.date}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Issue Id: ' + section._id}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.description}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Pros: ' + section.pros}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Cons: ' + section.cons}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
+          {'Date: ' + section.date + '\n'}
+          {'Issue Id: ' + section._id + '\n'}
+          {'Description: ' + section.description + '\n'}
+          {'Pros: ' + section.pros + '\n'}
+          {'Cons: ' + section.cons + '\n'}
           {'Important Notes: ' + section.notes}
         </Animatable.Text>
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
           onPress={() => {
-            this.onPressVoteYes(section._id, USERNAME);
-            //this.setVotedSections(this.state.activeVotedSections);
-            this.setState({activeVotedSections: [], CONTENT_VOTE: []});
-            this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/' + USERNAME,
-            );
+            this.onPressVoteYes(section._id, USERID);
+            this.setState({activeVotedSections: [], VotedIssues: []});
+            this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
           }}>
           <Text style={styles.voteButtonText}>Vote Yes!</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
           onPress={() => {
-            this.onPressVoteNo(section._id, USERNAME);
-            this.setState({activeVotedSections: [], CONTENT_VOTE: []});
-            this.getUserVotedIssues(
-              'http://10.0.2.2:3000/userissues/username/' + USERNAME,
-            );
+            this.onPressVoteNo(section._id, USERID);
+            this.setState({activeVotedSections: [], VotedIssues: []});
+            this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
           }}>
           <Text style={styles.voteButtonText}>Vote No!</Text>
         </TouchableOpacity>
@@ -265,28 +203,13 @@ export default class IssuesScreen extends React.Component {
         style={[styles.content, isActive ? styles.active : styles.inactive]}
         transition="backgroundColor">
         <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Username: ' + section.username}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Date Voted: ' + section.date}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Your Vote: ' + section.vote}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Description: ' + section.description}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Pros: ' + section.pros}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Cons: ' + section.cons}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Total number of users who voted yes: ' + section.yes}
-        </Animatable.Text>
-        <Animatable.Text animation={isActive ? 'bounceIn' : undefined}>
-          {'Total number of users who voted no: ' + section.no}
+          {'Description: ' + section.description + '\n'}
+          {'Your Vote: ' + section.vote + '\n'}
+          {'Date Voted: ' + section.date + '\n'}
+          {'Pros: ' + section.pros + '\n'}
+          {'Cons: ' + section.cons + '\n'}
+          {'Total "yes" votes: ' + section.yes + '\n'}
+          {'Total "no" votes: ' + section.no + '\n'}
         </Animatable.Text>
       </Animatable.View>
     );
@@ -306,7 +229,7 @@ export default class IssuesScreen extends React.Component {
           value={this.state.search}
           containerStyle={styles.searchContainer}
           onSubmitEditing={() => {
-            this.setState({activeVotedSections: [], CONTENT: []});
+            this.setState({activeVotedSections: [], issues: []});
             this.getSearchResults(this.state.search);
           }}
         />
@@ -314,7 +237,7 @@ export default class IssuesScreen extends React.Component {
         <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeSections}
-            sections={this.state.CONTENT}
+            sections={this.state.issues}
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderHeader}
@@ -327,7 +250,7 @@ export default class IssuesScreen extends React.Component {
         <ScrollView contentContainerStyle={{paddingTop: 5}}>
           <Accordion
             activeSections={activeVotedSections}
-            sections={this.state.CONTENT_VOTE}
+            sections={this.state.VotedIssues}
             touchableComponent={TouchableOpacity}
             expandMultiple={true}
             renderHeader={this.renderVotedHeader}

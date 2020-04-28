@@ -1,9 +1,7 @@
 import React from 'react';
-import {createAppContainer} from 'react-navigation';
-import AppNavigator from './Router';
+import {NavigationContainer} from '@react-navigation/native';
+import AppStack from './Router';
 import app from '@react-native-firebase/app';
-
-const AppContainer = createAppContainer(AppNavigator);
 
 const firebaseConfig = {
   clientId:
@@ -20,12 +18,15 @@ const firebaseConfig = {
 export default class App extends React.Component {
   constructor() {
     super();
-    if(!app.apps.length) {
+    if (!app.apps.length) {
       app.initializeApp(firebaseConfig);
     }
   }
   render() {
-    return <AppContainer />;
+    return (
+      <NavigationContainer>
+        <AppStack />
+      </NavigationContainer>
+    );
   }
 }
-

@@ -11,8 +11,9 @@ import {
   Alert,
 } from 'react-native';
 import {colors} from '../styles';
-import {NavigationActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+import pol from '../api/apiConfig';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
@@ -22,19 +23,36 @@ export default class RegisterScreen extends React.Component {
       password: '',
       age: '',
       party: '',
-      martial: '',
+      marital: '',
     };
   }
 
-  onPressLogin = () => {
+  onPressSignUp = () => {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
-          this.props.navigation.reset(
-            [NavigationActions.navigate({routeName: 'Dashboard'})],
-            0,
-          );
+          const userObject = this.state;
+          pol.api
+            .createUser(userObject)
+            .then(() => {
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'TabNavigator'}],
+                }),
+              );
+            })
+            .catch(error => {
+              Alert.alert(
+                'Error',
+                error.code + ' ' + error.message,
+                [{text: 'OK'}],
+                {
+                  cancelable: false,
+                },
+              );
+            });
         })
         .catch(error => {
           Alert.alert(
@@ -119,20 +137,20 @@ export default class RegisterScreen extends React.Component {
           </Picker>
           <Picker
             mode={'dropdown'}
-            selectedValue={this.state.martialStatus}
+            selectedValue={this.state.maritalStatus}
             onValueChange={itemValue => {
               if (itemValue != '0') {
-                this.setState({martialStatus: itemValue});
+                this.setState({maritalStatus: itemValue});
               }
             }}>
-            <Picker.Item label="Select Martial Status" value="0" />
+            <Picker.Item label="Select marital Status" value="0" />
             <Picker.Item label="Single" value="Single" />
             <Picker.Item label="Married" value="Married" />
           </Picker>
         </ScrollView>
         <TouchableOpacity
           style={styles.signUpButtonContainer}
-          onPress={this.onPressLogin}>
+          onPress={this.onPressSignUp}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </SafeAreaView>
