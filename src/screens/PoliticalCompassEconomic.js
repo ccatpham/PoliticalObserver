@@ -136,7 +136,7 @@ export default class PoliticalCompassEconomic extends React.Component {
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate('PoliticalCompassSocial', {
-                  answers1: this.state.answers1,
+                  answers: this.state.answers,
                 })
               }>
               <Text style={styles.optionButtonFont}> Next </Text>

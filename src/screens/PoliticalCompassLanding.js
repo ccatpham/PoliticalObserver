@@ -5,8 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
-  Modal,
-  ScrollView,
 } from 'react-native';
 import background from '../../res/images/landing_background.jpg';
 export default class PoliticalCompassLanding extends React.Component {

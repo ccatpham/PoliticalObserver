@@ -172,4 +172,27 @@ export default class Api {
 
     return this.apiRequest(config).then(parseApiResponse);
   }
+
+  /*
+   * Social Quiz Endpoints
+   */
+
+  async createSocialQuiz(userID, socialQuizAnswers) {
+    const config = {
+      method: 'post',
+      endpoint: '/socialQuiz/',
+      jsonData: socialQuizAnswers,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getSocialScoreById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/socialQuiz/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
 }
