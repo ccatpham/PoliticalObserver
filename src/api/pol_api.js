@@ -177,20 +177,41 @@ export default class Api {
    * Social Quiz Endpoints
    */
 
-  async createSocialQuiz(userID, socialQuizAnswers) {
+  async createSocialQuiz(userData) {
     const config = {
       method: 'post',
       endpoint: '/socialQuiz/',
-      jsonData: socialQuizAnswers,
+      jsonData: userData,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getSocialScoreByUserId(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/socialQuiz/userid/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+  /*
+   * Econ Quiz Endpoints
+   */
+
+  async createEconQuiz(userData) {
+    const config = {
+      method: 'post',
+      endpoint: '/econQuiz/',
+      jsonData: userData,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
   }
 
-  async getSocialScoreById(id) {
+  async getEconScoreByUserId(id) {
     const config = {
       method: 'get',
-      endpoint: `/socialQuiz/id/${id}`,
+      endpoint: `/econQuiz/userid/${id}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);

@@ -12,9 +12,9 @@ import SettingsScreen from './screens/Settings';
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
+import PoliticalCompassResults from './screens/PoliticalCompassResults';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 function SearchStack() {
   return (
@@ -52,9 +52,22 @@ function ProfileStack() {
       initialRouteName="Profile"
       screenOptions={{gestureEnabled: false}}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="PoliticalCompassLanding" component={PoliticalCompassLanding} />
-      <Stack.Screen name="PoliticalCompassEconomic" component={PoliticalCompassEcon} />
-      <Stack.Screen name="PoliticalCompassSocial" component={PoliticalCompassSocial} />
+      <Stack.Screen
+        name="PoliticalCompassLanding"
+        component={PoliticalCompassLanding}
+      />
+      <Stack.Screen
+        name="PoliticalCompassEconomic"
+        component={PoliticalCompassEcon}
+      />
+      <Stack.Screen
+        name="PoliticalCompassSocial"
+        component={PoliticalCompassSocial}
+      />
+      <Stack.Screen
+        name="PoliticalCompassResults"
+        component={PoliticalCompassResults}
+      />
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );

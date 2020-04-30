@@ -10,8 +10,7 @@ import {
 import RadioButton from './Components/RadioButton';
 import pol from '../api/apiConfig';
 
-const testSocialQuizID = '5ea869874f0e9b43845ff7d3';
-
+const testUserID = '5ea784d50e92cd4a34110438';
 export default class PoliticalCompassSocial extends React.Component {
   constructor(props) {
     super(props);
@@ -90,6 +89,7 @@ export default class PoliticalCompassSocial extends React.Component {
       answers1: this.props.route.params.answers,
       answers2: [0, 0, 0],
       socialScore: 0,
+      econScore: 0,
     };
   }
 
@@ -112,11 +112,15 @@ export default class PoliticalCompassSocial extends React.Component {
     });
   };
 
-  calculateSocialQuizScore = id => {
+  calculateSocialQuizScore = (id, socialQuizAnswers) => {
+    const userObject = {
+      userID: id,
+      socialAnswers: socialQuizAnswers,
+    };
     pol.api
-      .getSocialScoreById(id)
+      .createSocialQuiz(userObject)
       .then(response => {
-        this.setState({socialScore: response.socialScore});
+        return response;
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -124,6 +128,56 @@ export default class PoliticalCompassSocial extends React.Component {
         });
       });
   };
+
+  getSocialQuizScore = id => {
+    pol.api
+      .getSocialScoreByUserId(id)
+      .then(response => {
+        this.setState({socialScore: response.socialScore.toFixed(2)});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  };
+
+  calculateEconQuizScore = (id, econQuizAnswers) => {
+    const userObject = {
+      userID: id,
+      econAnswers: econQuizAnswers,
+    };
+    pol.api
+      .createEconQuiz(userObject)
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  };
+
+  getEconQuizScore = id => {
+    pol.api
+      .getEconScoreByUserId(id)
+      .then(response => {
+        this.setState({econScore: response.econScore.toFixed(2)});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  };
+
+  navigateToResults() {
+    this.props.navigation.navigate('PoliticalCompassResults', {
+      socialScore: this.state.socialScore,
+      econScore: this.state.econScore,
+    });
+  }
 
   render() {
     return (
@@ -153,7 +207,11 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateSocialQuizScore(testSocialQuizID);
+                this.calculateEconQuizScore(testUserID, this.state.answers1)
+                this.getEconQuizScore(testUserID);
+                this.calculateSocialQuizScore(testUserID, this.state.answers2);
+                this.getSocialQuizScore(testUserID);
+                this.navigateToResults();
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>

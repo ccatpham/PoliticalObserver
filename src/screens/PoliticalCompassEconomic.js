@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
 import RadioButton from './Components/RadioButton';
 export default class PoliticalCompassEconomic extends React.Component {
@@ -112,9 +113,7 @@ export default class PoliticalCompassEconomic extends React.Component {
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
-              <Text style={styles.questionFont}>
-                {question.prompt}
-              </Text>
+              <Text style={styles.questionFont}>{question.prompt}</Text>
               {question.choices.map(choice => (
                 <RadioButton
                   key={choice.label}
@@ -134,11 +133,11 @@ export default class PoliticalCompassEconomic extends React.Component {
           ))}
           <View style={styles.optionButton}>
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
                 this.props.navigation.navigate('PoliticalCompassSocial', {
                   answers: this.state.answers,
-                })
-              }>
+                });
+              }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>
           </View>
