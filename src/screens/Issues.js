@@ -11,12 +11,9 @@ import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {SearchBar} from 'react-native-elements';
 import {colors} from '../styles';
+import pol from '../api/apiConfig';
 
 const USERID = '5ea787f9d545973e382ac01d'; //this is a temporary value
-const URL_GET_USER_ISSUES = 'http://10.0.2.2:3000/userissues/userid/';
-const URL_POST_USER_ISSUE = 'http://10.0.2.2:3000/userissues/';
-const URL_GET_ISSUES = 'http://10.0.2.2:3000/issues/filter/all';
-const URL_GET_FILTERED_ISSUES = 'http://10.0.2.2:3000/issues/filter/';
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {
@@ -31,20 +28,20 @@ export default class IssuesScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    this.fetchAllIssues(URL_GET_ISSUES);
-    this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
+    this.fetchAllIssues();
+    this.getUserVotedIssues();
   };
 
   updateSearch = search => {
     this.setState({search});
     if (search == '') {
-      this.fetchAllIssues(URL_GET_ISSUES);
+      this.fetchAllIssues();
     }
   };
 
   getSearchResults = async keyword => {
     if (keyword != '') {
-      await this.fetchAllIssues(URL_GET_FILTERED_ISSUES + keyword);
+      await this.fetchFilteredIssues(keyword);
     }
   };
 
@@ -62,76 +59,69 @@ export default class IssuesScreen extends React.Component {
     });
   };
 
-  onPressVoteNo(issueId, username) {
-    this.addUserIssueVote(
-      URL_POST_USER_ISSUE,
-      issueId,
-      username.toLowerCase(),
-      'no',
-    );
+  onPressVoteNo(issueId, userId) {
+    this.addUserIssueVote(issueId, userId.toLowerCase(), 'no');
   }
 
-  onPressVoteYes(issueId, username) {
-    this.addUserIssueVote(
-      URL_POST_USER_ISSUE,
-      issueId,
-      username.toLowerCase(),
-      'yes',
-    );
+  onPressVoteYes(issueId, userId) {
+    this.addUserIssueVote(issueId, userId.toLowerCase(), 'yes');
   }
 
-  addUserIssueVote(userIssueUrl, issueId, userId, vote) {
+  addUserIssueVote(issueId, userId, vote) {
     let date =
       String(new Date().getMonth() + 1) +
       '-' +
       String(new Date().getDate()) +
       '-' +
       String(new Date().getFullYear());
-    fetch(userIssueUrl, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        issueId: issueId,
-        userId: userId,
-        vote: vote,
-        date: date,
-      }),
-    }).then(res => {});
+    let voteData = {issueId: issueId, userId: userId, vote: vote, date: date};
+    pol.api
+      .createUserIssue(voteData)
+      .then()
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   }
 
-  fetchAllIssues(url) {
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-      },
-    })
+  fetchAllIssues() {
+    pol.api
+      .getIssues(USERID)
       .then(response => {
-        return response.json();
+        this.setState({issues: response});
       })
-      .then(responseJson => {
-        this.setState({
-          issues: responseJson,
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
         });
-      })
-      .catch(error => {});
+      });
   }
 
-  getUserVotedIssues(userIssuesUrl) {
-    fetch(userIssuesUrl)
+  fetchFilteredIssues(keyword) {
+    pol.api
+      .getIssueByKeyword(USERID, keyword)
       .then(response => {
-        return response.json();
+        this.setState({issues: response});
       })
-      .then(results => {
-        this.setState({
-          VotedIssues: results,
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
         });
+      });
+  }
+
+  getUserVotedIssues() {
+    pol.api
+      .getUserIssueByUserId(USERID)
+      .then(response => {
+        this.setState({VotedIssues: response});
       })
-      .catch(error => {});
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   }
 
   //header of the Issues
@@ -163,19 +153,31 @@ export default class IssuesScreen extends React.Component {
         </Animatable.Text>
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
-          onPress={() => {
-            this.onPressVoteYes(section._id, USERID);
-            this.setState({activeVotedSections: [], VotedIssues: []});
-            this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
+          onPress={async () => {
+            await this.onPressVoteYes(section._id, USERID);
+            this.setState({
+              activeVotedSections: [],
+              VotedIssues: [],
+              issues: [],
+              activeSections: [],
+            });
+            this.getUserVotedIssues();
+            this.fetchAllIssues();
           }}>
           <Text style={styles.voteButtonText}>Vote Yes!</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
-          onPress={() => {
-            this.onPressVoteNo(section._id, USERID);
-            this.setState({activeVotedSections: [], VotedIssues: []});
-            this.getUserVotedIssues(URL_GET_USER_ISSUES + USERID);
+          onPress={async () => {
+            await this.onPressVoteNo(section._id, USERID);
+            this.setState({
+              activeVotedSections: [],
+              VotedIssues: [],
+              issues: [],
+              activeSections: [],
+            });
+            this.getUserVotedIssues();
+            this.fetchAllIssues();
           }}>
           <Text style={styles.voteButtonText}>Vote No!</Text>
         </TouchableOpacity>
