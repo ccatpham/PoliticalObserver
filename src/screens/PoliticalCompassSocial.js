@@ -133,13 +133,17 @@ export default class PoliticalCompassSocial extends React.Component {
     pol.api
       .getSocialScoreByUserId(id)
       .then(response => {
-        this.setState({socialScore: response.socialScore.toFixed(2)});
+        this.updateSocialScore(response.socialScore.toFixed(2));
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
           cancelable: false,
         });
       });
+  };
+
+  updateSocialScore = socialScore => {
+    this.setState({socialScore: socialScore});
   };
 
   calculateEconQuizScore = (id, econQuizAnswers) => {
@@ -172,10 +176,10 @@ export default class PoliticalCompassSocial extends React.Component {
       });
   };
 
-  navigateToResults() {
+  navigateToResults(socialScore, econScore) {
     this.props.navigation.navigate('PoliticalCompassResults', {
-      socialScore: this.state.socialScore,
-      econScore: this.state.econScore,
+      socialScore: socialScore,
+      econScore: econScore,
     });
   }
 
@@ -207,11 +211,14 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateEconQuizScore(testUserID, this.state.answers1)
+                this.calculateEconQuizScore(testUserID, this.state.answers1);
                 this.getEconQuizScore(testUserID);
                 this.calculateSocialQuizScore(testUserID, this.state.answers2);
                 this.getSocialQuizScore(testUserID);
-                this.navigateToResults();
+                this.navigateToResults(
+                  this.state.socialScore,
+                  this.state.econScore,
+                );
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>
