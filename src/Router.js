@@ -9,6 +9,7 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
+import IssuesScreen from './screens/Issues';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,7 @@ function EducationStack() {
       initialRouteName="Education"
       screenOptions={{gestureEnabled: false}}>
       <Stack.Screen name="Education" component={EducationScreen} />
+      <Stack.Screen name="Issues" component={IssuesScreen} />
     </Stack.Navigator>
   );
 }

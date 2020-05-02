@@ -18,7 +18,9 @@ const firebaseConfig = {
 export default class App extends React.Component {
   constructor() {
     super();
-    app.initializeApp(firebaseConfig);
+    if (!app.apps.length) {
+      app.initializeApp(firebaseConfig);
+    }
   }
   render() {
     return (
