@@ -9,6 +9,8 @@ import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
+import IssuesScreen from './screens/Issues';
+
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
@@ -32,6 +34,7 @@ function EducationStack() {
       initialRouteName="Education"
       screenOptions={{gestureEnabled: false}}>
       <Stack.Screen name="Education" component={EducationScreen} />
+      <Stack.Screen name="Issues" component={IssuesScreen} />
     </Stack.Navigator>
   );
 }

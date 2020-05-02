@@ -174,6 +174,51 @@ export default class Api {
   }
 
   /*
+   * Issues Endpoints
+   */
+
+  async getIssues(userid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/${userid}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getIssueByKeyword(userId, keyword) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/filter/${userId}/${keyword}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
+   * UserIssues Endpoints
+   */
+
+  async getUserIssueByUserId(userid) {
+    const config = {
+      method: 'get',
+      endpoint: `/userissues/userid/${userid}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async createUserIssue(voteData) {
+    const config = {
+      method: 'post',
+      endpoint: '/userissues/',
+      jsonData: voteData,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
    * Social Quiz Endpoints
    */
 
