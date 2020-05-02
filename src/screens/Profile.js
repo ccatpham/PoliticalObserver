@@ -8,8 +8,6 @@ import {
   View,
   Linking,
 } from 'react-native';
-import ProgressCircle from 'react-native-progress-circle';
-import {colors} from '../styles';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -29,34 +27,12 @@ export default class ProfileScreen extends React.Component {
     return (
       <ScrollView>
         <View style={styles.infoBox}>
-          <Image
-            style={styles.profileImageStyle}
-            source={require('../../res/images/profile_pic.jpg')}
-          />
-          <Text style={styles.profileTextStyle}>Sally Hansen</Text>
           <View style={styles.descriptionStyle}>
             <Text> Democrat </Text>
             <Text> Social Liberal </Text>
             <Text> INTP </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.shadowContainerRow}>
-          <View style={{margin: 10, justifyContent: 'center'}}>
-            <Text style={styles.profileTextStyle}>Completed</Text>
-            <Text style={{color: 'gray'}}>5 tasks required</Text>
-            <View style={{margin: 10}}>
-              <ProgressCircle
-                percent={30}
-                radius={35}
-                borderWidth={8}
-                color="#1abc9c"
-                shadowColor="#999"
-                bgColor="#fff">
-                <Text style={{fontSize: 18}}>{'30%'}</Text>
-              </ProgressCircle>
-            </View>
-          </View>
-        </TouchableOpacity>
         <View>
           <View style={styles.shadowContainerRow}>
             <TouchableOpacity onPress={() => this.onPressPolitician()}>
