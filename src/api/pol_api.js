@@ -217,4 +217,48 @@ export default class Api {
 
     return this.apiRequest(config).then(parseApiResponse);
   }
+
+  /*
+   * Social Quiz Endpoints
+   */
+
+  async createSocialQuiz(userData) {
+    const config = {
+      method: 'post',
+      endpoint: '/socialQuiz/',
+      jsonData: userData,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getSocialScoreByUserId(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/socialQuiz/userid/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+  /*
+   * Econ Quiz Endpoints
+   */
+
+  async createEconQuiz(userData) {
+    const config = {
+      method: 'post',
+      endpoint: '/econQuiz/',
+      jsonData: userData,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getEconScoreByUserId(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/econQuiz/userid/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
 }
