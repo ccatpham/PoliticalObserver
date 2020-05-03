@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Linking,
 } from 'react-native';
 
 export default class ProfileScreen extends React.Component {
@@ -26,38 +25,6 @@ export default class ProfileScreen extends React.Component {
   render() {
     return (
       <ScrollView>
-        <View style={styles.infoBox}>
-          <View style={styles.descriptionStyle}>
-            <Text> Democrat </Text>
-            <Text> Social Liberal </Text>
-            <Text> INTP </Text>
-          </View>
-        </View>
-        <View>
-          <View style={styles.shadowContainerRow}>
-            <TouchableOpacity onPress={() => this.onPressPolitician()}>
-              <Image
-                style={styles.imageStyle}
-                source={require('../../res/icons/issues.png')}
-              />
-              <Text style={styles.captionStyle}>Issues</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.onPressTopic()}>
-              <Image
-                style={styles.imageStyle}
-                source={require('../../res/icons/politician.png')}
-              />
-              <Text style={styles.captionStyle}>Politicians</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.onPressIssue()}>
-              <Image
-                style={styles.imageStyle}
-                source={require('../../res/icons/personality.png')}
-              />
-              <Text style={styles.captionStyle}>Personality</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
         <View>
           <View style={styles.shadowContainerColumn}>
             <Text style={styles.profileTextStyle}>Political Compass</Text>
@@ -78,36 +45,36 @@ export default class ProfileScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+        <View>
+          <View style={styles.shadowContainerColumn}>
+            <Text style={styles.profileTextStyle}>Personality Quiz</Text>
+            <Image
+              style={{
+                width: 250,
+                height: 250,
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}
+              source={require('../../res/images/political_spectrum.jpg')}
+            />
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('PoliticalCompassLanding')
+              }>
+              <Text style={styles.quizButton}>Go to Quiz</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={styles.shadowContainerColumn}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>
-            Election Starter Pack
-          </Text>
+          <Text style={styles.profileTextStyle}>Demographic</Text>
+        </View>
+        <View style={styles.shadowContainerColumn}>
+          <Text style={styles.profileTextStyle}>Past Activity</Text>
           <TouchableOpacity
-            onPress={() => {
-              Linking.openURL('https://voterstatus.sos.ca.gov/');
-            }}
-            style={styles.shadowContainerColumn}>
-            <Text style={{fontWeight: 'bold'}}>
-              1.) Check Your Voter Registration Status.
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              Linking.openURL('https://covr.sos.ca.gov/');
-            }}
-            style={styles.shadowContainerColumn}>
-            <Text style={{fontWeight: 'bold'}}>2.) Register to vote. </Text>
-            <Text>Online must be done by October 15, 2020.</Text>
-            <Text>Mail-in must be postmarked by October 19, 2020</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.shadowContainerColumn}>
-            <Text style={{fontWeight: 'bold'}}>
-              3.) View your voter information guide.{' '}
-            </Text>
-            <Text>
-              The Official Voter Information Guide for the November 3, 2020,
-              General Election will be available in September 2020.
-            </Text>
+            onPress={() =>
+              this.props.navigation.navigate('PoliticalCompassLanding')
+            }>
+            <Text style={styles.quizButton}>View Voting History</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -138,6 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
+    alignSelf: 'center',
   },
   iconContainer: {
     padding: 10,
