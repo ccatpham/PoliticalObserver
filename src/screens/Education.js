@@ -10,7 +10,9 @@ export default class EducationScreen extends React.Component {
         <Text>Education Screen</Text>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate('Issues');
+            this.props.navigation.navigate('Issues', {
+              userId: this.props.route.params.user.id,
+            });
           }}>
           <Text>Political Issues</Text>
         </TouchableOpacity>
