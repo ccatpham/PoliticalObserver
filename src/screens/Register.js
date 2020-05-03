@@ -30,16 +30,20 @@ export default class RegisterScreen extends React.Component {
   onPressSignUp = () => {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .createUserWithEmailAndPassword(
+            this.state.email.toLowerCase(),
+            this.state.password ,
+        )
         .then(() => {
-          const userObject = this.state;
+          let userObject = this.state;
+          userObject.email = this.state.email.toLowerCase();
           pol.api
             .createUser(userObject)
-            .then(() => {
+            .then(user => {
               this.props.navigation.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'TabNavigator'}],
+                  index: 1,
+                  routes: [{name: 'TabNavigator', params: {user: user}}],
                 }),
               );
             })
