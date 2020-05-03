@@ -13,12 +13,11 @@ import {SearchBar} from 'react-native-elements';
 import {colors} from '../styles';
 import pol from '../api/apiConfig';
 
-const USERID = '5ea787f9d545973e382ac01d'; //this is a temporary value
-
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       issues: [],
       VotedIssues: [],
       activeSections: [],
@@ -87,7 +86,7 @@ export default class IssuesScreen extends React.Component {
 
   fetchAllIssues() {
     pol.api
-      .getIssues(USERID)
+      .getIssues(this.state.userId)
       .then(response => {
         this.setState({issues: response});
       })
@@ -100,7 +99,7 @@ export default class IssuesScreen extends React.Component {
 
   fetchFilteredIssues(keyword) {
     pol.api
-      .getIssueByKeyword(USERID, keyword)
+      .getIssueByKeyword(this.state.userId, keyword)
       .then(response => {
         this.setState({issues: response});
       })
@@ -113,7 +112,7 @@ export default class IssuesScreen extends React.Component {
 
   getUserVotedIssues() {
     pol.api
-      .getUserIssueByUserId(USERID)
+      .getUserIssueByUserId(this.state.userId)
       .then(response => {
         this.setState({VotedIssues: response});
       })
@@ -154,7 +153,7 @@ export default class IssuesScreen extends React.Component {
         <TouchableOpacity
           style={styles.voteYesButtonContainer}
           onPress={async () => {
-            await this.onPressVoteYes(section._id, USERID);
+            await this.onPressVoteYes(section._id, this.state.userId);
             this.setState({
               activeVotedSections: [],
               VotedIssues: [],
@@ -169,7 +168,7 @@ export default class IssuesScreen extends React.Component {
         <TouchableOpacity
           style={styles.voteNoButtonContainer}
           onPress={async () => {
-            await this.onPressVoteNo(section._id, USERID);
+            await this.onPressVoteNo(section._id, this.state.userId);
             this.setState({
               activeVotedSections: [],
               VotedIssues: [],

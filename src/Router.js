@@ -18,43 +18,59 @@ import PoliticalCompassResults from './screens/PoliticalCompassResults';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function SearchStack() {
+const SearchStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Search"
       screenOptions={{gestureEnabled: false}}>
-      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
+        initialParams={props.route.params}
+      />
     </Stack.Navigator>
   );
-}
+};
 
-function EducationStack() {
+const EducationStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Education"
       screenOptions={{gestureEnabled: false}}>
-      <Stack.Screen name="Education" component={EducationScreen} />
+      <Stack.Screen
+        name="Education"
+        component={EducationScreen}
+        initialParams={props.route.params}
+      />
       <Stack.Screen name="Issues" component={IssuesScreen} />
     </Stack.Navigator>
   );
-}
+};
 
-function DashboardStack() {
+const DashboardStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Dashboard"
       screenOptions={{gestureEnabled: false}}>
-      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+      <Stack.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        initialParams={props.route.params}
+      />
     </Stack.Navigator>
   );
-}
+};
 
-function ProfileStack() {
+const ProfileStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Profile"
       screenOptions={{gestureEnabled: false}}>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        initialParams={props.route.params}
+      />
       <Stack.Screen
         name="PoliticalCompassLanding"
         component={PoliticalCompassLanding}
@@ -74,20 +90,36 @@ function ProfileStack() {
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
-}
+};
 
-function TabNavigator() {
+const TabNavigator = props => {
   return (
     <Tab.Navigator
       initialRouteName="Dashboard"
       screenOptions={{gestureEnabled: false, headerShown: false}}>
-      <Tab.Screen name="Dashboard" component={DashboardStack} />
-      <Tab.Screen name="Education" component={EducationStack} />
-      <Tab.Screen name="Search" component={SearchStack} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen
+        name="Dashboard"
+        component={DashboardStack}
+        initialParams={props.route.params}
+      />
+      <Tab.Screen
+        name="Education"
+        component={EducationStack}
+        initialParams={props.route.params}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchStack}
+        initialParams={props.route.params}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStack}
+        initialParams={props.route.params}
+      />
     </Tab.Navigator>
   );
-}
+};
 
 export default function AppStack() {
   return (
