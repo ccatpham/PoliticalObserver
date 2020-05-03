@@ -50,7 +50,7 @@ class SearchBar extends React.Component {
     this.props.navigation.navigate('PoliticianProfile', {
       text: this.state.text,
     });
-  }
+  };
 
   render() {
     return (

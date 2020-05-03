@@ -19,9 +19,7 @@ export default class Settings extends React.Component {
     return (
       <ScrollView>
         <TouchableOpacity style={styles.shadowContainerColumn}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>
-            Edit Profile
-          </Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>Edit Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.shadowContainerColumn}>
           <Text style={{fontWeight: 'bold', fontSize: 20}}>
@@ -29,9 +27,7 @@ export default class Settings extends React.Component {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.shadowContainerColumn}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>
-            Notifications
-          </Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>Notifications</Text>
         </TouchableOpacity>
       </ScrollView>
     );
