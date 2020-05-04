@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {colors} from '../styles';
+import {colors} from '../../../styles';
 
 export default class Topics extends React.Component {
   constructor(props) {
