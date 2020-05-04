@@ -16,6 +16,7 @@ export default class Topics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       data: [],
     };
   }
@@ -39,6 +40,7 @@ export default class Topics extends React.Component {
         style={styles.itemButtonContainer}
         onPress={() => {
           this.props.navigation.navigate('Topic Details', {
+            userId: this.state.userId,
             topicId: item.id,
           });
         }}>

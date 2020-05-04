@@ -16,6 +16,7 @@ export default class IssueDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       id: this.props.route.params.issueId,
       title: '',
       description: '',
@@ -60,6 +61,7 @@ export default class IssueDetails extends React.Component {
 
   onPressViewData = () => {
     this.props.navigation.navigate('Issue Data', {
+      userId: this.state.userId,
       issueId: this.state.id,
     });
   };

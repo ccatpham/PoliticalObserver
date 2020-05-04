@@ -16,6 +16,7 @@ export default class Politicians extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       data: [],
     };
   }
@@ -24,7 +25,10 @@ export default class Politicians extends React.Component {
     pol.api
       .getAllPoliticians()
       .then(politicians => {
-        this.setState({data: politicians});
+        this.setState({
+          userId: this.state.userId,
+          data: politicians,
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

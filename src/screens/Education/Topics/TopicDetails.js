@@ -16,6 +16,7 @@ export default class TopicDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       id: this.props.route.params.topicId,
       title: '',
       category: '',

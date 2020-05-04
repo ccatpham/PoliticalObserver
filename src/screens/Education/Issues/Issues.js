@@ -16,6 +16,7 @@ export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       data: [],
     };
   }
@@ -24,7 +25,10 @@ export default class IssuesScreen extends React.Component {
     pol.api
       .getAllIssues()
       .then(issues => {
-        this.setState({data: issues});
+        this.setState({
+          userId: this.state.userId,
+          data: issues,
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
