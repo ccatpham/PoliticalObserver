@@ -45,7 +45,7 @@ export default class ProfileScreen extends React.Component {
             <TouchableOpacity onPress={() => this.onPressTopic()}>
               <Image
                 style={styles.imageStyle}
-                source={require('../../res/icons/politician.png')}
+                source={require('../../res/icons/politiciansIcon.png')}
               />
               <Text style={styles.captionStyle}>Politicians</Text>
             </TouchableOpacity>

@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {colors} from '../../styles';
-import issuesIcon from '../../../res/icons/issues.png';
 
 export default class EducationScreen extends React.Component {
   componentDidMount() {}
@@ -24,11 +23,17 @@ export default class EducationScreen extends React.Component {
             });
           }}>
           <View style={styles.imageContainer}>
-            <View style={{flex: 1, backgroundColor: colors.paleGreen}} />
+            <Image
+              style={styles.image}
+              source={require('../../../res/icons/issuesIcon.png')}
+              resizeMode="contain"
+            />
           </View>
-          <View style={styles.contentView}>
-            <Text>Issues</Text>
-            <Text>View and vote on societies current issues!</Text>
+          <View style={styles.contentContainer}>
+            <Text style={styles.titleText}>Issues</Text>
+            <Text style={styles.subTitleText}>
+              View and vote on societies current issues!
+            </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -39,11 +44,15 @@ export default class EducationScreen extends React.Component {
             });
           }}>
           <View style={styles.imageContainer}>
-            <View style={{flex: 1, backgroundColor: colors.paleGreen}} />
+            <Image
+              style={styles.image}
+              source={require('../../../res/icons/politiciansIcon.png')}
+              resizeMode="contain"
+            />
           </View>
-          <View style={styles.contentView}>
-            <Text>Politicians</Text>
-            <Text>
+          <View style={styles.contentContainer}>
+            <Text style={styles.titleText}>Politicians</Text>
+            <Text style={styles.subTitleText}>
               Learn about the politicians that influence your every day!
             </Text>
           </View>
@@ -56,11 +65,15 @@ export default class EducationScreen extends React.Component {
             });
           }}>
           <View style={styles.imageContainer}>
-            <View style={{flex: 1, backgroundColor: colors.paleGreen}} />
+            <Image
+              style={styles.image}
+              source={require('../../../res/icons/topicsIcon.png')}
+              resizeMode="contain"
+            />
           </View>
-          <View style={styles.contentView}>
-            <Text>Topics</Text>
-            <Text>
+          <View style={styles.contentContainer}>
+            <Text style={styles.titleText}>Topics</Text>
+            <Text style={styles.subTitleText}>
               Learn about interesting topics, from governments to economics!
             </Text>
           </View>
@@ -80,26 +93,37 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 20,
     marginBottom: 0,
-    backgroundColor: colors.polGray,
   },
   politiciansButtonContainer: {
     flex: 1,
     flexDirection: 'row',
     margin: 20,
     marginBottom: 0,
-    backgroundColor: colors.polGray,
   },
   topicsButtonContainer: {
     flex: 1,
     flexDirection: 'row',
     margin: 20,
-    backgroundColor: colors.polGray,
   },
   imageContainer: {
     flex: 1,
+    backgroundColor: colors.polBlue,
   },
-  contentView: {
-    flex: 2,
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+  },
+  contentContainer: {
+    flex: 1,
     padding: 10,
+    backgroundColor: colors.polRed,
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  subTitleText: {
+    fontSize: 18,
   },
 });
