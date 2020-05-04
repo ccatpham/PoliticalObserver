@@ -7,9 +7,12 @@ import {
   Alert,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-import {colors} from '../../../styles';
+import {colors, dateFormats} from '../../../styles';
 import pol from '../../../api/apiConfig';
+
+let moment = require('moment');
 
 export default class IssueDetails extends React.Component {
   constructor(props) {
@@ -39,13 +42,6 @@ export default class IssueDetails extends React.Component {
   }
 
   render() {
-    let partyColor = colors.black;
-    if (this.state.party === 'Democrat') {
-      partyColor = colors.polBlue;
-    } else if (this.state.party === 'Republican') {
-      partyColor = colors.polRed;
-    }
-
     let image = require('../../../../res/images/politician.png');
     if (this.state.name === 'Bernie Sanders') {
       image = require('../../../../res/images/sanders.png');
@@ -59,20 +55,25 @@ export default class IssueDetails extends React.Component {
 
     let dateOfBirth = '';
     if (this.state.dateOfBirth !== null) {
-      dateOfBirth = this.state.dateOfBirth.toString();
+      dateOfBirth = moment(this.state.dateOfBirth).format(
+        dateFormats.monthDayYear,
+      );
     }
     return (
       <SafeAreaView style={styles.container}>
-        <View>
-          <View>
-            <Image source={image} style={{height: 200, width: 200}} />
+        <ScrollView style={styles.contentContainer}>
+          <View style={styles.imageContainer}>
+            <Image source={image} style={styles.image} />
           </View>
-          <Text>{this.state.name}</Text>
-          <Text>{dateOfBirth}</Text>
-          <Text>{this.state.position}</Text>
-          <Text>{this.state.state}</Text>
-          <Text>{this.state.party}</Text>
-        </View>
+          <View style={styles.detailsContainer}>
+            <Text>{this.state.name}</Text>
+            <Text>{dateOfBirth}</Text>
+            <Text>{this.state.position}</Text>
+            <Text>{this.state.state}</Text>
+            <Text>{this.state.party}</Text>
+            <Text>{this.state.bio}</Text>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -82,5 +83,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.polWhite,
+  },
+  contentContainer: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  image: {
+    height: 200,
+    width: 200,
+    borderRadius: 100,
+  },
+  detailsContainer: {
+    flex: 1,
+    backgroundColor: colors.polGray,
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  subTitleText: {
+    fontSize: 18,
+  },
+  text: {
+    fontSize: 16,
   },
 });

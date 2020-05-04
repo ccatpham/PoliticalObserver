@@ -62,7 +62,7 @@ export default class Politicians extends React.Component {
         <View style={styles.imageContainer}>
           <Image source={image} style={styles.image} />
         </View>
-        <View style={styles.contentView}>
+        <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{item.name}</Text>
           <Text style={styles.subTitleText}>{item.position}</Text>
           <Text style={[styles.text, {color: partyColor}]}>{item.party}</Text>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     width: 75,
     borderRadius: 37.5,
   },
-  contentView: {
+  contentContainer: {
     height: 75,
     justifyContent: 'center',
     padding: 10,
