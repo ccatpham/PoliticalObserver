@@ -15,6 +15,7 @@ export default class IssueData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      issueId: this.props.route.params.issueId,
       data: [],
     };
   }

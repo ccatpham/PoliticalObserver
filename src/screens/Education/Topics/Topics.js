@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.polWhite,
   },
   listContainer: {
-    marginVertical: 10,
+    paddingVertical: 10,
     marginHorizontal: 20,
   },
   itemButtonContainer: {

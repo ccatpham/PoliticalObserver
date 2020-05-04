@@ -177,6 +177,24 @@ export default class Api {
    * Issues Endpoints
    */
 
+  async getIssueById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getAllIssues() {
+    const config = {
+      method: 'get',
+      endpoint: '/issues',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   async getIssues(userid) {
     const config = {
       method: 'get',
