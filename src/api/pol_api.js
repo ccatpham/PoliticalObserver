@@ -196,6 +196,28 @@ export default class Api {
   }
 
   /*
+   * Politicians Endpoints
+   */
+
+  async getTopicById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/topics/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getAllTopics() {
+    const config = {
+      method: 'get',
+      endpoint: '/topics',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
    * UserIssues Endpoints
    */
 
