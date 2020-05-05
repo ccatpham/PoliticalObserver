@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   ScrollView,
   Picker,
   Alert,
@@ -31,8 +30,8 @@ export default class RegisterScreen extends React.Component {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
         .createUserWithEmailAndPassword(
-            this.state.email.toLowerCase(),
-            this.state.password ,
+          this.state.email.toLowerCase(),
+          this.state.password,
         )
         .then(() => {
           let userObject = this.state;

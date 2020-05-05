@@ -62,13 +62,6 @@ ListItem.propTypes = propTypes;
 ListItem.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
-  RadioButtonViewContainer: {
-    alignItems: 'flex-start',
-  },
-  RadioButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   headingTextStyle: {
     fontSize: 20,
     fontWeight: 'bold',
