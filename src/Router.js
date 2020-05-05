@@ -10,6 +10,7 @@ import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
 import IssuesScreen from './screens/Issues';
+import PersonalityLanding from './screens/PersonalityLanding';
 
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
@@ -86,6 +87,11 @@ const ProfileStack = props => {
       <Stack.Screen
         name="PoliticalCompassResults"
         component={PoliticalCompassResults}
+      />
+      <Stack.Screen
+        name="Personality Landing"
+        component={PersonalityLanding}
+        initialParams={props.route.params}
       />
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>

@@ -22,7 +22,7 @@ export default class RegisterScreen extends React.Component {
       email: '',
       password: '',
       age: '',
-      party: '',
+      partyAffiliation: '',
       marital: '',
     };
   }
@@ -108,10 +108,10 @@ export default class RegisterScreen extends React.Component {
           />
           <Picker
             mode={'dropdown'}
-            selectedValue={this.state.party}
+            selectedValue={this.state.partyAffiliation}
             onValueChange={itemValue => {
               if (itemValue != '0') {
-                this.setState({party: itemValue});
+                this.setState({partyAffiliation: itemValue});
               }
             }}>
             <Picker.Item label="Select a political affiliation" value="0" />
