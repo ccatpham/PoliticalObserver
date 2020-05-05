@@ -11,7 +11,9 @@ import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
 import IssuesScreen from './screens/Issues';
 import PersonalityLanding from './screens/PersonalityLanding';
-
+import EditDemographics from './screens/EditDemographic';
+import DemographicInsights from './screens/DemographicInsights';
+import VotedOnIssues from './screens/VotedOnIssues';
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
@@ -91,6 +93,21 @@ const ProfileStack = props => {
       <Stack.Screen
         name="Personality Landing"
         component={PersonalityLanding}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Edit Demographics"
+        component={EditDemographics}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Demographic Insights"
+        component={DemographicInsights}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Voted On Issues"
+        component={VotedOnIssues}
         initialParams={props.route.params}
       />
       <Stack.Screen name="Settings" component={SettingsScreen} />

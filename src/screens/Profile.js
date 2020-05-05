@@ -49,6 +49,24 @@ export default class ProfileScreen extends React.Component {
     });
   };
 
+  onPressEditDemographics = () => {
+    this.props.navigation.navigate('Edit Demographics', {
+      userID: this.props.route.params.user.id,
+    });
+  };
+
+  onPressViewDemographicsInsights = () => {
+    this.props.navigation.navigate('Demographic Insights', {
+      userID: this.props.route.params.user.id,
+    });
+  };
+
+  onPressViewIssues = () => {
+    this.props.navigation.navigate('Voted On Issues', {
+      userID: this.props.route.params.user.id,
+    });
+  };
+
   getDemographic = () => {
     pol.api
       .getDemographicById(this.props.route.params.user.demographicId)
@@ -246,75 +264,68 @@ export default class ProfileScreen extends React.Component {
         <View style={styles.shadowContainerColumn}>
           <Text style={styles.headingTextStyle}>Demographic</Text>
           <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Political Affiliation:</Text>
               <Text>{this.state.politicalAffiliation}</Text>
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
               <Text> {this.state.partyAffiliation}</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
               <Text>{this.state.personalityType}</Text>
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
               <Text> {this.state.incomeLevel}</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Age:</Text>
               <Text> {this.state.ageRange}</Text>
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Education:</Text>
               <Text> {this.state.education}</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Martial Status:</Text>
               <Text> {this.state.martialStatus}</Text>
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
               <Text>{this.state.ethnicity}</Text>
             </View>
           </View>
           <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Gender:</Text>
               <Text> {this.state.gender}</Text>
             </View>
-            <View style={{flex: 1}}>
+            <View style={styles.demographicDetail}>
               <Text style={{fontWeight: 'bold'}}>Occupation:</Text>
               <Text> {this.state.occupation}</Text>
             </View>
           </View>
           <View>
-            <TouchableOpacity onPress={() => this.onPressPolitician()}>
+            <TouchableOpacity onPress={() => this.onPressEditDemographics()}>
               <Text style={styles.quizButton}>Edit Demographics</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('PoliticalCompassLanding', {
-                  userID: this.props.route.params.user.id,
-                })
-              }>
+              onPress={() => this.onPressViewDemographicsInsights()}>
               <Text style={styles.politicalQuizButton}>View Insights</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.shadowContainerColumn}>
           <Text style={styles.headingTextStyle}>Past Activity</Text>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassLanding')
-            }>
+          <TouchableOpacity onPress={() => this.onPressViewIssues()}>
             <Text style={styles.quizButton}>View Voting History</Text>
           </TouchableOpacity>
         </View>
@@ -335,6 +346,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     alignSelf: 'center',
+  },
+  demographicDetail: {
+    flex: 1,
+    marginHorizontal: 20,
   },
   shadowContainerColumn: {
     padding: 10,
