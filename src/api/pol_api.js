@@ -139,6 +139,19 @@ export default class Api {
   }
 
   /*
+   * Demographic Endpoints
+   */
+
+  async getDemographicById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/demographics/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
    * Settings Endpoints
    */
 
@@ -262,43 +275,20 @@ export default class Api {
    * Social Quiz Endpoints
    */
 
-  async createSocialQuiz(userData) {
+  async createQuiz(userData) {
     const config = {
       method: 'post',
-      endpoint: '/socialQuiz/',
+      endpoint: '/quiz/',
       jsonData: userData,
     };
     return this.apiRequest(config).then(parseApiResponse);
   }
 
-  async getSocialScoreByUserId(id) {
+  async getQuizScoreByUserId(id) {
     const config = {
       method: 'get',
-      endpoint: `/socialQuiz/userid/${id}`,
+      endpoint: `/quiz/userid/${id}`,
     };
-
-    return this.apiRequest(config).then(parseApiResponse);
-  }
-  /*
-   * Econ Quiz Endpoints
-   */
-
-  async createEconQuiz(userData) {
-    const config = {
-      method: 'post',
-      endpoint: '/econQuiz/',
-      jsonData: userData,
-    };
-
-    return this.apiRequest(config).then(parseApiResponse);
-  }
-
-  async getEconScoreByUserId(id) {
-    const config = {
-      method: 'get',
-      endpoint: `/econQuiz/userid/${id}`,
-    };
-
     return this.apiRequest(config).then(parseApiResponse);
   }
 }

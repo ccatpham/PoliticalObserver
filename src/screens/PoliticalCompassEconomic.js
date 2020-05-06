@@ -84,6 +84,7 @@ export default class PoliticalCompassEconomic extends React.Component {
         },
       ],
       answers: [0, 0, 0],
+      userID: this.props.route.params.userID,
     };
   }
 
@@ -136,6 +137,7 @@ export default class PoliticalCompassEconomic extends React.Component {
               onPress={() => {
                 this.props.navigation.navigate('PoliticalCompassSocial', {
                   answers: this.state.answers,
+                  userID: this.state.userID,
                 });
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>

@@ -6,8 +6,8 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import background from '../../res/images/landing_background.jpg';
-export default class PoliticalCompassLanding extends React.Component {
+import background from '../../res/images/personality_group.jpg';
+export default class PersonalityLanding extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,28 +19,22 @@ export default class PoliticalCompassLanding extends React.Component {
       <ImageBackground source={background} style={styles.image}>
         <View style={styles.overlay} />
         <View style={{alignSelf: 'center'}}>
-          <Text style={styles.titleFont}> Political Compass Test </Text>
+          <Text style={styles.titleFont}> 16 Personalities Test </Text>
         </View>
         <View style={styles.descriptionStyle}>
           <Text style={styles.descriptionTextStyle}>
-            Some propositions are extreme, and some are moderate. That’s how we
-            can show you whether you lean towards extremism or moderation on the
-            Compass. Your responses should not be overthought.
+            Take our Personality Test and get a “freakishly accurate”
+            description of who you are and why you do things the way you do.
           </Text>
         </View>
         <View style={styles.startButtonStyle}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassEconomic', {
-                userID: this.state.userID,
-              })
-            }>
+          <TouchableOpacity>
             <Text style={styles.startButtonFont}>Start the test</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={{alignSelf: 'center'}}>
           <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
-            What is the political compass test?
+            What is the 16 personalities test?
           </Text>
         </TouchableOpacity>
       </ImageBackground>
@@ -80,7 +74,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: 'black',
-    opacity: 0.2,
+    opacity: 0.5,
   },
   descriptionStyle: {
     alignSelf: 'center',
