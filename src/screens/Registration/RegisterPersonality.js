@@ -17,7 +17,7 @@ export default class RegisterPersonalityScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        user: this.props.route.params.user,
+      user: this.props.route.params.user,
     };
   }
 
@@ -78,13 +78,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerContainer: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 20,
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerText: {
     margin: 10,

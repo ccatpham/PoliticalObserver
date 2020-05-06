@@ -25,9 +25,7 @@ export default class RegisterPoliticalScreen extends React.Component {
     this.props.navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [
-          {name: 'TabNavigator', params: {user: this.state.user}},
-        ],
+        routes: [{name: 'TabNavigator', params: {user: this.state.user}}],
       }),
     );
   };
@@ -83,13 +81,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerContainer: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 20,
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerText: {
     margin: 10,

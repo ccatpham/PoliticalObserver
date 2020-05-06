@@ -16,9 +16,9 @@ export default class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: 'wesley+nachos@gmail.com',
+      password: '123456',
+      confirmPassword: '123456',
     };
   }
 
@@ -29,7 +29,10 @@ export default class RegisterScreen extends React.Component {
     ) {
       if (this.state.email !== '') {
         this.props.navigation.navigate('Register Demographics', {
-          user: {email: this.state.email, password: this.state.password},
+          user: {
+            email: this.state.email.toLowerCase(),
+            password: this.state.password,
+          },
         });
       } else {
         Alert.alert('Error', 'Email field must be filled.', [{text: 'OK'}], {
@@ -174,13 +177,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerContainer: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 20,
-    marginHorizontal: 60,
+    marginHorizontal: 20,
   },
   headerText: {
     margin: 10,
