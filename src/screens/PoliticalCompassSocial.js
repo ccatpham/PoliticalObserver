@@ -10,7 +10,6 @@ import {
 import RadioButton from './Components/RadioButton';
 import pol from '../api/apiConfig';
 
-const testUserID = '5ea784d50e92cd4a34110438';
 export default class PoliticalCompassSocial extends React.Component {
   constructor(props) {
     super(props);
@@ -90,6 +89,7 @@ export default class PoliticalCompassSocial extends React.Component {
       answers2: [0, 0, 0],
       socialScore: 0,
       econScore: 0,
+      userID: this.props.route.params.userID,
     };
   }
 
@@ -112,62 +112,21 @@ export default class PoliticalCompassSocial extends React.Component {
     });
   };
 
-  calculateSocialQuizScore = (id, socialQuizAnswers) => {
+  calculateQuizScore = async (id, socialQuizAnswers, econQuizAnswers) => {
     const userObject = {
       userID: id,
       socialAnswers: socialQuizAnswers,
-    };
-    pol.api
-      .createSocialQuiz(userObject)
-      .then(response => {
-        return response;
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  };
-
-  getSocialQuizScore = id => {
-    pol.api
-      .getSocialScoreByUserId(id)
-      .then(response => {
-        this.updateSocialScore(response.socialScore.toFixed(2));
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  };
-
-  updateSocialScore = socialScore => {
-    this.setState({socialScore: socialScore});
-  };
-
-  calculateEconQuizScore = (id, econQuizAnswers) => {
-    const userObject = {
-      userID: id,
       econAnswers: econQuizAnswers,
     };
-    pol.api
-      .createEconQuiz(userObject)
+    await pol.api
+      .createQuiz(userObject)
       .then(response => {
-        return response;
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  };
-
-  getEconQuizScore = id => {
-    pol.api
-      .getEconScoreByUserId(id)
-      .then(response => {
+        this.setState({socialScore: response.socialScore.toFixed(2)});
         this.setState({econScore: response.econScore.toFixed(2)});
+        this.props.navigation.navigate('PoliticalCompassResults', {
+          socialScore: this.state.socialScore,
+          econScore: this.state.econScore,
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -175,13 +134,6 @@ export default class PoliticalCompassSocial extends React.Component {
         });
       });
   };
-
-  navigateToResults(socialScore, econScore) {
-    this.props.navigation.navigate('PoliticalCompassResults', {
-      socialScore: socialScore,
-      econScore: econScore,
-    });
-  }
 
   render() {
     return (
@@ -211,13 +163,10 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateEconQuizScore(testUserID, this.state.answers1);
-                this.getEconQuizScore(testUserID);
-                this.calculateSocialQuizScore(testUserID, this.state.answers2);
-                this.getSocialQuizScore(testUserID);
-                this.navigateToResults(
-                  this.state.socialScore,
-                  this.state.econScore,
+                this.calculateQuizScore(
+                  this.state.userID,
+                  this.state.answers1,
+                  this.state.answers2,
                 );
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>

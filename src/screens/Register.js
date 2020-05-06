@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   ScrollView,
   Picker,
   Alert,
@@ -22,7 +21,7 @@ export default class RegisterScreen extends React.Component {
       email: '',
       password: '',
       age: '',
-      party: '',
+      partyAffiliation: '',
       marital: '',
     };
   }
@@ -31,8 +30,8 @@ export default class RegisterScreen extends React.Component {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
         .createUserWithEmailAndPassword(
-            this.state.email.toLowerCase(),
-            this.state.password ,
+          this.state.email.toLowerCase(),
+          this.state.password,
         )
         .then(() => {
           let userObject = this.state;
@@ -108,10 +107,10 @@ export default class RegisterScreen extends React.Component {
           />
           <Picker
             mode={'dropdown'}
-            selectedValue={this.state.party}
+            selectedValue={this.state.partyAffiliation}
             onValueChange={itemValue => {
               if (itemValue != '0') {
-                this.setState({party: itemValue});
+                this.setState({partyAffiliation: itemValue});
               }
             }}>
             <Picker.Item label="Select a political affiliation" value="0" />

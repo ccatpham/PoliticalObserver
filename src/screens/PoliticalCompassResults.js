@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+import {CommonActions} from '@react-navigation/native';
 import {
   VictoryAxis,
   VictoryChart,
@@ -10,16 +17,11 @@ export default class PoliticalCompassResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      econScore: 0,
-      socialScore: 0,
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
       econScore: this.props.route.params.econScore,
       socialScore: this.props.route.params.socialScore,
-    });
+      userID: this.props.route.params.userID,
+      hasTakenPoliticalTest: true,
+    };
   }
 
   render() {
@@ -63,6 +65,29 @@ export default class PoliticalCompassResults extends React.Component {
             />
           </VictoryChart>
         </View>
+        <View>
+          <TouchableOpacity
+            style={styles.quizButton}
+            onPress={() =>
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: 'Profile',
+                      params: {
+                        socialScore: this.state.socialScore,
+                        econScore: this.state.econScore,
+                        hasTakenPoliticalTest: this.state.hasTakenPoliticalTest,
+                      },
+                    },
+                  ],
+                }),
+              )
+            }>
+            <Text style={styles.quizButtonText}>Exit</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -74,5 +99,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5fcff',
+  },
+  quizButton: {
+    width: 150,
+    marginTop: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginLeft: 70,
+    marginRight: 70,
+    backgroundColor: '#00BCD4',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    color: '#fff',
+  },
+  quizButtonText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#fff',
   },
 });
