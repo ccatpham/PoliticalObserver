@@ -11,6 +11,8 @@ import {
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
 import auth from '@react-native-firebase/auth';
+import pol_api from '../api/pol_api';
+import pol from '../api/apiConfig';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -24,14 +26,31 @@ export default class LoginScreen extends React.Component {
   onPressLogin = () => {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .signInWithEmailAndPassword(
+          this.state.email.toLowerCase(),
+          this.state.password,
+        )
         .then(() => {
-          this.props.navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [{name: 'TabNavigator'}],
-            }),
-          );
+          pol.api
+            .getUserByEmail(this.state.email.toLowerCase())
+            .then(user => {
+              this.props.navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'TabNavigator', params: {user: user}}],
+                }),
+              );
+            })
+            .catch(error => {
+              Alert.alert(
+                'Error',
+                error.code + ' ' + error.message,
+                [{text: 'OK'}],
+                {
+                  cancelable: false,
+                },
+              );
+            });
         })
         .catch(error => {
           Alert.alert(

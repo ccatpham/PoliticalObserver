@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
   ScrollView,
   Picker,
   Alert,
@@ -255,7 +254,10 @@ export default class RegisterScreen extends React.Component {
   onPressSignUp = () => {
     if (this.state.email !== '' && this.state.password !== '') {
       auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .createUserWithEmailAndPassword(
+          this.state.email.toLowerCase(),
+          this.state.password,
+        )
         .then(() => {
           // let user = {
           //   email: this.state.email,
@@ -274,8 +276,8 @@ export default class RegisterScreen extends React.Component {
             .then(() => {
               this.props.navigation.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'TabNavigator'}],
+                  index: 1,
+                  routes: [{name: 'TabNavigator', params: {user: user}}],
                 }),
               );
             })

@@ -1,11 +1,21 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 
 export default class EducationScreen extends React.Component {
+  componentDidMount() {}
+
   render() {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>Education Screen</Text>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate('Issues', {
+              userId: this.props.route.params.user.id,
+            });
+          }}>
+          <Text>Political Issues</Text>
+        </TouchableOpacity>
       </View>
     );
   }
