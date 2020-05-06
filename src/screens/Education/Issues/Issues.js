@@ -26,7 +26,6 @@ export default class IssuesScreen extends React.Component {
       .getAllIssues()
       .then(issues => {
         this.setState({
-          userId: this.state.userId,
           data: issues,
         });
       })
@@ -43,6 +42,7 @@ export default class IssuesScreen extends React.Component {
         style={styles.itemButtonContainer}
         onPress={() => {
           this.props.navigation.navigate('Issue Details', {
+            userId: this.state.userId,
             issueId: item.id,
           });
         }}>

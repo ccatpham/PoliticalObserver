@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {colors} from '../../../styles';
+import {colors, dateFormats} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
+
+let moment = require('moment');
 
 export default class IssueDetails extends React.Component {
   constructor(props) {
@@ -27,6 +29,7 @@ export default class IssueDetails extends React.Component {
       data: [],
       vote: null,
       voted: false,
+      voting: false,
     };
   }
 
@@ -44,24 +47,42 @@ export default class IssueDetails extends React.Component {
   }
 
   onPressVote(vote) {
-    this.setState({vote: vote, voted: true});
-    this.setState({
-      data: [
-        {
-          x: 'Against',
-          y: 30,
-        },
-        {
-          x: 'For',
-          y: 70,
-        },
-      ],
-    });
+    this.setState({voting: true});
+    let voteText = "";
+    if (this.state.vote) {
+      voteText = 'yes';
+    } else {
+      voteText = 'no';
+    }
+    let voteData = {issueId: this.state.id, userId: this.state.userId, vote: voteText, date: new Date()};
+    pol.api
+        .createUserIssue(voteData)
+        .then(userIssue => {
+          this.setState({vote: vote, voted: true, voting: false});
+        })
+        .catch(error => {
+          Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+            cancelable: false,
+          });
+        });
+    // this.setState({
+    //   data: [
+    //     {
+    //       x: 'Against',
+    //       y: 30,
+    //     },
+    //     {
+    //       x: 'For',
+    //       y: 70,
+    //     },
+    //   ],
+    // });
   }
 
   onPressViewData = () => {
     this.props.navigation.navigate('Issue Data', {
       userId: this.state.userId,
+      vote: this.state.vote,
       issueId: this.state.id,
     });
   };
@@ -127,13 +148,15 @@ export default class IssueDetails extends React.Component {
         <View style={styles.voteButtonsContainer}>
           <TouchableOpacity
             style={styles.voteForButton}
-            onPress={() => this.onPressVote(true)}>
+            onPress={() => this.onPressVote(true)}
+            disabled={this.state.voting}>
             <Text style={styles.voteForText}>For</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.voteAgainstButton}
-            onPress={() => this.onPressVote(false)}>
-            <Text style={styles.voteAgainstText}>Against</Text>
+            onPress={() => this.onPressVote(false)}
+            disabled={this.state.voting}>
+          <Text style={styles.voteAgainstText}>Against</Text>
           </TouchableOpacity>
         </View>
       </View>
