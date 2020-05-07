@@ -4,64 +4,211 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   ScrollView,
   Alert,
 } from 'react-native';
+import {
+  VictoryAxis,
+  VictoryChart,
+  VictoryTheme,
+  VictoryScatter,
+} from 'victory-native';
 import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
 import {CommonActions} from '@react-navigation/native';
+import pol from '../../api/apiConfig';
 
 export default class RegisterPoliticalScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: this.props.route.params.user,
+      partyAffiliations: [
+        {
+          label: 'Democrat',
+          selected: false,
+        },
+        {
+          label: 'Republican',
+          selected: false,
+        },
+        {
+          label: 'Libertarian',
+          selected: false,
+        },
+        {
+          label: 'Green',
+          selected: false,
+        },
+        {
+          label: 'Constitution',
+          selected: false,
+        },
+        {
+          label: 'Unaligned',
+          selected: false,
+        },
+      ],
     };
   }
 
   onPressContinue = () => {
-    this.props.navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{name: 'TabNavigator', params: {user: this.state.user}}],
-      }),
-    );
+    let user = this.state.user;
+    let partyAffiliationChoice = this.state.partyAffiliations.find(choice => {
+      return choice.selected === true;
+    });
+    if (partyAffiliationChoice != null) {
+      user.partyAffiliation = partyAffiliationChoice.label;
+    }
+
+    pol.api
+      .createUser(user)
+      .then(user => {
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'TabNavigator', params: {user: user}}],
+          }),
+        );
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
-  onChangeEmail(email) {
-    this.setState({
-      email: email,
+  onPressSkip = () => {
+    pol.api
+      .createUser(this.state.user)
+      .then(user => {
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'TabNavigator', params: {user: user}}],
+          }),
+        );
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  };
+
+  onPressPartyAffiliationRadioButton = selectedPartyAffiliation => {
+    let partyAffiliationChoices = this.state.partyAffiliations;
+    partyAffiliationChoices.forEach(function(partyAffiliation) {
+      if (partyAffiliation === selectedPartyAffiliation) {
+        partyAffiliation.selected = !partyAffiliation.selected;
+      } else {
+        partyAffiliation.selected = false;
+      }
     });
-  }
+    this.setState({
+      partyAffiliations: partyAffiliationChoices,
+    });
+  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Fill out your demographics</Text>
-            <Text>
-              Your data will help us give you a deeper understand of where you
-              are politically within society.
+            <Text style={styles.headerText}>
+              What is your political standing?
             </Text>
           </View>
           <View style={styles.contentContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Email'}
-              placeholderTextColor={colors.gray}
-              onChangeText={email => this.onChangeEmail(email)}
-              value={this.state.email}
-            />
+            <View style={styles.radioButtonContainer}>
+              <Text style={styles.radioButtonHeaderText}>
+                Party Affiliation
+              </Text>
+              <View style={styles.radioButtonColumn}>
+                {this.state.partyAffiliations.map(partyAffiliation => (
+                  <RadioButton
+                    key={partyAffiliation.label}
+                    selected={partyAffiliation.selected}
+                    onPress={() =>
+                      this.onPressPartyAffiliationRadioButton(partyAffiliation)
+                    }
+                    label={partyAffiliation.label}
+                  />
+                ))}
+              </View>
+            </View>
           </View>
+          <VictoryChart width={400} height={400}>
+            <VictoryAxis
+              crossAxis
+              width={200}
+              height={200}
+              domain={[-10, 10]}
+              theme={VictoryTheme.material}
+              offsetY={200}
+              standalone={false}
+            />
+            <VictoryAxis
+              dependentAxis
+              crossAxis
+              width={200}
+              height={200}
+              domain={[-10, 10]}
+              theme={VictoryTheme.material}
+              offsetX={200}
+              standalone={false}
+            />
+            <VictoryScatter
+              style={{data: {fill: '#c43a31'}}}
+              size={7}
+              data={[
+                {
+                  x: 0,
+                  y: 0,
+                },
+              ]}
+              events={[
+                {
+                  target: 'data',
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: 'data',
+                          mutation: props => {
+                            const fill = props.style && props.style.fill;
+                            return fill === 'black'
+                              ? null
+                              : {style: {fill: 'black'}};
+                          },
+                        },
+                        {
+                          target: 'labels',
+                          mutation: props => {
+                            return props.text === 'clicked'
+                              ? null
+                              : {text: 'clicked'};
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
+            />
+          </VictoryChart>
+          <TouchableOpacity
+            style={styles.continueButtonContainer}
+            onPress={this.onPressContinue}>
+            <Text style={styles.continueButtonText}>Continue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.skipButtonContainer}
+            onPress={this.onPressSkip}>
+            <Text style={styles.skipButtonText}>Skip</Text>
+          </TouchableOpacity>
         </ScrollView>
-        <TouchableOpacity
-          style={styles.continueButtonContainer}
-          onPress={this.onPressContinue}>
-          <Text style={styles.continueButtonText}>Continue</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -79,8 +226,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginHorizontal: 20,
   },
   headerContainer: {
@@ -96,21 +241,28 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontWeight: 'bold',
   },
-  textInput: {
-    width: 250,
-    textAlign: 'center',
-    marginVertical: 10,
-    paddingVertical: 10,
+  radioButtonContainer: {
+    flex: 1,
+    marginVertical: 5,
+  },
+  radioButtonHeaderText: {
+    marginVertical: 5,
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.polBlue,
-    borderRadius: 5,
-    backgroundColor: colors.polLightGray,
+  },
+  radioButtonRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  radioButtonColumn: {
+    flex: 1,
   },
   continueButtonContainer: {
     alignSelf: 'center',
     width: 200,
-    marginBottom: 40,
+    marginTop: 20,
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
@@ -121,5 +273,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.white,
+  },
+  skipButtonContainer: {
+    alignSelf: 'center',
+    width: 100,
+  },
+  skipButtonText: {
+    textAlign: 'center',
+    marginVertical: 10,
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polBlue,
   },
 });

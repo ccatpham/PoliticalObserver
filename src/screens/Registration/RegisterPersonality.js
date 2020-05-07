@@ -4,61 +4,157 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from 'react-native';
 import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
-import {CommonActions} from '@react-navigation/native';
 
 export default class RegisterPersonalityScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: this.props.route.params.user,
+      personalityTypes: [
+        {
+          label: 'INTJ',
+          selected: false,
+        },
+        {
+          label: 'INTP',
+          selected: false,
+        },
+        {
+          label: 'ENTJ',
+          selected: false,
+        },
+        {
+          label: 'ENTP',
+          selected: false,
+        },
+        {
+          label: 'INFJA',
+          selected: false,
+        },
+        {
+          label: 'INFP',
+          selected: false,
+        },
+        {
+          label: 'ENFJ',
+          selected: false,
+        },
+        {
+          label: 'ENFP',
+          selected: false,
+        },
+        {
+          label: 'ISTJ',
+          selected: false,
+        },
+        {
+          label: 'ISFJ',
+          selected: false,
+        },
+        {
+          label: 'ESTJ',
+          selected: false,
+        },
+        {
+          label: 'ESFJ',
+          selected: false,
+        },
+        {
+          label: 'ISTP',
+          selected: false,
+        },
+        {
+          label: 'ISFP',
+          selected: false,
+        },
+        {
+          label: 'ESTP',
+          selected: false,
+        },
+        {
+          label: 'ESFP',
+          selected: false,
+        },
+      ],
     };
   }
 
   onPressContinue = () => {
+    let user = this.state.user;
+    let personalityTypeChoice = this.state.personalityTypes.find(choice => {
+      return choice.selected === true;
+    });
+    if (personalityTypeChoice != null) {
+      user.personalityType = personalityTypeChoice.label;
+    }
+
     this.props.navigation.navigate('Register Political', {
-      user: {user: this.state.user},
+      user: user,
     });
   };
 
-  onChangeEmail(email) {
-    this.setState({
-      email: email,
+  onPressSkip = () => {
+    this.props.navigation.navigate('Register Political', {
+      user: this.state.user,
     });
-  }
+  };
+
+  onPressPersonalityTypeRadioButton = selectedPersonalityType => {
+    let personalityTypeChoices = this.state.personalityTypes;
+    personalityTypeChoices.forEach(function(personalityType) {
+      if (personalityType === selectedPersonalityType) {
+        personalityType.selected = !personalityType.selected;
+      } else {
+        personalityType.selected = false;
+      }
+    });
+    this.setState({
+      personalityTypes: personalityTypeChoices,
+    });
+  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Fill out your demographics</Text>
-            <Text>
-              Your data will help us give you a deeper understand of where you
-              are politically within society.
+            <Text style={styles.headerText}>
+              What is your personality type?
             </Text>
           </View>
           <View style={styles.contentContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder={'Email'}
-              placeholderTextColor={colors.gray}
-              onChangeText={email => this.onChangeEmail(email)}
-              value={this.state.email}
-            />
+            <View style={styles.radioButtonContainer}>
+              <Text style={styles.radioButtonHeaderText}>Personality Type</Text>
+              <View style={styles.radioButtonColumn}>
+                {this.state.personalityTypes.map(personalityType => (
+                  <RadioButton
+                    key={personalityType.label}
+                    selected={personalityType.selected}
+                    onPress={() =>
+                      this.onPressPersonalityTypeRadioButton(personalityType)
+                    }
+                    label={personalityType.label}
+                  />
+                ))}
+              </View>
+            </View>
           </View>
+          <TouchableOpacity
+            style={styles.continueButtonContainer}
+            onPress={this.onPressContinue}>
+            <Text style={styles.continueButtonText}>Continue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.skipButtonContainer}
+            onPress={this.onPressSkip}>
+            <Text style={styles.skipButtonText}>Skip</Text>
+          </TouchableOpacity>
         </ScrollView>
-        <TouchableOpacity
-          style={styles.continueButtonContainer}
-          onPress={this.onPressContinue}>
-          <Text style={styles.continueButtonText}>Continue</Text>
-        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -76,8 +172,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginHorizontal: 20,
   },
   headerContainer: {
@@ -93,21 +187,28 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontWeight: 'bold',
   },
-  textInput: {
-    width: 250,
-    textAlign: 'center',
-    marginVertical: 10,
-    paddingVertical: 10,
+  radioButtonContainer: {
+    flex: 1,
+    marginVertical: 5,
+  },
+  radioButtonHeaderText: {
+    marginVertical: 5,
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.polBlue,
-    borderRadius: 5,
-    backgroundColor: colors.polLightGray,
+  },
+  radioButtonRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  radioButtonColumn: {
+    flex: 1,
   },
   continueButtonContainer: {
     alignSelf: 'center',
     width: 200,
-    marginBottom: 40,
+    marginTop: 20,
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
@@ -118,5 +219,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.white,
+  },
+  skipButtonContainer: {
+    alignSelf: 'center',
+    width: 100,
+  },
+  skipButtonText: {
+    textAlign: 'center',
+    marginVertical: 10,
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polBlue,
   },
 });

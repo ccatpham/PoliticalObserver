@@ -7,11 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from 'react-native';
 import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
-import {CommonActions} from '@react-navigation/native';
 
 export default class RegisterDemographicsScreen extends React.Component {
   constructor(props) {
@@ -109,31 +107,39 @@ export default class RegisterDemographicsScreen extends React.Component {
     let genderChoice = this.state.genderChoices.find(choice => {
       return choice.selected === true;
     });
-    user.gender = genderChoice.label;
+    if (genderChoice != null) {
+      user.gender = genderChoice.label;
+    }
 
     let maritalChoice = this.state.maritalStatus.find(choice => {
       return choice.selected === true;
     });
-    user.maritalStatus = maritalChoice.label;
+    if (maritalChoice != null) {
+      user.maritalStatus = maritalChoice.label;
+    }
 
     let ethnicityChoice = this.state.ethnicity.find(choice => {
       return choice.selected === true;
     });
-    user.ethnicity = ethnicityChoice.label;
+    if (ethnicityChoice != null) {
+      user.ethnicity = ethnicityChoice.label;
+    }
 
     let educationChoice = this.state.education.find(choice => {
       return choice.selected === true;
     });
-    user.education = educationChoice.label;
+    if (educationChoice != null) {
+      user.education = educationChoice.label;
+    }
 
     this.props.navigation.navigate('Register Personality', {
-      user: {user: user},
+      user: user,
     });
   };
 
   onPressSkip = () => {
     this.props.navigation.navigate('Register Personality', {
-      user: {user: this.state.user},
+      user: this.state.user,
     });
   };
 
@@ -160,7 +166,6 @@ export default class RegisterDemographicsScreen extends React.Component {
       income: income,
     });
   }
-
 
   onPressGenderRadioButton = selectedGender => {
     let genderChoices = this.state.genderChoices;
@@ -254,8 +259,7 @@ export default class RegisterDemographicsScreen extends React.Component {
             </View>
             <View style={styles.radioButtonContainer}>
               <Text style={styles.radioButtonHeaderText}>Gender</Text>
-              <View
-                style={styles.radioButtonRow}>
+              <View style={styles.radioButtonRow}>
                 {this.state.genderChoices.map(gender => (
                   <RadioButton
                     key={gender.label}
@@ -268,8 +272,7 @@ export default class RegisterDemographicsScreen extends React.Component {
             </View>
             <View style={styles.radioButtonContainer}>
               <Text style={styles.radioButtonHeaderText}>Marital Status</Text>
-              <View
-                  style={styles.radioButtonRow}>
+              <View style={styles.radioButtonRow}>
                 {this.state.maritalStatus.map(maritalStatus => (
                   <RadioButton
                     key={maritalStatus.label}
@@ -284,8 +287,7 @@ export default class RegisterDemographicsScreen extends React.Component {
             </View>
             <View style={styles.radioButtonContainer}>
               <Text style={styles.radioButtonHeaderText}>Ethnicity</Text>
-              <View
-                  style={styles.radioButtonColumn}>
+              <View style={styles.radioButtonColumn}>
                 {this.state.ethnicity.map(ethnicity => (
                   <RadioButton
                     key={ethnicity.label}
@@ -298,8 +300,7 @@ export default class RegisterDemographicsScreen extends React.Component {
             </View>
             <View style={styles.radioButtonContainer}>
               <Text style={styles.radioButtonHeaderText}>Education</Text>
-              <View
-                  style={styles.radioButtonColumn}>
+              <View style={styles.radioButtonColumn}>
                 {this.state.education.map(education => (
                   <RadioButton
                     key={education.label}
@@ -315,33 +316,34 @@ export default class RegisterDemographicsScreen extends React.Component {
             <View style={styles.textInputContainer}>
               <Text style={styles.textInputHeaderText}>Occupation</Text>
               <TextInput
-                  style={styles.textInput}
-                  placeholder={'Occupation'}
-                  placeholderTextColor={colors.gray}
-                  onChangeText={occupation => this.onChangeOccupation(occupation)}
-                  value={this.state.occupation}
+                style={styles.textInput}
+                placeholder={'Occupation'}
+                placeholderTextColor={colors.gray}
+                onChangeText={occupation => this.onChangeOccupation(occupation)}
+                value={this.state.occupation}
               />
             </View>
             <View style={styles.textInputContainer}>
               <Text style={styles.textInputHeaderText}>Yearly Income</Text>
               <TextInput
-                  style={styles.textInput}
-                  placeholder={'Income Level'}
-                  placeholderTextColor={colors.gray}
-                  onChangeText={income => this.onChangeIncome(income)}
-                  keyboardType={'numeric'}
-                  value={this.state.income}
+                style={styles.textInput}
+                placeholder={'Income Level'}
+                placeholderTextColor={colors.gray}
+                onChangeText={income => this.onChangeIncome(income)}
+                keyboardType={'numeric'}
+                value={this.state.income}
               />
             </View>
           </View>
           <TouchableOpacity
-              style={styles.continueButtonContainer}
-              onPress={this.onPressContinue}>
+            style={styles.continueButtonContainer}
+            onPress={this.onPressContinue}>
             <Text style={styles.continueButtonText}>Continue</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.skipButtonContainer}
-                            onPress={this.onPressSkip}>
-          <Text style={styles.skipButtonText}>Skip</Text>
+          <TouchableOpacity
+            style={styles.skipButtonContainer}
+            onPress={this.onPressSkip}>
+            <Text style={styles.skipButtonText}>Skip</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
