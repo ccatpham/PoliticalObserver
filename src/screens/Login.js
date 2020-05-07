@@ -11,7 +11,6 @@ import {
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
 import auth from '@react-native-firebase/auth';
-import pol_api from '../api/pol_api';
 import pol from '../api/apiConfig';
 
 export default class LoginScreen extends React.Component {

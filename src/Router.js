@@ -3,7 +3,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LandingScreen from './screens/Landing';
 import LoginScreen from './screens/Login';
-import RegisterScreen from './screens/Register';
+import RegisterScreen from './screens/Registration/Register';
+import RegisterDemographicsScreen from './screens/Registration/RegisterDemographics';
+import RegisterPersonalityScreen from './screens/Registration/RegisterPersonality';
+import RegisterPoliticalScreen from './screens/Registration/RegisterPolitical';
 import EducationScreen from './screens/Education';
 import SearchScreen from './screens/Search';
 import DashboardScreen from './screens/Dashboard';
@@ -156,6 +159,18 @@ export default function AppStack() {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Register Demographics"
+        component={RegisterDemographicsScreen}
+      />
+      <Stack.Screen
+        name="Register Personality"
+        component={RegisterPersonalityScreen}
+      />
+      <Stack.Screen
+        name="Register Political"
+        component={RegisterPoliticalScreen}
+      />
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}

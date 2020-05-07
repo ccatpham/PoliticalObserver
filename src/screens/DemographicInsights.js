@@ -48,7 +48,10 @@ export default class DemographicInsights extends React.Component {
                 />
               </View>
               <View style={{flex: 1, marginTop: 40, marginLeft: 60}}>
-                <Text> You are within 20% of users in this political party.</Text>
+                <Text>
+                  {' '}
+                  You are within 20% of users in this political party.
+                </Text>
               </View>
             </View>
           </View>
@@ -71,7 +74,10 @@ export default class DemographicInsights extends React.Component {
                 />
               </View>
               <View style={{flex: 1, marginTop: 40, marginLeft: 60}}>
-                <Text> You are within 10% of users in this education group.</Text>
+                <Text>
+                  {' '}
+                  You are within 10% of users in this education group.
+                </Text>
               </View>
             </View>
           </View>
