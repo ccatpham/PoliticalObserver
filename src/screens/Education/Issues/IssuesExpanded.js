@@ -10,8 +10,8 @@ import {
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {SearchBar} from 'react-native-elements';
-import {colors} from '../styles';
-import pol from '../api/apiConfig';
+import {colors} from '../../../styles';
+import pol from '../../../api/apiConfig';
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {

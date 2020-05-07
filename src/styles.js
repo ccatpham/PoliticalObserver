@@ -12,3 +12,7 @@ export const colors = {
   polGreen: '#007000',
   clear: 'rgba(255, 255, 255, 0.0)',
 };
+
+export const dateFormats = {
+  monthDayYear: 'MMMM D, YYYY',
+};

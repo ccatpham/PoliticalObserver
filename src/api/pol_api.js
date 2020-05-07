@@ -190,6 +190,24 @@ export default class Api {
    * Issues Endpoints
    */
 
+  async getIssueById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getAllIssues() {
+    const config = {
+      method: 'get',
+      endpoint: '/issues',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   async getIssues(userid) {
     const config = {
       method: 'get',
@@ -203,6 +221,28 @@ export default class Api {
     const config = {
       method: 'get',
       endpoint: `/issues/filter/${userId}/${keyword}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
+   * Politicians Endpoints
+   */
+
+  async getTopicById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/topics/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getAllTopics() {
+    const config = {
+      method: 'get',
+      endpoint: '/topics',
     };
 
     return this.apiRequest(config).then(parseApiResponse);
