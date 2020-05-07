@@ -16,9 +16,9 @@ export default class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'wesley+nachos@gmail.com',
-      password: '123456',
-      confirmPassword: '123456',
+      email: '',
+      password: '',
+      confirmPassword: '',
     };
   }
 
@@ -44,62 +44,6 @@ export default class RegisterScreen extends React.Component {
         cancelable: false,
       });
     }
-
-    // if (this.state.email !== '' && this.state.password !== '') {
-    //   auth()
-    //     .createUserWithEmailAndPassword(
-    //       this.state.email.toLowerCase(),
-    //       this.state.password,
-    //     )
-    //     .then(() => {
-    //       // let user = {
-    //       //   email: this.state.email,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       //   age: this.state.age,
-    //       // };
-    //       pol.api
-    //         .createUser(user)
-    //         .then(() => {
-    //           this.props.navigation.dispatch(
-    //             CommonActions.reset({
-    //               index: 1,
-    //               routes: [{name: 'TabNavigator', params: {user: user}}],
-    //             }),
-    //           );
-    //         })
-    //         .catch(error => {
-    //           Alert.alert(
-    //             'Error',
-    //             error.code + ' ' + error.message,
-    //             [{text: 'OK'}],
-    //             {
-    //               cancelable: false,
-    //             },
-    //           );
-    //         });
-    //     })
-    //     .catch(error => {
-    //       Alert.alert(
-    //         'Error',
-    //         error.code + ' ' + error.message,
-    //         [{text: 'OK'}],
-    //         {
-    //           cancelable: false,
-    //         },
-    //       );
-    //     });
-    // } else {
-    //   Alert.alert('Error', 'Required fields must be filled', [{text: 'OK'}], {
-    //     cancelable: false,
-    //   });
-    // }
   };
 
   onChangeEmail(email) {
