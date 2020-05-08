@@ -48,23 +48,14 @@ export default class IssueDetails extends React.Component {
 
   onPressVote(vote) {
     //this.setState({voting: true});
-    let voteText = "";
-    if (this.state.vote) {
+    let voteText = '';
+    if (vote) {
       voteText = 'yes';
+      this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     } else {
       voteText = 'no';
+      this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     }
-    // let voteData = {issueId: this.state.id, userId: this.state.userId, vote: voteText, date: new Date()};
-    // pol.api
-    //     .createUserIssue(voteData)
-    //     .then(userIssue => {
-    //       this.setState({vote: vote, voted: true, voting: false});
-    //     })
-    //     .catch(error => {
-    //       Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-    //         cancelable: false,
-    //       });
-    //     });
     this.setState({vote: vote, voted: true, voting: false});
     this.setState({
       data: [
@@ -78,6 +69,26 @@ export default class IssueDetails extends React.Component {
         },
       ],
     });
+  }
+
+  addUserIssueVote(issueId, userId, vote) {
+    let date =
+      String(new Date().getMonth() + 1) +
+      '-' +
+      String(new Date().getDate()) +
+      '-' +
+      String(new Date().getFullYear());
+    let voteData = {issueId: issueId, userId: userId, vote: vote, date: date};
+    pol.api
+      .createUserIssue(voteData)
+      .then(userIssue => {
+        this.setState({vote: vote, voted: true, voting: false});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   }
 
   onPressViewData = () => {
@@ -157,7 +168,7 @@ export default class IssueDetails extends React.Component {
             style={styles.voteAgainstButton}
             onPress={() => this.onPressVote(false)}
             disabled={this.state.voting}>
-          <Text style={styles.voteAgainstText}>Against</Text>
+            <Text style={styles.voteAgainstText}>Against</Text>
           </TouchableOpacity>
         </View>
       </View>
