@@ -4,91 +4,75 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ScrollView,
 } from 'react-native';
 import RadioButton from './Components/RadioButton';
-import pol from '../api/apiConfig';
 
-export default class PoliticalCompassSocial extends React.Component {
+export default class PersonalityNature extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
           prompt:
-            'There is now a worrying fusion of information and entertainment.',
+            'You often think about what you should have said in a conversation long after it has taken place.',
           number: 0,
           choices: [
             {
-              label: 'Strongly Agree',
+              label: 'Agree',
               selected: false,
             },
             {
-              label: 'Agree',
+              label: 'Neutral',
               selected: false,
             },
             {
               label: 'Disagree',
               selected: false,
             },
-            {
-              label: 'Strongly Disagree',
-              selected: false,
-            },
           ],
         },
         {
           prompt:
-            'No one chooses his or her country of birth, so it’s foolish to be proud of it.',
+            'If your friend is sad about something, your first instinct is to support them emotionally, not try to solve their problem.',
           number: 1,
           choices: [
             {
-              label: 'Strongly Agree',
-              selected: false,
-            },
-            {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
         {
-          prompt:
-            'Controlling inflation is more important than controlling unemployment.',
+          prompt: 'People can rarely upset you.',
           number: 2,
           choices: [
-            {
-              label: 'Strongly Agree',
-              selected: false,
-            },
             {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
       ],
-      answers1: this.props.route.params.answers,
-      answers2: [0, 0, 0],
-      socialScore: 0,
-      econScore: 0,
+      mindAnswers: this.props.route.params.mindAnswers,
+      energyAnswers: this.props.route.params.energyAnswers,
+      natureAnswers: [0, 0, 0],
       userId: this.props.route.params.userId,
     };
   }
@@ -104,41 +88,18 @@ export default class PoliticalCompassSocial extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.answers2; // create the copy of state array
-    answers[questionNumber] = selection + 1; //new value
+    let answers = this.state.natureAnswers; // create the copy of state array
+    answers[questionNumber] = selection - 1; //new value
     this.setState({
       questions: questions,
-      answers2: answers,
+      answers: answers,
     });
-  };
-
-  calculateQuizScore = async (id, socialQuizAnswers, econQuizAnswers) => {
-    const userObject = {
-      userId: id,
-      socialAnswers: socialQuizAnswers,
-      econAnswers: econQuizAnswers,
-    };
-    await pol.api
-      .createPoliticalQuiz(userObject)
-      .then(response => {
-        this.setState({socialScore: response.socialScore.toFixed(2)});
-        this.setState({econScore: response.econScore.toFixed(2)});
-        this.props.navigation.navigate('Political Compass Results', {
-          socialScore: this.state.socialScore,
-          econScore: this.state.econScore,
-        });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
   };
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Social </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Nature </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -163,11 +124,12 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateQuizScore(
-                  this.state.userId,
-                  this.state.answers1,
-                  this.state.answers2,
-                );
+                this.props.navigation.navigate('Personality Tactic', {
+                  energyAnswers: this.state.energyAnswers,
+                  mindAnswers: this.state.mindAnswers,
+                  natureAnswers: this.state.natureAnswers,
+                  userId: this.state.userId,
+                });
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>

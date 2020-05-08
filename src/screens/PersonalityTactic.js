@@ -4,91 +4,80 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ScrollView,
+  Alert,
 } from 'react-native';
 import RadioButton from './Components/RadioButton';
 import pol from '../api/apiConfig';
 
-export default class PoliticalCompassSocial extends React.Component {
+export default class PersonalityTactic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
           prompt:
-            'There is now a worrying fusion of information and entertainment.',
+            'If you have to temporarily put your plans on hold, you make sure it is your top priority to get back on track as soon as possible.',
           number: 0,
           choices: [
             {
-              label: 'Strongly Agree',
+              label: 'Agree',
               selected: false,
             },
             {
-              label: 'Agree',
+              label: 'Neutral',
               selected: false,
             },
             {
               label: 'Disagree',
               selected: false,
             },
-            {
-              label: 'Strongly Disagree',
-              selected: false,
-            },
           ],
         },
         {
           prompt:
-            'No one chooses his or her country of birth, so it’s foolish to be proud of it.',
+            'You are more of a detail-oriented than a big picture person.',
           number: 1,
           choices: [
             {
-              label: 'Strongly Agree',
-              selected: false,
-            },
-            {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
         {
           prompt:
-            'Controlling inflation is more important than controlling unemployment.',
+            'It would be a challenge for you to spend the whole weekend all by yourself without feeling bored.\n',
           number: 2,
           choices: [
-            {
-              label: 'Strongly Agree',
-              selected: false,
-            },
             {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
       ],
-      answers1: this.props.route.params.answers,
-      answers2: [0, 0, 0],
-      socialScore: 0,
-      econScore: 0,
+      mindAnswers: this.props.route.params.mindAnswers,
+      energyAnswers: this.props.route.params.energyAnswers,
+      natureAnswers: this.props.route.params.natureAnswers,
+      tacticAnswers: [0, 0, 0],
+      personalityType: '',
       userId: this.props.route.params.userId,
     };
   }
@@ -104,28 +93,35 @@ export default class PoliticalCompassSocial extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.answers2; // create the copy of state array
-    answers[questionNumber] = selection + 1; //new value
+    let answers = this.state.tacticAnswers; // create the copy of state array
+    answers[questionNumber] = selection - 1; //new value
     this.setState({
       questions: questions,
-      answers2: answers,
+      answers: answers,
     });
   };
 
-  calculateQuizScore = async (id, socialQuizAnswers, econQuizAnswers) => {
+  calculatePersonalityType = async (
+    userId,
+    mindAnswers,
+    energyAnswers,
+    natureAnswers,
+    tacticAnswers,
+  ) => {
     const userObject = {
-      userId: id,
-      socialAnswers: socialQuizAnswers,
-      econAnswers: econQuizAnswers,
+      userId: userId,
+      mindAnswers: mindAnswers,
+      energyAnswers: energyAnswers,
+      natureAnswers: natureAnswers,
+      tacticAnswers: tacticAnswers,
     };
     await pol.api
-      .createPoliticalQuiz(userObject)
+      .createPersonalityQuiz(userObject)
       .then(response => {
-        this.setState({socialScore: response.socialScore.toFixed(2)});
-        this.setState({econScore: response.econScore.toFixed(2)});
-        this.props.navigation.navigate('Political Compass Results', {
-          socialScore: this.state.socialScore,
-          econScore: this.state.econScore,
+        this.setState({personalityType: response.personalityType});
+        this.props.navigation.navigate('Personality Results', {
+          personalityType: this.state.personalityType,
+          userId: this.state.userId,
         });
       })
       .catch(error => {
@@ -135,10 +131,22 @@ export default class PoliticalCompassSocial extends React.Component {
       });
   };
 
+  updatePersonalityType = (userId, personalityType) => {
+    const userObject = {
+      userId: userId,
+      personalityType: personalityType,
+    };
+    pol.api.modifyDemographic(userObject).catch(error => {
+      Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+        cancelable: false,
+      });
+    });
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Social </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Tactic </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -163,13 +171,19 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateQuizScore(
+                this.calculatePersonalityType(
                   this.state.userId,
-                  this.state.answers1,
-                  this.state.answers2,
+                  this.state.mindAnswers,
+                  this.state.energyAnswers,
+                  this.state.natureAnswers,
+                  this.state.tacticAnswers,
+                );
+                this.updatePersonalityType(
+                  this.state.userId,
+                  this.state.personalityType,
                 );
               }}>
-              <Text style={styles.optionButtonFont}> Next </Text>
+              <Text style={styles.optionButtonFont}> Submit </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

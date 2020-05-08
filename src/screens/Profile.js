@@ -19,7 +19,7 @@ export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
       demographicID: this.props.route.params.user.demographicId,
       partyAffiliation: '',
       martialStatus: '',
@@ -43,6 +43,7 @@ export default class ProfileScreen extends React.Component {
     this.props.navigation.addListener('focus', () => {
       this.setState({
         hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
+        hasTakenPersonalityTest: this.props.route.params.hasTakenPersonalityTest,
         socialScore: this.props.route.params.socialScore,
         econScore: this.props.route.params.econScore,
       });
@@ -51,19 +52,19 @@ export default class ProfileScreen extends React.Component {
 
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
     });
   };
 
   onPressViewDemographicsInsights = () => {
     this.props.navigation.navigate('Demographic Insights', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
     });
   };
 
   onPressViewIssues = () => {
     this.props.navigation.navigate('Voted On Issues', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
     });
   };
 
@@ -84,9 +85,7 @@ export default class ProfileScreen extends React.Component {
           politicalAffiliation: response.politicalAffiliation,
           state: response.state,
           gender: response.gender,
-        }),
-          console.log(this.state.partyAffiliation);
-        console.log(this.state.martialStatus);
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -110,7 +109,7 @@ export default class ProfileScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('PoliticalCompassLanding', {
-              userID: this.props.route.params.user.id,
+              userId: this.props.route.params.user.id,
             })
           }>
           <Text style={styles.quizButton}>Go to Quiz</Text>
@@ -167,15 +166,17 @@ export default class ProfileScreen extends React.Component {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('PoliticalCompassLanding', {
-                userID: this.props.route.params.user.id,
+                userId: this.props.route.params.user.id,
               })
             }>
             <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassLanding', {
-                userID: this.props.route.params.user.id,
+              this.props.navigation.navigate('Political Compass Results', {
+                userId: this.props.route.params.user.id,
+                socialScore: this.state.socialScore,
+                econScore: this.state.econScore,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>
@@ -195,7 +196,7 @@ export default class ProfileScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('Personality Landing', {
-              userID: this.props.route.params.user.id,
+              userId: this.props.route.params.user.id,
             })
           }>
           <Text style={styles.quizButton}>Go to Quiz</Text>
@@ -208,9 +209,7 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1}}>
-            <Text>hi</Text>
-          </View>
+          <View style={{flex: 1}} />
           <View style={{flex: 1, marginTop: 50}}>
             <Text> You are: </Text>
             <Text> {this.state.personalityType}</Text>
@@ -220,15 +219,16 @@ export default class ProfileScreen extends React.Component {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Personality Landing', {
-                userID: this.props.route.params.user.id,
+                userId: this.props.route.params.user.id,
               })
             }>
             <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('Personality Landing', {
-                userID: this.props.route.params.user.id,
+              this.props.navigation.navigate('Personality Results', {
+                userId: this.props.route.params.user.id,
+                personalityType: this.state.personalityType,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>

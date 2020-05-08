@@ -11,7 +11,7 @@ export default class PoliticalCompassLanding extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: this.props.route.params.userID,
+      userId: this.props.route.params.userId,
     };
   }
   render() {
@@ -32,7 +32,7 @@ export default class PoliticalCompassLanding extends React.Component {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('PoliticalCompassEconomic', {
-                userID: this.state.userID,
+                userId: this.state.userId,
               })
             }>
             <Text style={styles.startButtonFont}>Start the test</Text>

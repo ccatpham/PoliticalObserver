@@ -6,7 +6,6 @@ import {
   TextInput,
   Picker,
   StyleSheet,
-  ScrollView,
 } from 'react-native';
 
 export default class EditDemographic extends React.Component {

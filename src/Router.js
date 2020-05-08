@@ -11,6 +11,11 @@ import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
 import IssuesScreen from './screens/Issues';
 import PersonalityLanding from './screens/PersonalityLanding';
+import PersonalityMind from './screens/PersonalityMind';
+import PersonalityEnergy from './screens/PersonalityEnergy';
+import PersonalityNature from './screens/PersonalityNature';
+import PersonalityTactic from './screens/PersonalityTactic';
+import PersonalityResults from './screens/PersonalityResults';
 import EditDemographics from './screens/EditDemographic';
 import DemographicInsights from './screens/DemographicInsights';
 import VotedOnIssues from './screens/VotedOnIssues';
@@ -87,12 +92,37 @@ const ProfileStack = props => {
         component={PoliticalCompassSocial}
       />
       <Stack.Screen
-        name="PoliticalCompassResults"
+        name="Political Compass Results"
         component={PoliticalCompassResults}
       />
       <Stack.Screen
         name="Personality Landing"
         component={PersonalityLanding}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Mind"
+        component={PersonalityMind}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Energy"
+        component={PersonalityEnergy}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Nature"
+        component={PersonalityNature}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Tactic"
+        component={PersonalityTactic}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Results"
+        component={PersonalityResults}
         initialParams={props.route.params}
       />
       <Stack.Screen

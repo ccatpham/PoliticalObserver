@@ -19,7 +19,7 @@ export default class PoliticalCompassResults extends React.Component {
     this.state = {
       econScore: this.props.route.params.econScore,
       socialScore: this.props.route.params.socialScore,
-      userID: this.props.route.params.userID,
+      userId: this.props.route.params.userId,
       hasTakenPoliticalTest: true,
     };
   }
