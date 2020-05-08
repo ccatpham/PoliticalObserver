@@ -46,29 +46,18 @@ export default class IssueDetails extends React.Component {
       });
   }
 
-  onPressVote(vote) {
+  async onPressVote(vote) {
     //this.setState({voting: true});
     let voteText = '';
     if (vote) {
       voteText = 'yes';
-      this.addUserIssueVote(this.state.id, this.state.userId, voteText);
+      await this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     } else {
       voteText = 'no';
       this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     }
     this.setState({vote: vote, voted: true, voting: false});
-    this.setState({
-      data: [
-        {
-          x: 'Against',
-          y: 30,
-        },
-        {
-          x: 'For',
-          y: 70,
-        },
-      ],
-    });
+    this.getIssueStats();
   }
 
   addUserIssueVote(issueId, userId, vote) {
@@ -83,6 +72,19 @@ export default class IssueDetails extends React.Component {
       .createUserIssue(voteData)
       .then(userIssue => {
         this.setState({vote: vote, voted: true, voting: false});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueStats() {
+    pol.api
+      .getStatsForOneIssue(this.state.id)
+      .then(response => {
+        this.setState({data: response});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

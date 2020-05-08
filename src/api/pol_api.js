@@ -252,10 +252,10 @@ export default class Api {
    * UserIssues Endpoints
    */
 
-  async getUserIssueByUserId(userid) {
+  async getStatsForOneIssue(issueid) {
     const config = {
       method: 'get',
-      endpoint: `/userissues/userid/${userid}`,
+      endpoint: `/userissues/stats/${issueid}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
