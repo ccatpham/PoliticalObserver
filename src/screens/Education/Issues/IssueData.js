@@ -17,18 +17,10 @@ export default class IssueData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       issueId: this.props.route.params.issueId,
       vote: this.props.route.params.vote,
-      data: [
-        {
-          x: 'Against',
-          y: 30,
-        },
-        {
-          x: 'For',
-          y: 70,
-        },
-      ],
+      data: [],
       genderData: [
         {
           x: 'Male',
@@ -108,7 +100,23 @@ export default class IssueData extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getIssueStats();
+  }
+
+  getIssueStats() {
+    pol.api
+      .getStatsForOneIssue(this.state.issueId, this.state.userId)
+      .then(response => {
+        this.setState({data: response.data});
+        this.setState({vote: response.uservote});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
 
   renderResultsView() {
     return (
@@ -146,7 +154,7 @@ export default class IssueData extends React.Component {
                   ? {color: colors.polGreen}
                   : {color: colors.polRed},
               ]}>
-              {this.state.vote ? 'For' : 'Against'}
+              {this.state.vote}
             </Text>
           </View>
         </View>
@@ -185,7 +193,7 @@ export default class IssueData extends React.Component {
         <ScrollView style={styles.contentContainer}>
           {this.renderResultsView()}
           <View style={styles.chartsContainer}>
-            {data.map(data => (this.renderChartView(data)))}
+            {data.map(data => this.renderChartView(data))}
           </View>
         </ScrollView>
       </SafeAreaView>
