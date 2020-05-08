@@ -3,13 +3,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LandingScreen from './screens/Landing';
 import LoginScreen from './screens/Login';
-import RegisterScreen from './screens/Register';
-import EducationScreen from './screens/Education';
-import SearchScreen from './screens/Search';
+import RegisterScreen from './screens/Registration/Register';
+import RegisterDemographicsScreen from './screens/Registration/RegisterDemographics';
+import RegisterPersonalityScreen from './screens/Registration/RegisterPersonality';
+import RegisterPoliticalScreen from './screens/Registration/RegisterPolitical';
+import EducationScreen from './screens/Education/Education';
 import DashboardScreen from './screens/Dashboard';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
-import IssuesScreen from './screens/Issues';
 import PersonalityLanding from './screens/PersonalityLanding';
 import PersonalityMind from './screens/PersonalityMind';
 import PersonalityEnergy from './screens/PersonalityEnergy';
@@ -19,26 +20,20 @@ import PersonalityResults from './screens/PersonalityResults';
 import EditDemographics from './screens/EditDemographic';
 import DemographicInsights from './screens/DemographicInsights';
 import VotedOnIssues from './screens/VotedOnIssues';
+import IssuesScreen from './screens/Education/Issues/Issues';
+import IssueDetailsScreen from './screens/Education/Issues/IssueDetails';
+import IssueDataScreen from './screens/Education/Issues/IssueData';
+import PoliticiansScreen from './screens/Education/Politicians/Politicians';
+import PoliticianDetailsScreen from './screens/Education/Politicians/PoliticianDetails';
+import TopicsScreen from './screens/Education/Topics/Topics';
+import TopicDetailsScreen from './screens/Education/Topics/TopicDetails';
 import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
 import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
 import PoliticalCompassResults from './screens/PoliticalCompassResults';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const SearchStack = props => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Search"
-      screenOptions={{gestureEnabled: false}}>
-      <Stack.Screen
-        name="Search"
-        component={SearchScreen}
-        initialParams={props.route.params}
-      />
-    </Stack.Navigator>
-  );
-};
 
 const EducationStack = props => {
   return (
@@ -51,6 +46,15 @@ const EducationStack = props => {
         initialParams={props.route.params}
       />
       <Stack.Screen name="Issues" component={IssuesScreen} />
+      <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />
+      <Stack.Screen name="Issue Data" component={IssueDataScreen} />
+      <Stack.Screen name="Politicians" component={PoliticiansScreen} />
+      <Stack.Screen
+        name="Politician Details"
+        component={PoliticianDetailsScreen}
+      />
+      <Stack.Screen name="Topics" component={TopicsScreen} />
+      <Stack.Screen name="Topic Details" component={TopicDetailsScreen} />
     </Stack.Navigator>
   );
 };
@@ -161,11 +165,6 @@ const TabNavigator = props => {
         initialParams={props.route.params}
       />
       <Tab.Screen
-        name="Search"
-        component={SearchStack}
-        initialParams={props.route.params}
-      />
-      <Tab.Screen
         name="Profile"
         component={ProfileStack}
         initialParams={props.route.params}
@@ -186,6 +185,18 @@ export default function AppStack() {
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Register Demographics"
+        component={RegisterDemographicsScreen}
+      />
+      <Stack.Screen
+        name="Register Personality"
+        component={RegisterPersonalityScreen}
+      />
+      <Stack.Screen
+        name="Register Political"
+        component={RegisterPoliticalScreen}
+      />
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}
