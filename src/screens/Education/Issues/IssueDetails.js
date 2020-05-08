@@ -82,9 +82,10 @@ export default class IssueDetails extends React.Component {
 
   getIssueStats() {
     pol.api
-      .getStatsForOneIssue(this.state.id)
+      .getStatsForOneIssue(this.state.id, this.state.userId)
       .then(response => {
-        this.setState({data: response});
+        this.setState({data: response.data});
+        this.setState({vote: response.uservote});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -141,7 +142,7 @@ export default class IssueDetails extends React.Component {
                     ? {color: colors.polGreen}
                     : {color: colors.polRed},
                 ]}>
-                {this.state.vote ? 'For' : 'Against'}
+                {this.state.vote}
               </Text>
             </View>
             <TouchableOpacity
