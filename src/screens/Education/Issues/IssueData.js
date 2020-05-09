@@ -13,10 +13,60 @@ import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 
-const colorsGender = ['#CD6155', '#C0392B', '#A93226', '#52BE80', '#27AE60', '#229954'];
-const colorsParty = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
-const colorsEducation = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
-const colorsEthnicity = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
+const colorsGender = [
+  '#CD6155',
+  '#C0392B',
+  '#A93226',
+  '#52BE80',
+  '#27AE60',
+  '#229954',
+];
+const colorsParty = [
+  '#CD6155',
+  '#C0392B',
+  '#A93226',
+  '#922B21',
+  '#7B241C',
+  '#641E16',
+  '#52BE80',
+  '#27AE60',
+  '#229954',
+  '#1E8449',
+  '#196F3D',
+  '#145A32',
+];
+const colorsEducation = [
+  '#CD6155',
+  '#C0392B',
+  '#A93226',
+  '#922B21',
+  '#7B241C',
+  '#641E16',
+  '#52BE80',
+  '#27AE60',
+  '#229954',
+  '#1E8449',
+  '#196F3D',
+  '#145A32',
+];
+const colorsEthnicity = [
+  '#CD6155',
+  '#C0392B',
+  '#A93226',
+  '#922B21',
+  '#7B241C',
+  '#641E16',
+  '#52BE80',
+  '#27AE60',
+  '#229954',
+  '#1E8449',
+  '#196F3D',
+  '#145A32',
+];
+const titleGender = {title: 'Gender'};
+const titleParty = {title: 'Party'};
+const titleEducation = {title: 'Education'};
+const titleEthnicity = {title: 'Ethnicity'};
 
 export default class IssueData extends React.Component {
   constructor(props) {
@@ -155,17 +205,22 @@ export default class IssueData extends React.Component {
     return (
       <View style={styles.chartViewContainer}>
         <View style={styles.chartContainer}>
+          <Text style={styles.chartTitle}>{data[2].title} division of yes and no votes.</Text>
           <VictoryPie
             data={data[0]}
             colorScale={data[1]}
-            labelRadius={20}
-            width={150}
-            height={150}
-            padding={0}
+            labelPosition="centroid"
+            innerRadius={60}
+            labelRadius={70}
+            padAngle={({datum}) => datum.y * 4}
+            labels={({datum}) => (`${datum.y}` !== '0' ? `${datum.x}` : '')}
+            width={280}
+            height={280}
+            padding={20}
             style={{
               labels: {
-                fill: colors.polWhite,
-                fontSize: 16,
+                fill: 'black',
+                fontSize: 12,
                 fontWeight: 'bold',
               },
             }}
@@ -176,18 +231,18 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let dataAndColor = [
-      [this.state.genderData, colorsGender],
-      [this.state.partyData, colorsParty],
-      [this.state.educationData, colorsEducation],
-      [this.state.ethnicityData, colorsEthnicity],
+    let data = [
+      [this.state.genderData, colorsGender, titleGender],
+      [this.state.partyData, colorsParty, titleParty],
+      [this.state.educationData, colorsEducation, titleEducation],
+      [this.state.ethnicityData, colorsEthnicity, titleEthnicity],
     ];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.contentContainer}>
           {this.renderResultsView()}
           <View style={styles.chartsContainer}>
-            {dataAndColor.map(data => this.renderChartView(data))}
+            {data.map(data => this.renderChartView(data))}
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -207,13 +262,14 @@ const styles = StyleSheet.create({
   chartsContainer: {
     flex: 1,
     marginVertical: 10,
-    backgroundColor: colors.polGray,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   resultsDetailsContainer: {
     flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
-    backgroundColor: colors.polGray,
   },
   resultsChartContainer: {
     flex: 1,
@@ -238,6 +294,13 @@ const styles = StyleSheet.create({
   },
   userVoteText: {
     fontSize: 14,
+    fontWeight: 'bold',
+  },
+  chartTitle: {
+    borderTopWidth: 1,
+    borderTopColor: 'black',
+    paddingTop: 10,
+    justifyContent: 'center',
     fontWeight: 'bold',
   },
 });
