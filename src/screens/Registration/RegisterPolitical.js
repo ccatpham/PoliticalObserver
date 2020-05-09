@@ -17,6 +17,7 @@ import {
 import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
 import {CommonActions} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 import pol from '../../api/apiConfig';
 
 export default class RegisterPoliticalScreen extends React.Component {
@@ -62,15 +63,32 @@ export default class RegisterPoliticalScreen extends React.Component {
       user.partyAffiliation = partyAffiliationChoice.label;
     }
 
-    pol.api
-      .createUser(user)
-      .then(user => {
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'TabNavigator', params: {user: user}}],
-          }),
-        );
+    auth()
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -80,15 +98,31 @@ export default class RegisterPoliticalScreen extends React.Component {
   };
 
   onPressSkip = () => {
-    pol.api
-      .createUser(this.state.user)
-      .then(user => {
-        this.props.navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{name: 'TabNavigator', params: {user: user}}],
-          }),
-        );
+    auth().createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(this.state.user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

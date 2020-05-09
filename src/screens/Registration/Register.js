@@ -10,7 +10,6 @@ import {
   Alert,
 } from 'react-native';
 import {colors} from '../../styles';
-import {CommonActions} from '@react-navigation/native';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
