@@ -22,56 +22,8 @@ export default class IssueData extends React.Component {
       vote: this.props.route.params.vote,
       data: [],
       genderData: [],
-      partyData: [
-        {
-          x: 'Democrat',
-          y: 2,
-        },
-        {
-          x: 'Republican',
-          y: 8,
-        },
-        {
-          x: 'Libertarian',
-          y: 4,
-        },
-        {
-          x: 'Green',
-          y: 1,
-        },
-        {
-          x: 'Constitution',
-          y: 3,
-        },
-        {
-          x: 'Unaligned',
-          y: 2,
-        },
-        {
-          x: 'Democrat',
-          y: 9,
-        },
-        {
-          x: 'Republican',
-          y: 3,
-        },
-        {
-          x: 'Libertarian',
-          y: 1,
-        },
-        {
-          x: 'Green',
-          y: 1,
-        },
-        {
-          x: 'Constitution',
-          y: 1,
-        },
-        {
-          x: 'Unaligned',
-          y: 5,
-        },
-      ],
+      partyData: [],
+      educationData: [],
     };
   }
 
@@ -79,6 +31,7 @@ export default class IssueData extends React.Component {
     this.getIssueStats();
     this.getIssueGenderStats();
     this.getIssuePartyStats();
+    this.getIssueEducationStats();
   }
 
   getIssueStats() {
@@ -113,6 +66,20 @@ export default class IssueData extends React.Component {
       .getIssueDataPartyByIssueId(this.state.issueId)
       .then(response => {
         this.setState({partyData: response.party});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueEducationStats() {
+    pol.api
+      .getIssueDataEducationByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({educationData: response.education});
+        console.log(this.state.educationData);
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -190,7 +157,11 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let data = [this.state.genderData, this.state.partyData];
+    let data = [
+      this.state.genderData,
+      this.state.partyData,
+      this.state.educationData,
+    ];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.contentContainer}>
