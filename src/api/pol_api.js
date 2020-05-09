@@ -271,6 +271,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getUserIssue(issueid, userid) {
+    const config = {
+      method: 'get',
+      endpoint: '/userissues/${issueid}/${userid}',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Issue Data Endpoints
    */

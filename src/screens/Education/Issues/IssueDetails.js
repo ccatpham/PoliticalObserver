@@ -47,7 +47,6 @@ export default class IssueDetails extends React.Component {
   }
 
   async onPressVote(vote) {
-    //this.setState({voting: true});
     let voteText = '';
     if (vote) {
       voteText = 'yes';
@@ -99,6 +98,8 @@ export default class IssueDetails extends React.Component {
       userId: this.state.userId,
       vote: this.state.vote,
       issueId: this.state.id,
+      issueTitle: this.state.title,
+      issueDescription: this.state.description,
     });
   };
 

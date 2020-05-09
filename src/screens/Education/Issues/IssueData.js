@@ -75,6 +75,8 @@ export default class IssueData extends React.Component {
       userId: this.props.route.params.userId,
       issueId: this.props.route.params.issueId,
       vote: this.props.route.params.vote,
+      title: this.props.route.params.issueTitle,
+      description: this.props.route.params.issueDescription,
       data: [],
       genderData: [],
       partyData: [],
@@ -180,8 +182,8 @@ export default class IssueData extends React.Component {
         <View style={styles.resultsInformationContainer}>
           <View style={styles.resultsDescriptionContainer}>
             <Text style={styles.resultsDescriptionText}>
-              This graph depicts how the other users chose to vote on this
-              particular issue.
+              {this.state.title + ': \n'}
+              {this.state.description}
             </Text>
           </View>
           <View style={styles.userVoteContainer}>
@@ -205,7 +207,9 @@ export default class IssueData extends React.Component {
     return (
       <View style={styles.chartViewContainer}>
         <View style={styles.chartContainer}>
-          <Text style={styles.chartTitle}>{data[2].title} division of yes and no votes.</Text>
+          <Text style={styles.chartTitle}>
+            {data[2].title} division of yes and no votes.
+          </Text>
           <VictoryPie
             data={data[0]}
             colorScale={data[1]}
