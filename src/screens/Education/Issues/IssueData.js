@@ -21,32 +21,7 @@ export default class IssueData extends React.Component {
       issueId: this.props.route.params.issueId,
       vote: this.props.route.params.vote,
       data: [],
-      genderData: [
-        {
-          x: 'Male',
-          y: 13,
-        },
-        {
-          x: 'Female',
-          y: 7,
-        },
-        {
-          x: 'Other',
-          y: 1,
-        },
-        {
-          x: 'Male',
-          y: 6,
-        },
-        {
-          x: 'Female',
-          y: 11,
-        },
-        {
-          x: 'Other',
-          y: 2,
-        },
-      ],
+      genderData: [],
       partyData: [
         {
           x: 'Democrat',
@@ -102,6 +77,7 @@ export default class IssueData extends React.Component {
 
   componentDidMount() {
     this.getIssueStats();
+    this.getIssueGenderStats();
   }
 
   getIssueStats() {
@@ -110,6 +86,19 @@ export default class IssueData extends React.Component {
       .then(response => {
         this.setState({data: response.data});
         this.setState({vote: response.uservote});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueGenderStats() {
+    pol.api
+      .getIssueDataGenderByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({genderData: response.gender});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

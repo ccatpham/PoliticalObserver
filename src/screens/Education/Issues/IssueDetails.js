@@ -54,7 +54,7 @@ export default class IssueDetails extends React.Component {
       await this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     } else {
       voteText = 'no';
-      this.addUserIssueVote(this.state.id, this.state.userId, voteText);
+      await this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     }
     this.setState({vote: vote, voted: true, voting: false});
     this.getIssueStats();

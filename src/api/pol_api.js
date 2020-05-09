@@ -272,6 +272,19 @@ export default class Api {
   }
 
   /*
+   * Issue Data Endpoints
+   */
+
+  async getIssueDataGenderByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/gender/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
    * Social Quiz Endpoints
    */
 
