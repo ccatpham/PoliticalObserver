@@ -302,6 +302,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getIssueDataEthnicityByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/ethnicity/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Social Quiz Endpoints
    */

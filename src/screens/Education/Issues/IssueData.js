@@ -24,6 +24,7 @@ export default class IssueData extends React.Component {
       genderData: [],
       partyData: [],
       educationData: [],
+      ethnicityData: [],
     };
   }
 
@@ -32,6 +33,7 @@ export default class IssueData extends React.Component {
     this.getIssueGenderStats();
     this.getIssuePartyStats();
     this.getIssueEducationStats();
+    this.getIssueEthnicityStats();
   }
 
   getIssueStats() {
@@ -79,7 +81,19 @@ export default class IssueData extends React.Component {
       .getIssueDataEducationByIssueId(this.state.issueId)
       .then(response => {
         this.setState({educationData: response.education});
-        console.log(this.state.educationData);
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueEthnicityStats() {
+    pol.api
+      .getIssueDataEthnicityByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({ethnicityData: response.ethnicity});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -161,6 +175,7 @@ export default class IssueData extends React.Component {
       this.state.genderData,
       this.state.partyData,
       this.state.educationData,
+      this.state.ethnicityData,
     ];
     return (
       <SafeAreaView style={styles.container}>
