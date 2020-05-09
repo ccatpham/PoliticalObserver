@@ -78,6 +78,7 @@ export default class IssueData extends React.Component {
   componentDidMount() {
     this.getIssueStats();
     this.getIssueGenderStats();
+    this.getIssuePartyStats();
   }
 
   getIssueStats() {
@@ -99,6 +100,19 @@ export default class IssueData extends React.Component {
       .getIssueDataGenderByIssueId(this.state.issueId)
       .then(response => {
         this.setState({genderData: response.gender});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssuePartyStats() {
+    pol.api
+      .getIssueDataPartyByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({partyData: response.party});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

@@ -284,6 +284,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getIssueDataPartyByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/party/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Social Quiz Endpoints
    */
