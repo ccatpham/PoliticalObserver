@@ -27,17 +27,19 @@ export default class IssueDetails extends React.Component {
       notes: '',
       date: '',
       data: [],
-      vote: null,
+      vote: false,
       voted: false,
-      voting: false,
+      voting: true,
     };
   }
 
   componentDidMount() {
     pol.api
-      .getIssueById(this.state.id)
-      .then(issue => {
-        this.setState({...issue});
+      .getIssueById(this.state.userId, this.state.id)
+      .then(issueResponse => {
+        let issue = issueResponse.issue;
+        let votedInfo = issueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -46,45 +48,24 @@ export default class IssueDetails extends React.Component {
       });
   }
 
-  async onPressVote(vote) {
+  onPressVote(vote) {
+    this.setState({voting: true});
     let voteText = '';
     if (vote) {
       voteText = 'yes';
-      await this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     } else {
       voteText = 'no';
-      await this.addUserIssueVote(this.state.id, this.state.userId, voteText);
     }
-    this.setState({vote: vote, voted: true, voting: false});
-    this.getIssueStats();
-  }
-
-  addUserIssueVote(issueId, userId, vote) {
-    let date =
-      String(new Date().getMonth() + 1) +
-      '-' +
-      String(new Date().getDate()) +
-      '-' +
-      String(new Date().getFullYear());
-    let voteData = {issueId: issueId, userId: userId, vote: vote, date: date};
     pol.api
-      .createUserIssue(voteData)
-      .then(userIssue => {
-        this.setState({vote: vote, voted: true, voting: false});
+      .createUserIssue({
+        issueId: this.state.id,
+        userId: this.state.userId,
+        vote: voteText,
       })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssueStats() {
-    pol.api
-      .getStatsForOneIssue(this.state.id, this.state.userId)
-      .then(response => {
-        this.setState({data: response.data});
-        this.setState({vote: response.uservote});
+      .then(userIssueResponse => {
+        let issue = userIssueResponse.issue;
+        let votedInfo = userIssueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {

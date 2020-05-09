@@ -13,56 +13,6 @@ import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 
-const colorsGender = [
-  '#CD6155',
-  '#C0392B',
-  '#A93226',
-  '#52BE80',
-  '#27AE60',
-  '#229954',
-];
-const colorsParty = [
-  '#CD6155',
-  '#C0392B',
-  '#A93226',
-  '#922B21',
-  '#7B241C',
-  '#641E16',
-  '#52BE80',
-  '#27AE60',
-  '#229954',
-  '#1E8449',
-  '#196F3D',
-  '#145A32',
-];
-const colorsEducation = [
-  '#CD6155',
-  '#C0392B',
-  '#A93226',
-  '#922B21',
-  '#7B241C',
-  '#641E16',
-  '#52BE80',
-  '#27AE60',
-  '#229954',
-  '#1E8449',
-  '#196F3D',
-  '#145A32',
-];
-const colorsEthnicity = [
-  '#CD6155',
-  '#C0392B',
-  '#A93226',
-  '#922B21',
-  '#7B241C',
-  '#641E16',
-  '#52BE80',
-  '#27AE60',
-  '#229954',
-  '#1E8449',
-  '#196F3D',
-  '#145A32',
-];
 const titleGender = {title: 'Gender'};
 const titleParty = {title: 'Party'};
 const titleEducation = {title: 'Education'};
@@ -86,19 +36,20 @@ export default class IssueData extends React.Component {
   }
 
   componentDidMount() {
-    this.getIssueStats();
+    this.getIssueData();
     this.getIssueGenderStats();
     this.getIssuePartyStats();
     this.getIssueEducationStats();
     this.getIssueEthnicityStats();
   }
 
-  getIssueStats() {
+  getIssueData() {
     pol.api
-      .getStatsForOneIssue(this.state.issueId, this.state.userId)
-      .then(response => {
-        this.setState({data: response.data});
-        this.setState({vote: response.uservote});
+      .getIssueById(this.state.userId, this.state.issueId)
+      .then(issueResponse => {
+        let issue = issueResponse.issue;
+        let votedInfo = issueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -236,10 +187,10 @@ export default class IssueData extends React.Component {
 
   render() {
     let data = [
-      [this.state.genderData, colorsGender, titleGender],
-      [this.state.partyData, colorsParty, titleParty],
-      [this.state.educationData, colorsEducation, titleEducation],
-      [this.state.ethnicityData, colorsEthnicity, titleEthnicity],
+      [this.state.genderData, colors.gender, titleGender],
+      [this.state.partyData, colors.party, titleParty],
+      [this.state.educationData, colors.education, titleEducation],
+      [this.state.ethnicityData, colors.ethnicity, titleEthnicity],
     ];
     return (
       <SafeAreaView style={styles.container}>

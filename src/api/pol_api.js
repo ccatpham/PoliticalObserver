@@ -190,10 +190,10 @@ export default class Api {
    * Issues Endpoints
    */
 
-  async getIssueById(id) {
+  async getIssueById(userId, issueId) {
     const config = {
       method: 'get',
-      endpoint: `/issues/id/${id}`,
+      endpoint: `/issues/${issueId}/userId/${userId}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
