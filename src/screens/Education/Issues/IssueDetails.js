@@ -48,7 +48,7 @@ export default class IssueDetails extends React.Component {
 
   onPressVote(vote) {
     //this.setState({voting: true});
-    let voteText = "";
+    let voteText = '';
     if (this.state.vote) {
       voteText = 'yes';
     } else {
@@ -157,7 +157,7 @@ export default class IssueDetails extends React.Component {
             style={styles.voteAgainstButton}
             onPress={() => this.onPressVote(false)}
             disabled={this.state.voting}>
-          <Text style={styles.voteAgainstText}>Against</Text>
+            <Text style={styles.voteAgainstText}>Against</Text>
           </TouchableOpacity>
         </View>
       </View>

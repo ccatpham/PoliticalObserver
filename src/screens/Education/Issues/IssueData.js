@@ -185,7 +185,7 @@ export default class IssueData extends React.Component {
         <ScrollView style={styles.contentContainer}>
           {this.renderResultsView()}
           <View style={styles.chartsContainer}>
-            {data.map(data => (this.renderChartView(data)))}
+            {data.map(data => this.renderChartView(data))}
           </View>
         </ScrollView>
       </SafeAreaView>
