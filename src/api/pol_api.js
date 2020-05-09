@@ -151,11 +151,11 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
-  async modifyDemographic(userData) {
+  async modifyDemographic(id, demographicData) {
     const config = {
       method: 'put',
-      endpoint: '/demographics/',
-      jsonData: userData,
+      endpoint: `/demographics/id/${id}`,
+      jsonData: demographicData,
     };
 
     return this.apiRequest(config).then(parseApiResponse);

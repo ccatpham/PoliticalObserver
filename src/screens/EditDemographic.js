@@ -6,63 +6,133 @@ import {
   TextInput,
   Picker,
   StyleSheet,
+  Alert,
+  ScrollView,
 } from 'react-native';
+import pol from '../api/apiConfig';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.user.id,
+      demographicId: this.props.route.params.user.demographicId,
+      partyAffiliation: '',
+      martialStatus: '',
+      ageRange: '',
+      education: '',
+      ethnicity: '',
+      incomeLevel: '',
       occupation: '',
+      personalityType: '',
+      politicalAffiliation: '',
+      state: '',
+      gender: '',
     };
   }
+
+  componentDidMount() {
+    this.getDemographic();
+  }
+
+  getDemographic = () => {
+    pol.api
+      .getDemographicById(this.props.route.params.user.demographicId)
+      .then(response => {
+        console.log(response);
+        console.log(response.partyAffiliation);
+        this.setState({
+          partyAffiliation: response.partyAffiliation,
+          martialStatus: response.maritalStatus,
+          ageRange: response.ageRange,
+          education: response.education,
+          ethnicity: response.ethnicity,
+          incomeLevel: response.incomeLevel,
+          occupation: response.occupation,
+          personalityType: response.personalityType,
+          politicalAffiliation: response.politicalAffiliation,
+          state: response.state,
+          gender: response.gender,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  };
+
+  onPressOccupation = () => {
+    this.props.navigation.navigate('Edit Occupation', {
+      userId: this.state.userId,
+      occupation: this.state.occupation,
+      demographicId: this.state.demographicId,
+    });
+  };
+
   render() {
     return (
       <View>
-        <Text style={styles.headingTextStyle}>Occupation</Text>
-        <TextInput
-          style={{
-            height: 40,
-            fontSize: 20,
-          }}
-          placeholder={'Software Engineer'}
-          onChangeText={text => this.setState({text})}
-          placeholderTextColor={'#1e272e'}
-        />
-        <Text style={styles.headingTextStyle}>Political Affiliation</Text>
-        <Picker>
-          <Picker.Item label="Select a political affiliation" value="0" />
-          <Picker.Item label="Democrat" value="Democrat" />
-          <Picker.Item label="Republican" value="Republican" />
-          <Picker.Item label="Libertarian" value="Libertarian" />
-          <Picker.Item label="Green" value="Green" />
-          <Picker.Item label="Constitution" value="Constitution" />
-          <Picker.Item label="Unaligned" value="Unaligned" />
-        </Picker>
-        <Text style={styles.headingTextStyle}>Marital Status</Text>
-        <Picker>
-          <Picker.Item label="Select a marital status" value="0" />
-          <Picker.Item label="Single" value="Single" />
-          <Picker.Item label="Married" value="Married" />
-        </Picker>
-        <Text style={styles.headingTextStyle}>Education</Text>
-        <Picker>
-          <Picker.Item label="Select your education" value="0" />
-          <Picker.Item label="None" value="None" />
-          <Picker.Item label="General Education Development" value="GED" />
-          <Picker.Item
-            label="High School Diploma"
-            value="High School Diploma"
-          />
-          <Picker.Item label="Associate's Degree" value="Associate's Degree" />
-          <Picker.Item label="Bachelor's Degree" value="Bachelor's Degree" />
-          <Picker.Item label="Master's Degree" value="Master's Degree" />
-          <Picker.Item label="Doctoral Degree" value="Doctoral Degree" />
-        </Picker>
-        <View>
-          <TouchableOpacity style={styles.submitButton}>
-            <Text style={styles.submitButtonText}> Submit Changes </Text>
+        <ScrollView>
+          <TouchableOpacity
+            style={styles.dividers}
+            onPress={() => this.onPressOccupation()}>
+            <Text style={styles.headingTextStyle}>Occupation</Text>
+            <Text style={styles.fieldTextStyle}>{this.state.occupation}</Text>
           </TouchableOpacity>
-        </View>
+          <TouchableOpacity style={styles.dividers}>
+            <Text style={styles.headingTextStyle}>Political Affiliation</Text>
+            <Text style={styles.fieldTextStyle}>
+              {this.state.politicalAffiliation}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Party Affiliation</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>
+              {this.state.partyAffiliation}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>State</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.state}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Ethnicity</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.ethnicity}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Education</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.education}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Personality Type</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>
+              {this.state.personalityType}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Age Range</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.ageRange}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Gender</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.gender}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Income Level</Text>
+          <TouchableOpacity>
+            <Text style={styles.fieldTextStyle}>{this.state.incomeLevel}</Text>
+          </TouchableOpacity>
+          <View>
+            <TouchableOpacity style={styles.submitButton}>
+              <Text
+                style={styles.submitButtonText}
+                onPress={console.log(this.state.userId)}>
+                {' '}
+                Submit Changes{' '}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -75,10 +145,24 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 5,
   },
+  fieldTextStyle: {
+    fontSize: 20,
+    color: 'black',
+    paddingLeft: 5,
+  },
   shadowContainerColumn: {
     paddingVertical: 5,
     paddingLeft: 5,
     flexDirection: 'row',
+    elevation: 1,
+    position: 'relative',
+    borderBottomWidth: 0,
+  },
+  dividers: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+    flex: 3,
     elevation: 1,
     position: 'relative',
     borderBottomWidth: 0,

@@ -18,6 +18,7 @@ import PersonalityNature from './screens/PersonalityNature';
 import PersonalityTactic from './screens/PersonalityTactic';
 import PersonalityResults from './screens/PersonalityResults';
 import EditDemographics from './screens/EditDemographic';
+import EditOccupation from './screens/EditOccupation';
 import DemographicInsights from './screens/DemographicInsights';
 import VotedOnIssues from './screens/VotedOnIssues';
 import IssuesScreen from './screens/Education/Issues/Issues';
@@ -132,6 +133,11 @@ const ProfileStack = props => {
       <Stack.Screen
         name="Edit Demographics"
         component={EditDemographics}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Edit Occupation"
+        component={EditOccupation}
         initialParams={props.route.params}
       />
       <Stack.Screen

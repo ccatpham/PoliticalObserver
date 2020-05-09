@@ -15,6 +15,7 @@ import {
   VictoryScatter,
 } from 'victory-native';
 import pol from '../api/apiConfig';
+
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,7 @@ export default class ProfileScreen extends React.Component {
       demographicID: this.props.route.params.user.demographicId,
       partyAffiliation: '',
       martialStatus: '',
-      ageRange: '',
+      age: '',
       education: '',
       ethnicity: '',
       incomeLevel: '',
@@ -43,9 +44,11 @@ export default class ProfileScreen extends React.Component {
     this.props.navigation.addListener('focus', () => {
       this.setState({
         hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
-        hasTakenPersonalityTest: this.props.route.params.hasTakenPersonalityTest,
+        hasTakenPersonalityTest: this.props.route.params
+          .hasTakenPersonalityTest,
         socialScore: this.props.route.params.socialScore,
         econScore: this.props.route.params.econScore,
+        personalityType: this.props.route.params.personalityType,
       });
     });
   };
@@ -53,6 +56,7 @@ export default class ProfileScreen extends React.Component {
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
       userId: this.props.route.params.user.id,
+      demographicId: this.props.route.params.user.demographicId,
     });
   };
 
@@ -93,6 +97,16 @@ export default class ProfileScreen extends React.Component {
         });
       });
   };
+
+  renderPersonalityType(personalityType) {
+    let picUrl = '';
+    if ((personalityType = 'ISTJ')) {
+      picUrl = '../../res/images/ISTJ.jpg';
+    } else if ((personalityType = 'ENFJ')) {
+      picUrl = '../../res/images/ENFJ.jpg';
+    }
+    return picUrl;
+  }
 
   renderPoliticalCompassPreResults = () => {
     return (
@@ -209,10 +223,11 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1}} />
-          <View style={{flex: 1, marginTop: 50}}>
-            <Text> You are: </Text>
-            <Text> {this.state.personalityType}</Text>
+          <View style={{flex: 1}}>
+            <Image
+              style={styles.selfPersonalityImage}
+              source={require('../../res/images/ENFJ.jpg')}
+            />
           </View>
         </View>
         <View>
@@ -338,6 +353,12 @@ const styles = StyleSheet.create({
   personalityImage: {
     width: 320,
     height: 250,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  selfPersonalityImage: {
+    width: 250,
+    height: 350,
     justifyContent: 'center',
     alignSelf: 'center',
   },

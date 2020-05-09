@@ -1,17 +1,13 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 export default class PersonalityResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       personalityType: this.props.route.params.personalityType,
-      userId: this.props.route.params.userId,
+      user: this.props.route.params.user,
+      userId: this.props.route.params.user.id,
       hasTakenPersonalityTest: true,
     };
   }
