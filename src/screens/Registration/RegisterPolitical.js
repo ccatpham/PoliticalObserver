@@ -64,9 +64,9 @@ export default class RegisterPoliticalScreen extends React.Component {
     }
 
     auth()
-      .signInWithEmailAndPassword(
-        this.state.email.toLowerCase(),
-        this.state.password,
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
       )
       .then(() => {
         pol.api
@@ -98,10 +98,9 @@ export default class RegisterPoliticalScreen extends React.Component {
   };
 
   onPressSkip = () => {
-    auth()
-      .signInWithEmailAndPassword(
-        this.state.email.toLowerCase(),
-        this.state.password,
+    auth().createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
       )
       .then(() => {
         pol.api
