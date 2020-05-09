@@ -53,19 +53,38 @@ export default class CompareDataScreen extends React.Component {
     };
   }
 
-  componentDidMount() {
-    pol.api
-      .getDemographicsComparison(this.state.left, this.state.right)
-      .then(data => {
-        this.setState({
-          data: data,
+  componentDidMount() {}
+
+  compareDemographics() {
+    if (this.state.left !== '' && this.state.right !== '') {
+      pol.api
+        .getDemographicsComparison(this.state.left, this.state.right)
+        .then(data => {
+          this.setState({
+            data: data,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
         });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
+    }
+  }
+
+  onChangeLeft(value, index, data) {
+    this.setState({left: data[index].key});
+    this.compareDemographics();
+  }
+
+  onChangeRight(value, index, data) {
+    this.setState({right: data[index].key});
+    this.compareDemographics();
   }
 
   renderItem(item) {
@@ -90,6 +109,19 @@ export default class CompareDataScreen extends React.Component {
   }
 
   render() {
+    var leftChoices = this.state.choices;
+    var rightChoices = this.state.choices;
+    if (this.state.right !== '') {
+      leftChoices = leftChoices.filter(
+        choice => choice.key !== this.state.right,
+      );
+    }
+    if (this.state.left !== '') {
+      rightChoices = rightChoices.filter(
+        choice => choice.key !== this.state.left,
+      );
+    }
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
@@ -97,13 +129,19 @@ export default class CompareDataScreen extends React.Component {
             <View>
               <View>
                 <Dropdown
-                    label='Left Side'
-                    data={this.state.choices}
+                  label="Left Side"
+                  data={leftChoices}
+                  onChangeText={(value, index, data) =>
+                    this.onChangeLeft(value, index, data)
+                  }
                 />
                 <Text>by</Text>
                 <Dropdown
-                    label='Right Side'
-                    data={this.state.choices}
+                  label="Right Side"
+                  data={rightChoices}
+                  onChangeText={(value, index, data) =>
+                    this.onChangeRight(value, index, data)
+                  }
                 />
               </View>
               <View>
