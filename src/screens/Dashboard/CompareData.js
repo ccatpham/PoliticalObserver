@@ -11,14 +11,45 @@ import {
 import {colors} from '../../styles';
 import pol from '../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
+import {Dropdown} from 'react-native-material-dropdown';
 
 export default class CompareDataScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      left: 'age',
-      right: 'gender',
+      choices: [
+        {
+          value: 'Age',
+          key: 'age',
+        },
+        {
+          value: 'Gender',
+          key: 'gender',
+        },
+        {
+          value: 'State',
+          key: 'state',
+        },
+        {
+          value: 'Marital Status',
+          key: 'maritalStatus',
+        },
+        {
+          value: 'Ethnicity',
+          key: 'ethnicity',
+        },
+        {
+          value: 'Education',
+          key: 'education',
+        },
+        {
+          value: 'Personality Type',
+          key: 'personalityType',
+        },
+      ],
+      left: '',
+      right: '',
     };
   }
 
@@ -65,13 +96,15 @@ export default class CompareDataScreen extends React.Component {
           <View style={styles.contentContainer}>
             <View>
               <View>
-                <TouchableOpacity>
-                  <Text>Age</Text>
-                </TouchableOpacity>
+                <Dropdown
+                    label='Left Side'
+                    data={this.state.choices}
+                />
                 <Text>by</Text>
-                <TouchableOpacity>
-                  <Text>Party</Text>
-                </TouchableOpacity>
+                <Dropdown
+                    label='Right Side'
+                    data={this.state.choices}
+                />
               </View>
               <View>
                 <TouchableOpacity>
