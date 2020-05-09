@@ -13,6 +13,11 @@ import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 
+const colorsGender = ['#CD6155', '#C0392B', '#A93226', '#52BE80', '#27AE60', '#229954'];
+const colorsParty = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
+const colorsEducation = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
+const colorsEthnicity = ['#CD6155', '#C0392B', '#A93226', '#922B21', '#7B241C', '#641E16','#52BE80', '#27AE60', '#229954', '#1E8449', '#196F3D', '#145A32'];
+
 export default class IssueData extends React.Component {
   constructor(props) {
     super(props);
@@ -151,8 +156,8 @@ export default class IssueData extends React.Component {
       <View style={styles.chartViewContainer}>
         <View style={styles.chartContainer}>
           <VictoryPie
-            data={data}
-            // colorScale={['#', '#', '#', '#', '#', '#']}
+            data={data[0]}
+            colorScale={data[1]}
             labelRadius={20}
             width={150}
             height={150}
@@ -171,18 +176,18 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let data = [
-      this.state.genderData,
-      this.state.partyData,
-      this.state.educationData,
-      this.state.ethnicityData,
+    let dataAndColor = [
+      [this.state.genderData, colorsGender],
+      [this.state.partyData, colorsParty],
+      [this.state.educationData, colorsEducation],
+      [this.state.ethnicityData, colorsEthnicity],
     ];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.contentContainer}>
           {this.renderResultsView()}
           <View style={styles.chartsContainer}>
-            {data.map(data => this.renderChartView(data))}
+            {dataAndColor.map(data => this.renderChartView(data))}
           </View>
         </ScrollView>
       </SafeAreaView>
