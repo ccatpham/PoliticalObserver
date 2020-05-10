@@ -23,7 +23,9 @@ export default class DashboardScreen extends React.Component {
     return (
       <TouchableOpacity style={styles.dashboardModuleContainer}>
         <Text>2020 Presidential Election</Text>
-        <View />
+        <View>
+          <Text>** TODO **</Text>
+        </View>
       </TouchableOpacity>
     );
   }

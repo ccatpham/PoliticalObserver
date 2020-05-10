@@ -44,8 +44,16 @@ export default class CompareDataScreen extends React.Component {
           key: 'education',
         },
         {
+          value: 'Income',
+          key: 'income',
+        },
+        {
           value: 'Personality Type',
           key: 'personalityType',
+        },
+        {
+          value: 'Party Affiliation',
+          key: 'partyAffiliation',
         },
       ],
       left: '',
@@ -89,8 +97,8 @@ export default class CompareDataScreen extends React.Component {
 
   renderItem(item) {
     return (
-      <View>
-        <Text>{item.category}</Text>
+      <View style={styles.itemContainer}>
+        <Text style={styles.itemHeaderText}>{item.category}</Text>
         <VictoryPie
           data={item.data}
           labelRadius={10}
@@ -126,31 +134,28 @@ export default class CompareDataScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
-            <View>
-              <View>
-                <Dropdown
-                  label="Left Side"
-                  data={leftChoices}
-                  onChangeText={(value, index, data) =>
-                    this.onChangeLeft(value, index, data)
-                  }
-                />
-                <Text>by</Text>
-                <Dropdown
-                  label="Right Side"
-                  data={rightChoices}
-                  onChangeText={(value, index, data) =>
-                    this.onChangeRight(value, index, data)
-                  }
-                />
-              </View>
-              <View>
-                <TouchableOpacity>
-                  <Text>Compare</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.comparisonContainer}>
+              <Dropdown
+                containerStyle={styles.dropDownContainerStyle}
+                label="Left Side"
+                data={leftChoices}
+                onChangeText={(value, index, data) =>
+                  this.onChangeLeft(value, index, data)
+                }
+                itemCount={9}
+              />
+              <Text style={styles.byText}>By</Text>
+              <Dropdown
+                containerStyle={styles.dropDownContainerStyle}
+                label="Right Side"
+                data={rightChoices}
+                onChangeText={(value, index, data) =>
+                  this.onChangeRight(value, index, data)
+                }
+                itemCount={9}
+              />
             </View>
-            <View>
+            <View style={styles.dataContainer}>
               <FlatList
                 data={this.state.data}
                 renderItem={({item}) => this.renderItem(item)}
@@ -176,5 +181,32 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     margin: 20,
+  },
+  comparisonContainer: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 20,
+    backgroundColor: colors.polGray,
+  },
+  dropDownContainerStyle: {
+    flex: 1,
+  },
+  byText: {
+    textAlign: 'center',
+    fontSize: 16,
+    paddingTop: 18,
+    marginHorizontal: 10,
+  },
+  dataContainer: {
+    backgroundColor: colors.polGray,
+  },
+  itemContainer: {
+
+  },
+  itemHeaderText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
