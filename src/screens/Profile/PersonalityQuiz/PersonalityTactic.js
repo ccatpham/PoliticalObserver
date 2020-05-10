@@ -131,18 +131,6 @@ export default class PersonalityTactic extends React.Component {
       });
   };
 
-  // updatePersonalityType = (userId, personalityType) => {
-  //   const userObject = {
-  //     userId: userId,
-  //     personalityType: personalityType,
-  //   };
-  //   pol.api.modifyDemographic(userObject).catch(error => {
-  //     Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-  //       cancelable: false,
-  //     });
-  //   });
-  // };
-
   render() {
     return (
       <View style={{flex: 1}}>

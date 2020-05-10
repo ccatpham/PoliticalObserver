@@ -32,7 +32,6 @@ export default class ProfileScreen extends React.Component {
       politicalAffiliation: '',
       state: '',
       personalityType: '',
-      // personalityScore: this.props.route.params.personalityScore,
       personalityScore: '',
       hasTakenPoliticalTest: false,
       hasTakenPersonalityTest: false,
@@ -44,11 +43,6 @@ export default class ProfileScreen extends React.Component {
   componentDidMount = () => {
     this.getDemographic();
     this.props.navigation.addListener('focus', () => {
-      // if (this.state.hasTakenPersonalityTest) {
-      //   this.setState({
-      //     personalityScore: this.props.route.params.personalityScore,
-      //   });
-      // }
       if (this.props.route.params.hasTakenPoliticalTest) {
         this.setState({
           hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
@@ -294,7 +288,7 @@ export default class ProfileScreen extends React.Component {
           <View style={{flex: 1}}>
             <Image
               style={styles.selfPersonalityImage}
-              source={require('../../../res/images/ISTJ.jpg')}
+              source={this.state.personalityUri}
             />
           </View>
         </View>

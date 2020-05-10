@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import pol from '../../../api/apiConfig';
 import {colors} from '../../../styles';
-import {Dropdown} from 'react-native-material-dropdown';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {
@@ -23,34 +22,13 @@ export default class EditDemographic extends React.Component {
       ageRange: '',
       education: '',
       ethnicity: '',
-      income: '',
+      incomeLevel: '',
       occupation: '',
       personalityType: '',
       politicalAffiliation: '',
       state: '',
       gender: '',
-      politicalAffiliationValue: '',
-      data: [],
-      politicalAffiliationData: [
-        {
-          value: 'Democrat',
-        },
-        {
-          value: 'Republican',
-        },
-        {
-          value: 'Libertarian',
-        },
-        {
-          value: 'Green',
-        },
-        {
-          value: 'Constitution',
-        },
-        {
-          value: 'Unaligned',
-        },
-      ],
+      income: '',
     };
   }
 
@@ -61,12 +39,6 @@ export default class EditDemographic extends React.Component {
   onChangeAge(age) {
     this.setState({
       age: age,
-    });
-  }
-
-  onChangeState(state) {
-    this.setState({
-      state: state,
     });
   }
 
@@ -86,13 +58,15 @@ export default class EditDemographic extends React.Component {
     pol.api
       .getDemographicById(this.props.route.params.user.demographicId)
       .then(response => {
+        console.log(response);
+        console.log(response.partyAffiliation);
         this.setState({
           partyAffiliation: response.partyAffiliation,
           martialStatus: response.maritalStatus,
           ageRange: response.ageRange,
           education: response.education,
           ethnicity: response.ethnicity,
-          income: response.income,
+          incomeLevel: response.incomeLevel,
           occupation: response.occupation,
           personalityType: response.personalityType,
           politicalAffiliation: response.politicalAffiliation,
@@ -107,21 +81,7 @@ export default class EditDemographic extends React.Component {
       });
   };
 
-  // updateDemographic = () => {
-  //   pol.api
-  //     .modifyDemographic(this.state.demographicId, userObject)
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-  //         cancelable: false,
-  //       });
-  //     });
-  // };
-
   render() {
-    var politicalAffiliationChoices = this.state.politicalAffiliationData;
     return (
       <View>
         <ScrollView>
@@ -137,14 +97,9 @@ export default class EditDemographic extends React.Component {
           </View>
           <TouchableOpacity style={styles.dividers}>
             <Text style={styles.headingTextStyle}>Political Affiliation</Text>
-            <Dropdown
-              value={this.state.politicalAffiliation}
-              data={politicalAffiliationChoices}
-              onChangeText={politicalAffiliationValue => {
-                this.setState({politicalAffiliationValue});
-                console.log(this.state.politicalAffiliationValue);
-              }}
-            />
+            <Text style={styles.fieldTextStyle}>
+              {this.state.politicalAffiliation}
+            </Text>
           </TouchableOpacity>
           <Text style={styles.headingTextStyle}>Party Affiliation</Text>
           <TouchableOpacity>
@@ -196,7 +151,12 @@ export default class EditDemographic extends React.Component {
           </View>
           <View>
             <TouchableOpacity style={styles.submitButton}>
-              <Text style={styles.submitButtonText}> Submit Changes </Text>
+              <Text
+                style={styles.submitButtonText}
+                onPress={console.log(this.state.userId)}>
+                {' '}
+                Submit Changes{' '}
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -211,9 +171,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 5,
-  },
-  dropDownContainerStyle: {
-    marginLeft: 10,
   },
   fieldTextStyle: {
     fontSize: 20,
