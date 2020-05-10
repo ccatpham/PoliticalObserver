@@ -12,7 +12,7 @@ import DashboardScreen from './screens/Dashboard/Dashboard';
 import NotificationScreen from './screens/Dashboard/Notification';
 import CompareDataScreen from './screens/Dashboard/CompareData';
 import ProfileScreen from './screens/Profile/Profile';
-import SettingsScreen from './screens/Settings';
+import SettingsScreen from './screens/Profile/Settings';
 import PersonalityLanding from './screens/Profile/PersonalityQuiz/PersonalityLanding';
 import PersonalityMind from './screens/Profile/PersonalityQuiz/PersonalityMind';
 import PersonalityEnergy from './screens/Profile/PersonalityQuiz/PersonalityEnergy';
@@ -20,7 +20,6 @@ import PersonalityNature from './screens/Profile/PersonalityQuiz/PersonalityNatu
 import PersonalityTactic from './screens/Profile/PersonalityQuiz/PersonalityTactic';
 import PersonalityResults from './screens/Profile/PersonalityQuiz/PersonalityResults';
 import EditDemographics from './screens/Profile/Demographics/EditDemographic';
-import EditOccupation from './screens/Profile/Demographics/EditOccupation';
 import DemographicInsights from './screens/Profile/Demographics/DemographicInsights';
 import VotedOnIssues from './screens/Profile/VotedOnIssues';
 import IssuesScreen from './screens/Education/Issues/Issues';
@@ -137,11 +136,6 @@ const ProfileStack = props => {
       <Stack.Screen
         name="Edit Demographics"
         component={EditDemographics}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Edit Occupation"
-        component={EditOccupation}
         initialParams={props.route.params}
       />
       <Stack.Screen
