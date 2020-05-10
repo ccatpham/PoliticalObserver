@@ -57,7 +57,6 @@ export default class Api {
     const config = {
       method,
       url: finalUrl,
-      headers: {},
     };
 
     if (jsonData) {
@@ -133,6 +132,15 @@ export default class Api {
     const config = {
       method: 'get',
       endpoint: '/demographics/gender',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getDemographicsComparison(left, right) {
+    const config = {
+      method: 'get',
+      endpoint: `/demographics/data/compare/left/${left}/right/${right}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);

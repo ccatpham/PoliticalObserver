@@ -8,7 +8,9 @@ import RegisterDemographicsScreen from './screens/Registration/RegisterDemograph
 import RegisterPersonalityScreen from './screens/Registration/RegisterPersonality';
 import RegisterPoliticalScreen from './screens/Registration/RegisterPolitical';
 import EducationScreen from './screens/Education/Education';
-import DashboardScreen from './screens/Dashboard';
+import DashboardScreen from './screens/Dashboard/Dashboard';
+import NotificationScreen from './screens/Dashboard/Notification';
+import CompareDataScreen from './screens/Dashboard/CompareData';
 import ProfileScreen from './screens/Profile';
 import SettingsScreen from './screens/Settings';
 import PersonalityLanding from './screens/PersonalityLanding';
@@ -64,6 +66,8 @@ const DashboardStack = props => {
         component={DashboardScreen}
         initialParams={props.route.params}
       />
+      <Stack.Screen name="Notification" component={NotificationScreen} />
+      <Stack.Screen name="Compare Data" component={CompareDataScreen} />
     </Stack.Navigator>
   );
 };

@@ -33,7 +33,7 @@ export default class RegisterPersonalityScreen extends React.Component {
           selected: false,
         },
         {
-          label: 'INFJA',
+          label: 'INFJ',
           selected: false,
         },
         {
