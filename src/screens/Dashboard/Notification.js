@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,55 +15,56 @@ export default class NotificationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      id: this.props.route.params.notificationId,
+      data: {},
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    pol.api
+      .getNotificationById(this.state.id)
+      .then(notification => {
+        this.setState({
+          data: notification,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  renderSection(section) {
+    return (
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>{section.sectionTitle}</Text>
+        {section.sectionBody && (
+          <Text style={styles.sectionBodyText}> {section.sectionBody}</Text>
+        )}
+        {section.sectionLink && (
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => Linking.openURL(section.sectionLink)}>
+            <Text style={styles.sectionButtonText}>
+              {section.sectionLinkText}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
-            <View style={styles.shadowContainerColumn}>
-              <Text style={styles.notificationHeaderText}>
-                Election Starter Pack
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL('https://voterstatus.sos.ca.gov/');
-                }}
-                style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  1.) Check Your Voter Registration Status.
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL('https://covr.sos.ca.gov/');
-                }}
-                style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  2.) Register to vote.{' '}
-                </Text>
-                <Text style={styles.notificationText}>
-                  Online must be done by October 15, 2020.
-                </Text>
-                <Text style={styles.notificationText}>
-                  Mail-in must be postmarked by October 19, 2020
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  3.) View your voter information guide.{' '}
-                </Text>
-                <Text style={styles.notificationText}>
-                  The Official Voter Information Guide for the November 3, 2020,
-                  General Election will be available in September 2020.
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.notificationHeaderText}>
+              {this.state.data.title}
+            </Text>
+            {this.state.data.body &&
+              this.state.data.body.map(section => this.renderSection(section))}
           </View>
         </ScrollView>
       </View>
@@ -84,33 +86,37 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 20,
   },
-  shadowContainerColumn: {
-    padding: 10,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 3,
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
-  },
-  shadowContainerColumnElectionPack: {
-    padding: 10,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 3,
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
-  },
   notificationHeaderText: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
-  notificationSectionText: {
+  sectionContainer: {
+    marginVertical: 10,
+  },
+  sectionTitle: {
+    fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
-  notificationText: {},
+  sectionBodyText: {
+    marginBottom: 10,
+    marginHorizontal: 20,
+    fontSize: 14,
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
+  },
 });
