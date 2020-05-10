@@ -30,7 +30,8 @@ export default class PersonalityResults extends React.Component {
                       name: 'Profile',
                       params: {
                         personalityScore: this.state.personalityScore,
-                        hasTakenPersonalityTest: this.state.hasTakenPersonalityTest,
+                        hasTakenPersonalityTest: this.state
+                          .hasTakenPersonalityTest,
                       },
                     },
                   ],

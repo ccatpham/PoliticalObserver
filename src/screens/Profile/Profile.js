@@ -60,7 +60,8 @@ export default class ProfileScreen extends React.Component {
       if (this.props.route.params.hasTakenPersonalityTest) {
         console.log("I'm in has taken personality test");
         this.setState({
-          hasTakenPersonalityTest: this.props.route.params.hasTakenPersonalityTest,
+          hasTakenPersonalityTest: this.props.route.params
+            .hasTakenPersonalityTest,
           personalityScore: this.props.route.params.personalityScore,
         });
         console.log(this.state.personalityScore);
