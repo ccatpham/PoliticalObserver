@@ -9,7 +9,8 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import pol from '../api/apiConfig';
+import pol from '../../../api/apiConfig';
+import {colors} from '../../../styles';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {
@@ -28,11 +29,36 @@ export default class EditDemographic extends React.Component {
       politicalAffiliation: '',
       state: '',
       gender: '',
+      income: '',
     };
   }
 
   componentDidMount() {
     this.getDemographic();
+  }
+
+  onChangeAge(age) {
+    this.setState({
+      age: age,
+    });
+  }
+
+  onChangeState(state) {
+    this.setState({
+      state: state,
+    });
+  }
+
+  onChangeOccupation(occupation) {
+    this.setState({
+      occupation: occupation,
+    });
+  }
+
+  onChangeIncome(incomeLevel) {
+    this.setState({
+      income: income,
+    });
   }
 
   getDemographic = () => {
@@ -62,24 +88,28 @@ export default class EditDemographic extends React.Component {
       });
   };
 
-  onPressOccupation = () => {
-    this.props.navigation.navigate('Edit Occupation', {
-      userId: this.state.userId,
-      occupation: this.state.occupation,
-      demographicId: this.state.demographicId,
-    });
-  };
+  // onPressOccupation = () => {
+  //   this.props.navigation.navigate('Edit Occupation', {
+  //     userId: this.state.userId,
+  //     occupation: this.state.occupation,
+  //     demographicId: this.state.demographicId,
+  //   });
+  // };
 
   render() {
     return (
       <View>
         <ScrollView>
-          <TouchableOpacity
-            style={styles.dividers}
-            onPress={() => this.onPressOccupation()}>
+          <View>
             <Text style={styles.headingTextStyle}>Occupation</Text>
-            <Text style={styles.fieldTextStyle}>{this.state.occupation}</Text>
-          </TouchableOpacity>
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Occupation'}
+              placeholderTextColor={colors.gray}
+              onChangeText={occupation => this.onChangeOccupation(occupation)}
+              value={this.state.occupation}
+            />
+          </View>
           <TouchableOpacity style={styles.dividers}>
             <Text style={styles.headingTextStyle}>Political Affiliation</Text>
             <Text style={styles.fieldTextStyle}>
@@ -110,18 +140,30 @@ export default class EditDemographic extends React.Component {
               {this.state.personalityType}
             </Text>
           </TouchableOpacity>
-          <Text style={styles.headingTextStyle}>Age Range</Text>
-          <TouchableOpacity>
-            <Text style={styles.fieldTextStyle}>{this.state.ageRange}</Text>
-          </TouchableOpacity>
+          <Text style={styles.headingTextStyle}>Age</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder={'Age'}
+            placeholderTextColor={colors.gray}
+            onChangeText={age => this.onChangeAge(age)}
+            keyboardType={'numeric'}
+            value={this.state.age}
+          />
           <Text style={styles.headingTextStyle}>Gender</Text>
           <TouchableOpacity>
             <Text style={styles.fieldTextStyle}>{this.state.gender}</Text>
           </TouchableOpacity>
-          <Text style={styles.headingTextStyle}>Income Level</Text>
-          <TouchableOpacity>
-            <Text style={styles.fieldTextStyle}>{this.state.incomeLevel}</Text>
-          </TouchableOpacity>
+          <View>
+            <Text style={styles.headingTextStyle}>Income Level</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Income Level'}
+              placeholderTextColor={colors.gray}
+              onChangeText={income => this.onChangeIncome(income)}
+              keyboardType={'numeric'}
+              value={this.state.income}
+            />
+          </View>
           <View>
             <TouchableOpacity style={styles.submitButton}>
               <Text

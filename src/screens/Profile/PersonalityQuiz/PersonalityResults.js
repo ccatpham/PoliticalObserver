@@ -5,7 +5,7 @@ export default class PersonalityResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      personalityType: this.props.route.params.personalityType,
+      personalityScore: this.props.route.params.personalityScore,
       user: this.props.route.params.user,
       userId: this.props.route.params.user.id,
       hasTakenPersonalityTest: true,
@@ -17,7 +17,7 @@ export default class PersonalityResults extends React.Component {
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>Personality Quiz Results</Text>
         <Text> Personality Type: </Text>
-        <Text>{this.state.personalityType}</Text>
+        <Text>{this.state.personalityScore}</Text>
         <View>
           <TouchableOpacity
             style={styles.quizButton}
@@ -29,7 +29,7 @@ export default class PersonalityResults extends React.Component {
                     {
                       name: 'Profile',
                       params: {
-                        personalityType: this.state.personalityType,
+                        personalityScore: this.state.personalityScore,
                         hasTakenPersonalityTest: this.state.hasTakenPersonalityTest,
                       },
                     },

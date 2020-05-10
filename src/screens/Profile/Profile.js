@@ -14,14 +14,14 @@ import {
   VictoryTheme,
   VictoryScatter,
 } from 'victory-native';
-import pol from '../api/apiConfig';
+import pol from '../../api/apiConfig';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: this.props.route.params.user.id,
-      demographicID: this.props.route.params.user.demographicId,
+      demographicId: this.props.route.params.user.demographicId,
       partyAffiliation: '',
       martialStatus: '',
       age: '',
@@ -32,6 +32,8 @@ export default class ProfileScreen extends React.Component {
       politicalAffiliation: '',
       state: '',
       personalityType: '',
+      // personalityScore: this.props.route.params.personalityScore,
+      personalityScore: '',
       hasTakenPoliticalTest: false,
       hasTakenPersonalityTest: false,
       socialScore: 0,
@@ -42,14 +44,26 @@ export default class ProfileScreen extends React.Component {
   componentDidMount = () => {
     this.getDemographic();
     this.props.navigation.addListener('focus', () => {
-      this.setState({
-        hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
-        hasTakenPersonalityTest: this.props.route.params
-          .hasTakenPersonalityTest,
-        socialScore: this.props.route.params.socialScore,
-        econScore: this.props.route.params.econScore,
-        personalityType: this.props.route.params.personalityType,
-      });
+      // if (this.state.hasTakenPersonalityTest) {
+      //   this.setState({
+      //     personalityScore: this.props.route.params.personalityScore,
+      //   });
+      // }
+      if (this.props.route.params.hasTakenPoliticalTest) {
+        this.setState({
+          hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
+          socialScore: this.props.route.params.socialScore,
+          econScore: this.props.route.params.econScore,
+        });
+      }
+      if (this.props.route.params.hasTakenPersonalityTest) {
+        this.setState({
+          hasTakenPersonalityTest: this.props.route.params
+            .hasTakenPersonalityTest,
+          personalityScore: this.props.route.params.personalityScore,
+        });
+        this.renderPersonalityType(this.state.personalityScore);
+      }
     });
   };
 
@@ -98,15 +112,69 @@ export default class ProfileScreen extends React.Component {
       });
   };
 
-  renderPersonalityType(personalityType) {
-    let picUrl = '';
-    if ((personalityType = 'ISTJ')) {
-      picUrl = '../../res/images/ISTJ.jpg';
-    } else if ((personalityType = 'ENFJ')) {
-      picUrl = '../../res/images/ENFJ.jpg';
+  renderPersonalityType = () => {
+    if ((this.state.personalityScore = 'ISTJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ISTJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ENTJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ENTJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ENTP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ENTP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ESFJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ESFJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ESFP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ESFP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ESTJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ESTJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ESTP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ESTP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'INFJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/INFJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'INFP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/INFP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'INTJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/INTJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'INTP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/INTP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ISFJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ISFJ.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ISFP')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ISFP.jpg'),
+      });
+    } else if ((this.state.personalityScore = 'ISTJ')) {
+      this.setState({
+        personalityUri: require('../../../res/images/ISTJ.jpg'),
+      });
+    } else {
+      this.setState({
+        personalityUri: require('../../../res/images/trump.jpg'),
+      });
     }
-    return picUrl;
-  }
+  };
 
   renderPoliticalCompassPreResults = () => {
     return (
@@ -118,7 +186,7 @@ export default class ProfileScreen extends React.Component {
             justifyContent: 'center',
             alignSelf: 'center',
           }}
-          source={require('../../res/images/political_spectrum.jpg')}
+          source={require('../../../res/images/political_spectrum.jpg')}
         />
         <TouchableOpacity
           onPress={() =>
@@ -205,7 +273,7 @@ export default class ProfileScreen extends React.Component {
       <View>
         <Image
           style={styles.personalityImage}
-          source={require('../../res/images/16person.png')}
+          source={require('../../../res/images/16person.png')}
         />
         <TouchableOpacity
           onPress={() =>
@@ -226,7 +294,7 @@ export default class ProfileScreen extends React.Component {
           <View style={{flex: 1}}>
             <Image
               style={styles.selfPersonalityImage}
-              source={require('../../res/images/ENFJ.jpg')}
+              source={require('../../../res/images/ISTJ.jpg')}
             />
           </View>
         </View>
@@ -243,7 +311,7 @@ export default class ProfileScreen extends React.Component {
             onPress={() =>
               this.props.navigation.navigate('Personality Results', {
                 userId: this.props.route.params.user.id,
-                personalityType: this.state.personalityType,
+                personalityScore: this.state.personalityScore,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>
@@ -358,7 +426,7 @@ const styles = StyleSheet.create({
   },
   selfPersonalityImage: {
     width: 250,
-    height: 350,
+    height: 400,
     justifyContent: 'center',
     alignSelf: 'center',
   },

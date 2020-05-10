@@ -4,19 +4,18 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ScrollView,
 } from 'react-native';
-import RadioButton from './Components/RadioButton';
+import RadioButton from '../../Components/RadioButton';
 
-export default class PersonalityEnergy extends React.Component {
+export default class PersonalityNature extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
           prompt:
-            'You often spend time exploring unrealistic yet intriguing ideas.',
+            'You often think about what you should have said in a conversation long after it has taken place.',
           number: 0,
           choices: [
             {
@@ -35,7 +34,7 @@ export default class PersonalityEnergy extends React.Component {
         },
         {
           prompt:
-            'Your travel plans are more likely to look like a rough list of ideas than a detailed itinerary.',
+            'If your friend is sad about something, your first instinct is to support them emotionally, not try to solve their problem.',
           number: 1,
           choices: [
             {
@@ -53,8 +52,7 @@ export default class PersonalityEnergy extends React.Component {
           ],
         },
         {
-          prompt:
-            'You are more of a detail-oriented than a big picture person.',
+          prompt: 'People can rarely upset you.',
           number: 2,
           choices: [
             {
@@ -73,7 +71,8 @@ export default class PersonalityEnergy extends React.Component {
         },
       ],
       mindAnswers: this.props.route.params.mindAnswers,
-      energyAnswers: [0, 0, 0],
+      energyAnswers: this.props.route.params.energyAnswers,
+      natureAnswers: [0, 0, 0],
       userId: this.props.route.params.userId,
     };
   }
@@ -89,7 +88,7 @@ export default class PersonalityEnergy extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.energyAnswers; // create the copy of state array
+    let answers = this.state.natureAnswers; // create the copy of state array
     answers[questionNumber] = selection - 1; //new value
     this.setState({
       questions: questions,
@@ -100,7 +99,7 @@ export default class PersonalityEnergy extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Energy </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Nature </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -125,9 +124,10 @@ export default class PersonalityEnergy extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate('Personality Nature', {
+                this.props.navigation.navigate('Personality Tactic', {
                   energyAnswers: this.state.energyAnswers,
                   mindAnswers: this.state.mindAnswers,
+                  natureAnswers: this.state.natureAnswers,
                   userId: this.state.userId,
                 });
               }}>

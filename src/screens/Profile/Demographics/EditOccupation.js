@@ -8,8 +8,8 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import pol from '../api/apiConfig';
-import {colors} from '../styles';
+import pol from '../../../api/apiConfig';
+import {colors} from '../../../styles';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {

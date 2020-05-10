@@ -7,71 +7,88 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import RadioButton from './Components/RadioButton';
+import RadioButton from '../../Components/RadioButton';
+import pol from '../../../api/apiConfig';
 
-export default class PersonalityMind extends React.Component {
+export default class PoliticalCompassSocial extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
-          prompt: 'You enjoy vibrant social events with lots of people.',
+          prompt:
+            'There is now a worrying fusion of information and entertainment.',
           number: 0,
           choices: [
             {
-              label: 'Agree',
+              label: 'Strongly Agree',
               selected: false,
             },
             {
-              label: 'Neutral',
+              label: 'Agree',
               selected: false,
             },
             {
               label: 'Disagree',
               selected: false,
             },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
           ],
         },
         {
           prompt:
-            'You often rely on other people to be the ones to start a conversation and keep it going.',
+            'No one chooses his or her country of birth, so it’s foolish to be proud of it.',
           number: 1,
           choices: [
             {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Neutral',
+              label: 'Disagree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Strongly Disagree',
               selected: false,
             },
           ],
         },
         {
           prompt:
-            'You rarely worry if you made a good impression on someone you met.',
+            'Controlling inflation is more important than controlling unemployment.',
           number: 2,
           choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
             {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Neutral',
+              label: 'Disagree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Strongly Disagree',
               selected: false,
             },
           ],
         },
       ],
-      mindAnswers: [0, 0, 0],
+      answers1: this.props.route.params.answers,
+      answers2: [0, 0, 0],
+      socialScore: 0,
+      econScore: 0,
       userId: this.props.route.params.userId,
     };
   }
@@ -87,18 +104,41 @@ export default class PersonalityMind extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.mindAnswers; // create the copy of state array
-    answers[questionNumber] = selection - 1; //new value
+    let answers = this.state.answers2; // create the copy of state array
+    answers[questionNumber] = selection + 1; //new value
     this.setState({
       questions: questions,
-      answers: answers,
+      answers2: answers,
     });
+  };
+
+  calculateQuizScore = async (id, socialQuizAnswers, econQuizAnswers) => {
+    const userObject = {
+      userId: id,
+      socialAnswers: socialQuizAnswers,
+      econAnswers: econQuizAnswers,
+    };
+    await pol.api
+      .createPoliticalQuiz(userObject)
+      .then(response => {
+        this.setState({socialScore: response.socialScore.toFixed(2)});
+        this.setState({econScore: response.econScore.toFixed(2)});
+        this.props.navigation.navigate('Political Compass Results', {
+          socialScore: this.state.socialScore,
+          econScore: this.state.econScore,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Mind </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Social </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -123,10 +163,11 @@ export default class PersonalityMind extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate('Personality Energy', {
-                  mindAnswers: this.state.mindAnswers,
-                  userId: this.state.userId,
-                });
+                this.calculateQuizScore(
+                  this.state.userId,
+                  this.state.answers1,
+                  this.state.answers2,
+                );
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>

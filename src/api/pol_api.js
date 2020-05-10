@@ -161,6 +161,41 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getPartyDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/party',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getEducationDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/education',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getMaritalDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/marital',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getMaritalDemographicsById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/demographics/marital/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
   /*
    * Settings Endpoints
    */
