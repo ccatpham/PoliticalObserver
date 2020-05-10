@@ -98,7 +98,8 @@ export default class RegisterPoliticalScreen extends React.Component {
   };
 
   onPressSkip = () => {
-    auth().createUserWithEmailAndPassword(
+    auth()
+      .createUserWithEmailAndPassword(
         this.state.user.email.toLowerCase(),
         this.state.user.password,
       )
