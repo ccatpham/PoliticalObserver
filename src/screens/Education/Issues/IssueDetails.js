@@ -27,17 +27,19 @@ export default class IssueDetails extends React.Component {
       notes: '',
       date: '',
       data: [],
-      vote: null,
+      vote: false,
       voted: false,
-      voting: false,
+      voting: true,
     };
   }
 
   componentDidMount() {
     pol.api
-      .getIssueById(this.state.id)
-      .then(issue => {
-        this.setState({...issue});
+      .getIssueById(this.state.userId, this.state.id)
+      .then(issueResponse => {
+        let issue = issueResponse.issue;
+        let votedInfo = issueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -47,37 +49,29 @@ export default class IssueDetails extends React.Component {
   }
 
   onPressVote(vote) {
-    //this.setState({voting: true});
+    this.setState({voting: true});
     let voteText = '';
-    if (this.state.vote) {
+    if (vote) {
       voteText = 'yes';
     } else {
       voteText = 'no';
     }
-    // let voteData = {issueId: this.state.id, userId: this.state.userId, vote: voteText, date: new Date()};
-    // pol.api
-    //     .createUserIssue(voteData)
-    //     .then(userIssue => {
-    //       this.setState({vote: vote, voted: true, voting: false});
-    //     })
-    //     .catch(error => {
-    //       Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-    //         cancelable: false,
-    //       });
-    //     });
-    this.setState({vote: vote, voted: true, voting: false});
-    this.setState({
-      data: [
-        {
-          x: 'Against',
-          y: 30,
-        },
-        {
-          x: 'For',
-          y: 70,
-        },
-      ],
-    });
+    pol.api
+      .createUserIssue({
+        issueId: this.state.id,
+        userId: this.state.userId,
+        vote: voteText,
+      })
+      .then(userIssueResponse => {
+        let issue = userIssueResponse.issue;
+        let votedInfo = userIssueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   }
 
   onPressViewData = () => {
@@ -85,6 +79,8 @@ export default class IssueDetails extends React.Component {
       userId: this.state.userId,
       vote: this.state.vote,
       issueId: this.state.id,
+      issueTitle: this.state.title,
+      issueDescription: this.state.description,
     });
   };
 
@@ -128,7 +124,7 @@ export default class IssueDetails extends React.Component {
                     ? {color: colors.polGreen}
                     : {color: colors.polRed},
                 ]}>
-                {this.state.vote ? 'For' : 'Against'}
+                {this.state.vote}
               </Text>
             </View>
             <TouchableOpacity

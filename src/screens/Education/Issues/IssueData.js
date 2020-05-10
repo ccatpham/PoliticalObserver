@@ -13,102 +13,102 @@ import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 
+const titleGender = {title: 'Gender'};
+const titleParty = {title: 'Party'};
+const titleEducation = {title: 'Education'};
+const titleEthnicity = {title: 'Ethnicity'};
+
 export default class IssueData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.route.params.userId,
       issueId: this.props.route.params.issueId,
       vote: this.props.route.params.vote,
-      data: [
-        {
-          x: 'Against',
-          y: 30,
-        },
-        {
-          x: 'For',
-          y: 70,
-        },
-      ],
-      genderData: [
-        {
-          x: 'Male',
-          y: 13,
-        },
-        {
-          x: 'Female',
-          y: 7,
-        },
-        {
-          x: 'Other',
-          y: 1,
-        },
-        {
-          x: 'Male',
-          y: 6,
-        },
-        {
-          x: 'Female',
-          y: 11,
-        },
-        {
-          x: 'Other',
-          y: 2,
-        },
-      ],
-      partyData: [
-        {
-          x: 'Democrat',
-          y: 2,
-        },
-        {
-          x: 'Republican',
-          y: 8,
-        },
-        {
-          x: 'Libertarian',
-          y: 4,
-        },
-        {
-          x: 'Green',
-          y: 1,
-        },
-        {
-          x: 'Constitution',
-          y: 3,
-        },
-        {
-          x: 'Unaligned',
-          y: 2,
-        },
-        {
-          x: 'Democrat',
-          y: 9,
-        },
-        {
-          x: 'Republican',
-          y: 3,
-        },
-        {
-          x: 'Libertarian',
-          y: 1,
-        },
-        {
-          x: 'Green',
-          y: 1,
-        },
-        {
-          x: 'Constitution',
-          y: 1,
-        },
-        {
-          x: 'Unaligned',
-          y: 5,
-        },
-      ],
+      title: this.props.route.params.issueTitle,
+      description: this.props.route.params.issueDescription,
+      data: [],
+      genderData: [],
+      partyData: [],
+      educationData: [],
+      ethnicityData: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getIssueData();
+    this.getIssueGenderStats();
+    this.getIssuePartyStats();
+    this.getIssueEducationStats();
+    this.getIssueEthnicityStats();
+  }
+
+  getIssueData() {
+    pol.api
+      .getIssueById(this.state.userId, this.state.issueId)
+      .then(issueResponse => {
+        let issue = issueResponse.issue;
+        let votedInfo = issueResponse.votedInfo;
+        this.setState({...issue, ...votedInfo, voting: false});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueGenderStats() {
+    pol.api
+      .getIssueDataGenderByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({genderData: response.gender});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssuePartyStats() {
+    pol.api
+      .getIssueDataPartyByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({partyData: response.party});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueEducationStats() {
+    pol.api
+      .getIssueDataEducationByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({educationData: response.education});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  getIssueEthnicityStats() {
+    pol.api
+      .getIssueDataEthnicityByIssueId(this.state.issueId)
+      .then(response => {
+        this.setState({ethnicityData: response.ethnicity});
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
 
   renderResultsView() {
     return (
@@ -133,8 +133,8 @@ export default class IssueData extends React.Component {
         <View style={styles.resultsInformationContainer}>
           <View style={styles.resultsDescriptionContainer}>
             <Text style={styles.resultsDescriptionText}>
-              This graph depicts how the other users chose to vote on this
-              particular issue.
+              {this.state.title + ': \n'}
+              {this.state.description}
             </Text>
           </View>
           <View style={styles.userVoteContainer}>
@@ -146,7 +146,7 @@ export default class IssueData extends React.Component {
                   ? {color: colors.polGreen}
                   : {color: colors.polRed},
               ]}>
-              {this.state.vote ? 'For' : 'Against'}
+              {this.state.vote}
             </Text>
           </View>
         </View>
@@ -158,17 +158,24 @@ export default class IssueData extends React.Component {
     return (
       <View style={styles.chartViewContainer}>
         <View style={styles.chartContainer}>
+          <Text style={styles.chartTitle}>
+            {data[2].title} division of yes and no votes.
+          </Text>
           <VictoryPie
-            data={data}
-            // colorScale={['#', '#', '#', '#', '#', '#']}
-            labelRadius={20}
-            width={150}
-            height={150}
-            padding={0}
+            data={data[0]}
+            colorScale={data[1]}
+            labelPosition="centroid"
+            innerRadius={60}
+            labelRadius={70}
+            padAngle={({datum}) => datum.y * 4}
+            labels={({datum}) => (`${datum.y}` !== '0' ? `${datum.x}` : '')}
+            width={280}
+            height={280}
+            padding={20}
             style={{
               labels: {
-                fill: colors.polWhite,
-                fontSize: 16,
+                fill: 'black',
+                fontSize: 12,
                 fontWeight: 'bold',
               },
             }}
@@ -179,7 +186,12 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let data = [this.state.genderData, this.state.partyData];
+    let data = [
+      [this.state.genderData, colors.gender, titleGender],
+      [this.state.partyData, colors.party, titleParty],
+      [this.state.educationData, colors.education, titleEducation],
+      [this.state.ethnicityData, colors.ethnicity, titleEthnicity],
+    ];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.contentContainer}>
@@ -205,13 +217,14 @@ const styles = StyleSheet.create({
   chartsContainer: {
     flex: 1,
     marginVertical: 10,
-    backgroundColor: colors.polGray,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   resultsDetailsContainer: {
     flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
-    backgroundColor: colors.polGray,
   },
   resultsChartContainer: {
     flex: 1,
@@ -236,6 +249,13 @@ const styles = StyleSheet.create({
   },
   userVoteText: {
     fontSize: 14,
+    fontWeight: 'bold',
+  },
+  chartTitle: {
+    borderTopWidth: 1,
+    borderTopColor: 'black',
+    paddingTop: 10,
+    justifyContent: 'center',
     fontWeight: 'bold',
   },
 });

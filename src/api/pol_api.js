@@ -198,10 +198,10 @@ export default class Api {
    * Issues Endpoints
    */
 
-  async getIssueById(id) {
+  async getIssueById(userId, issueId) {
     const config = {
       method: 'get',
-      endpoint: `/issues/id/${id}`,
+      endpoint: `/issues/${issueId}/userId/${userId}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
@@ -260,10 +260,10 @@ export default class Api {
    * UserIssues Endpoints
    */
 
-  async getUserIssueByUserId(userid) {
+  async getStatsForOneIssue(issueid, userid) {
     const config = {
       method: 'get',
-      endpoint: `/userissues/userid/${userid}`,
+      endpoint: `/userissues/stats/${issueid}/${userid}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
@@ -274,6 +274,55 @@ export default class Api {
       method: 'post',
       endpoint: '/userissues/',
       jsonData: voteData,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getUserIssue(issueid, userid) {
+    const config = {
+      method: 'get',
+      endpoint: '/userissues/${issueid}/${userid}',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
+   * Issue Data Endpoints
+   */
+
+  async getIssueDataGenderByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/gender/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getIssueDataPartyByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/party/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getIssueDataEducationByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/education/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getIssueDataEthnicityByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/ethnicity/issueid/${issueid}/`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
