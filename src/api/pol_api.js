@@ -115,6 +115,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getUserInsights(userId) {
+    const config = {
+      method: 'get',
+      endpoint: `/users/${userId}/data/insights`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Dashboard Endpoints
    */
