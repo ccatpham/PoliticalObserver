@@ -19,12 +19,31 @@ export default class DashboardScreen extends React.Component {
 
   componentDidMount() {}
 
+  // 538
   renderDashboardModule() {
     return (
       <TouchableOpacity style={styles.dashboardModuleContainer}>
         <Text>2020 Presidential Election</Text>
-        <View>
-          <Text>** TODO **</Text>
+        <View style={styles.electionResultsContainer}>
+          <View style={styles.candidatesContainer}>
+            <View style={styles.leftCandidateContainer}>
+              <Image style={styles.candidateImage} source={require('../../../res/images/biden.jpg')}/>
+              <View>
+                <Text>Biden</Text>
+                <Text>192</Text>
+              </View>
+            </View>
+            <View style={styles.rightCandidateContainer}>
+              <View>
+                <Text>Trump</Text>
+                <Text>192</Text>
+              </View>
+              <Image style={styles.candidateImage} source={require('../../../res/images/trump.jpg')}/>
+            </View>
+          </View>
+          <View style={styles.resultBarContainer}>
+            
+          </View>
         </View>
       </TouchableOpacity>
     );
