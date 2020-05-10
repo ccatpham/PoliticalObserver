@@ -201,9 +201,7 @@ const styles = StyleSheet.create({
   dataContainer: {
     backgroundColor: colors.polGray,
   },
-  itemContainer: {
-
-  },
+  itemContainer: {},
   itemHeaderText: {
     textAlign: 'center',
     fontSize: 20,
