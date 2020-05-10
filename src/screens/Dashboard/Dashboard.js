@@ -188,38 +188,38 @@ export default class DashboardScreen extends React.Component {
 
   renderNotifications() {
     return (
-        <View style={styles.notificationsContainer}>
-          <Carousel
-              ref={c => {
-                this._carousel = c;
-              }}
-              data={this.state.notifications}
-              renderItem={this.renderNotification.bind(this)}
-              onSnapToItem={index =>
-                  this.setState({activeNotificationSlide: index})
-              }
-              sliderWidth={windowWidth - 40}
-              itemWidth={windowWidth - 120}
-          />
-          <Pagination
-              dotsLength={this.state.notifications.length}
-              activeDotIndex={this.state.activeNotificationSlide}
-              containerStyle={styles.notificationsPaginationStyle}
-              dotStyle={{
-                width: 8,
-                height: 8,
-                borderRadius: 4,
-                backgroundColor: colors.polGray,
-              }}
-              inactiveDotStyle={
-                {
-                  // Define styles for inactive dots here
-                }
-              }
-              inactiveDotOpacity={0.4}
-              inactiveDotScale={0.6}
-          />
-        </View>
+      <View style={styles.notificationsContainer}>
+        <Carousel
+          ref={c => {
+            this._carousel = c;
+          }}
+          data={this.state.notifications}
+          renderItem={this.renderNotification.bind(this)}
+          onSnapToItem={index =>
+            this.setState({activeNotificationSlide: index})
+          }
+          sliderWidth={windowWidth - 40}
+          itemWidth={windowWidth - 120}
+        />
+        <Pagination
+          dotsLength={this.state.notifications.length}
+          activeDotIndex={this.state.activeNotificationSlide}
+          containerStyle={styles.notificationsPaginationStyle}
+          dotStyle={{
+            width: 8,
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: colors.polGray,
+          }}
+          inactiveDotStyle={
+            {
+              // Define styles for inactive dots here
+            }
+          }
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+      </View>
     );
   }
 
