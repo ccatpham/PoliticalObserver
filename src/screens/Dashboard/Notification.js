@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,11 +15,41 @@ export default class NotificationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.route.params.notificationId,
       data: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    pol.api
+      .getNotificationById(this.state.id)
+      .then(notification => {
+        this.setState({
+          data: notification,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  renderSection(section) {
+    return (
+        <View>
+          <Text></Text>
+        </View>
+    );
+  }
+
+  renderSections() {
+    return (
+        <View>
+          <Text></Text>
+        </View>
+    );
+  }
 
   render() {
     return (
@@ -27,41 +58,9 @@ export default class NotificationScreen extends React.Component {
           <View style={styles.contentContainer}>
             <View style={styles.shadowContainerColumn}>
               <Text style={styles.notificationHeaderText}>
-                Election Starter Pack
+                {this.state.data.title}
               </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL('https://voterstatus.sos.ca.gov/');
-                }}
-                style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  1.) Check Your Voter Registration Status.
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL('https://covr.sos.ca.gov/');
-                }}
-                style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  2.) Register to vote.{' '}
-                </Text>
-                <Text style={styles.notificationText}>
-                  Online must be done by October 15, 2020.
-                </Text>
-                <Text style={styles.notificationText}>
-                  Mail-in must be postmarked by October 19, 2020
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.shadowContainerColumn}>
-                <Text style={styles.notificationSectionText}>
-                  3.) View your voter information guide.{' '}
-                </Text>
-                <Text style={styles.notificationText}>
-                  The Official Voter Information Guide for the November 3, 2020,
-                  General Election will be available in September 2020.
-                </Text>
-              </TouchableOpacity>
+              {this.renderSections}
             </View>
           </View>
         </ScrollView>

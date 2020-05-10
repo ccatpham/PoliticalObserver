@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Image,
   Alert,
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,8 +11,11 @@ import {
   FlatList,
 } from 'react-native';
 import {VictoryPie} from 'victory-native';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {colors} from '../../styles';
 import pol from '../../api/apiConfig';
+
+const windowWidth = Dimensions.get('window').width;
 
 export default class DashboardScreen extends React.Component {
   constructor(props) {
@@ -20,10 +24,25 @@ export default class DashboardScreen extends React.Component {
       totalVotes: 538,
       leftVotes: 192,
       rightVotes: 192,
+      notifications: [],
+      activeNotificationSlide: 0,
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    pol.api
+      .getRecentNotifications()
+      .then(notifications => {
+        this.setState({
+          notifications: notifications,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
 
   renderItem(item) {
     let leftResultsLeft = 0;
@@ -101,20 +120,6 @@ export default class DashboardScreen extends React.Component {
   }
 
   renderDashboardModule() {
-    //let total = this.state.total - this.state.leftVotes - this.state.rightVotes;
-    // let total = 538;
-    // let leftResults = 192;
-    // let rightResults = 192;
-    // total = total - leftResults - rightResults;
-    // let leftResultsLeft = 0;
-    // let rightResultsLeft = 0;
-    // if (270 - leftResults >= 0) {
-    //   leftResultsLeft = 270 - leftResults;
-    // }
-    // if (270 - rightResults >= 0) {
-    //   rightResultsLeft = 270 - rightResults;
-    // }
-
     let data = [
       {
         total: 538,
@@ -158,18 +163,63 @@ export default class DashboardScreen extends React.Component {
     );
   }
 
-  renderNotifications() {
+  renderNotification({item, index}) {
     return (
       <TouchableOpacity
-        style={styles.notificationsContainer}
-        onPress={() => this.props.navigation.navigate('Notification')}>
+        style={styles.notificationContainer}
+        onPress={() =>
+          this.props.navigation.navigate('Notification', {
+            notificationId: item.id,
+          })
+        }>
         <View style={styles.notificationsHeaderContainer}>
-          <Text style={styles.notificationsHeaderText}>
-            Election Incoming! Register to vote!
-          </Text>
+          <Text style={styles.notificationsHeaderText}>{item.title}</Text>
         </View>
-        <Text style={styles.notificationsViewText}>View Notification ></Text>
+        <View style={styles.notificationsViewContainer}>
+          <Text style={styles.notificationsViewText}>View Notification</Text>
+          <Image
+            style={styles.arrowIcon}
+            source={require('../../../res/icons/rightArrow.png')}
+          />
+        </View>
       </TouchableOpacity>
+    );
+  }
+
+  renderNotifications() {
+    return (
+        <View style={styles.notificationsContainer}>
+          <Carousel
+              ref={c => {
+                this._carousel = c;
+              }}
+              data={this.state.notifications}
+              renderItem={this.renderNotification.bind(this)}
+              onSnapToItem={index =>
+                  this.setState({activeNotificationSlide: index})
+              }
+              sliderWidth={windowWidth - 40}
+              itemWidth={windowWidth - 120}
+          />
+          <Pagination
+              dotsLength={this.state.notifications.length}
+              activeDotIndex={this.state.activeNotificationSlide}
+              containerStyle={styles.notificationsPaginationStyle}
+              dotStyle={{
+                width: 8,
+                height: 8,
+                borderRadius: 4,
+                backgroundColor: colors.polGray,
+              }}
+              inactiveDotStyle={
+                {
+                  // Define styles for inactive dots here
+                }
+              }
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}
+          />
+        </View>
     );
   }
 
@@ -191,6 +241,8 @@ export default class DashboardScreen extends React.Component {
         <View style={styles.contentContainer}>
           {this.renderDashboardModule()}
           {this.renderNotifications()}
+          {/*{this.renderNotificationsCarousel()}*/}
+          {/*{this.renderNotificationsPagination()}*/}
           {this.renderData()}
         </View>
       </View>
@@ -289,7 +341,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   middleResultsBarTextContainer: {
-    flex: 1,
+    flex: 2,
   },
   rightResultsBarTextContainer: {
     flex: 1,
@@ -308,7 +360,39 @@ const styles = StyleSheet.create({
   notificationsContainer: {
     flex: 1,
     marginVertical: 20,
-    backgroundColor: colors.polGray,
+  },
+  notificationsPaginationStyle: {
+    paddingVertical: 4,
+  },
+  notificationContainer: {
+    flex: 1,
+    backgroundColor: colors.polLightGray,
+  },
+  notificationsHeaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationsHeaderText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 2,
+  },
+  notificationsViewContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 4,
+  },
+  notificationsViewText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  arrowIcon: {
+    height: 12,
+    width: 12,
+    marginLeft: 2,
   },
   dataContainer: {
     flex: 1,

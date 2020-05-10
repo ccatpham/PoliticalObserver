@@ -156,6 +156,28 @@ export default class Api {
   }
 
   /*
+   * Notifications Endpoints
+   */
+
+  async getNotificationById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/notifications/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getRecentNotifications() {
+    const config = {
+      method: 'get',
+      endpoint: '/notifications/recent',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
    * Demographic Endpoints
    */
 
