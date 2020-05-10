@@ -41,6 +41,13 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log(
+      'HasTakenPersonalityTest: ' +
+        this.props.route.params.hasTakenPersonalityTest,
+    );
+    console.log(
+      'Personality Score: ' + this.props.route.params.personalityScore,
+    );
     this.getDemographic();
     this.props.navigation.addListener('focus', () => {
       if (this.props.route.params.hasTakenPoliticalTest) {
@@ -51,12 +58,12 @@ export default class ProfileScreen extends React.Component {
         });
       }
       if (this.props.route.params.hasTakenPersonalityTest) {
+        console.log("I'm in has taken personality test");
         this.setState({
-          hasTakenPersonalityTest: this.props.route.params
-            .hasTakenPersonalityTest,
+          hasTakenPersonalityTest: this.props.route.params.hasTakenPersonalityTest,
           personalityScore: this.props.route.params.personalityScore,
         });
-        this.renderPersonalityType(this.state.personalityScore);
+        console.log(this.state.personalityScore);
       }
     });
   };
@@ -104,70 +111,6 @@ export default class ProfileScreen extends React.Component {
           cancelable: false,
         });
       });
-  };
-
-  renderPersonalityType = () => {
-    if ((this.state.personalityScore = 'ISTJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ISTJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ENTJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ENTJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ENTP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ENTP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ESFJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ESFJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ESFP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ESFP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ESTJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ESTJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ESTP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ESTP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'INFJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/INFJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'INFP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/INFP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'INTJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/INTJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'INTP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/INTP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ISFJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ISFJ.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ISFP')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ISFP.jpg'),
-      });
-    } else if ((this.state.personalityScore = 'ISTJ')) {
-      this.setState({
-        personalityUri: require('../../../res/images/ISTJ.jpg'),
-      });
-    } else {
-      this.setState({
-        personalityUri: require('../../../res/images/trump.jpg'),
-      });
-    }
   };
 
   renderPoliticalCompassPreResults = () => {
@@ -281,14 +224,14 @@ export default class ProfileScreen extends React.Component {
     );
   };
 
-  renderPersonalityPostResults = () => {
+  renderPersonalityPostResults = personalityUri => {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
             <Image
               style={styles.selfPersonalityImage}
-              source={this.state.personalityUri}
+              source={personalityUri}
             />
           </View>
         </View>
@@ -316,6 +259,39 @@ export default class ProfileScreen extends React.Component {
   };
 
   render() {
+    let personalityUri = require('../../../res/images/biden.jpg');
+    if ((this.props.route.params.personalityScore = 'ISTJ')) {
+      personalityUri = require('../../../res/images/ISTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ENTJ')) {
+      personalityUri = require('../../../res/images/ENTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ENTP')) {
+      personalityUri = require('../../../res/images/ENTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESFJ')) {
+      personalityUri = require('../../../res/images/ESFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESFP')) {
+      personalityUri = require('../../../res/images/ESFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESTJ')) {
+      personalityUri = require('../../../res/images/ESTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESTP')) {
+      personalityUri = require('../../../res/images/ESTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INFJ')) {
+      personalityUri = require('../../../res/images/INFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INFP')) {
+      personalityUri = require('../../../res/images/INFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INTJ')) {
+      personalityUri = require('../../../res/images/INTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INTP')) {
+      personalityUri = require('../../../res/images/INTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISFJ')) {
+      personalityUri = require('../../../res/images/ISFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISFP')) {
+      personalityUri = require('../../../res/images/ISFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISTJ')) {
+      personalityUri = require('../../../res/images/ISTJ.jpg');
+    } else {
+      personalityUri = require('../../../res/images/trump.jpg');
+    }
+
     return (
       <ScrollView>
         <View>
@@ -333,7 +309,7 @@ export default class ProfileScreen extends React.Component {
             <Text style={styles.headingTextStyle}>Personality Quiz</Text>
             <View>
               {this.state.hasTakenPersonalityTest
-                ? this.renderPersonalityPostResults()
+                ? this.renderPersonalityPostResults(personalityUri)
                 : this.renderPersonalityPreResults()}
             </View>
           </View>
