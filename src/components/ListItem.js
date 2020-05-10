@@ -26,7 +26,7 @@ export default class ListItem extends React.Component {
             borderWidth: 1,
             borderColor: '#bdc3c7',
           }}>
-          <View style={{backgroundColor: 'gray', flex: 1}}>
+          <View style={{marginTop: 10, flex: 1}}>
             <Image
               source={this.props.icon}
               style={{
@@ -37,17 +37,19 @@ export default class ListItem extends React.Component {
               }}
             />
           </View>
-          <View style={{backgroundColor: 'red', flex: 5}}>
+          <View style={{flex: 5}}>
             <Text style={styles.headingTextStyle}>{this.props.title}</Text>
-            <Text>{this.props.description}</Text>
+            <Text style={{marginHorizontal: 10}}>{this.props.description}</Text>
           </View>
-          <View style={{backgroundColor: 'blue', flex: 1}}>
+          <View style={{flex: 1}}>
             <Text
               style={{
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginTop: 10,
+                fontSize: 20,
+                textTransform: 'capitalize',
               }}>
               {this.props.choice}
             </Text>

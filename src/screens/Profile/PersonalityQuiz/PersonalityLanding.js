@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import background from '../../res/images/personality_group.jpg';
+import background from '../../../../res/images/personality_group.jpg';
 export default class PersonalityLanding extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +28,12 @@ export default class PersonalityLanding extends React.Component {
           </Text>
         </View>
         <View style={styles.startButtonStyle}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Personality Mind', {
+                userId: this.props.route.params.user.id,
+              })
+            }>
             <Text style={styles.startButtonFont}>Start the test</Text>
           </TouchableOpacity>
         </View>

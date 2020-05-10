@@ -4,87 +4,77 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   Alert,
+  ScrollView,
 } from 'react-native';
-import RadioButton from './Components/RadioButton';
-export default class PoliticalCompassEconomic extends React.Component {
+import RadioButton from '../../Components/RadioButton';
+
+export default class PersonalityEnergy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
           prompt:
-            'If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.',
+            'You often spend time exploring unrealistic yet intriguing ideas.',
           number: 0,
           choices: [
             {
-              label: 'Strongly Agree',
+              label: 'Agree',
               selected: false,
             },
             {
-              label: 'Agree',
+              label: 'Neutral',
               selected: false,
             },
             {
               label: 'Disagree',
               selected: false,
             },
-            {
-              label: 'Strongly Disagree',
-              selected: false,
-            },
           ],
         },
         {
           prompt:
-            'I’d always support my country, whether it was right or wrong.',
+            'Your travel plans are more likely to look like a rough list of ideas than a detailed itinerary.',
           number: 1,
           choices: [
             {
-              label: 'Strongly Agree',
-              selected: false,
-            },
-            {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
         {
           prompt:
-            'Military action that defies international law is sometimes justified.',
+            'You are more of a detail-oriented than a big picture person.',
           number: 2,
           choices: [
-            {
-              label: 'Strongly Agree',
-              selected: false,
-            },
             {
               label: 'Agree',
               selected: false,
             },
             {
-              label: 'Disagree',
+              label: 'Neutral',
               selected: false,
             },
             {
-              label: 'Strongly Disagree',
+              label: 'Disagree',
               selected: false,
             },
           ],
         },
       ],
-      answers: [0, 0, 0],
-      userID: this.props.route.params.userID,
+      mindAnswers: this.props.route.params.mindAnswers,
+      energyAnswers: [0, 0, 0],
+      userId: this.props.route.params.userId,
     };
   }
 
@@ -99,8 +89,8 @@ export default class PoliticalCompassEconomic extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.answers; // create the copy of state array
-    answers[questionNumber] = selection + 1; //new value
+    let answers = this.state.energyAnswers; // create the copy of state array
+    answers[questionNumber] = selection - 1; //new value
     this.setState({
       questions: questions,
       answers: answers,
@@ -110,7 +100,7 @@ export default class PoliticalCompassEconomic extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Economy </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Energy </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -135,9 +125,10 @@ export default class PoliticalCompassEconomic extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.props.navigation.navigate('PoliticalCompassSocial', {
-                  answers: this.state.answers,
-                  userID: this.state.userID,
+                this.props.navigation.navigate('Personality Nature', {
+                  energyAnswers: this.state.energyAnswers,
+                  mindAnswers: this.state.mindAnswers,
+                  userId: this.state.userId,
                 });
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>

@@ -11,12 +11,17 @@ import EducationScreen from './screens/Education/Education';
 import DashboardScreen from './screens/Dashboard/Dashboard';
 import NotificationScreen from './screens/Dashboard/Notification';
 import CompareDataScreen from './screens/Dashboard/CompareData';
-import ProfileScreen from './screens/Profile';
-import SettingsScreen from './screens/Settings';
-import PersonalityLanding from './screens/PersonalityLanding';
-import EditDemographics from './screens/EditDemographic';
-import DemographicInsights from './screens/DemographicInsights';
-import VotedOnIssues from './screens/VotedOnIssues';
+import ProfileScreen from './screens/Profile/Profile';
+import SettingsScreen from './screens/Profile/Settings';
+import PersonalityLanding from './screens/Profile/PersonalityQuiz/PersonalityLanding';
+import PersonalityMind from './screens/Profile/PersonalityQuiz/PersonalityMind';
+import PersonalityEnergy from './screens/Profile/PersonalityQuiz/PersonalityEnergy';
+import PersonalityNature from './screens/Profile/PersonalityQuiz/PersonalityNature';
+import PersonalityTactic from './screens/Profile/PersonalityQuiz/PersonalityTactic';
+import PersonalityResults from './screens/Profile/PersonalityQuiz/PersonalityResults';
+import EditDemographics from './screens/Profile/Demographics/EditDemographic';
+import DemographicInsights from './screens/Profile/Demographics/DemographicInsights';
+import VotedOnIssues from './screens/Profile/VotedOnIssues';
 import IssuesScreen from './screens/Education/Issues/Issues';
 import IssueDetailsScreen from './screens/Education/Issues/IssueDetails';
 import IssueDataScreen from './screens/Education/Issues/IssueData';
@@ -24,10 +29,10 @@ import PoliticiansScreen from './screens/Education/Politicians/Politicians';
 import PoliticianDetailsScreen from './screens/Education/Politicians/PoliticianDetails';
 import TopicsScreen from './screens/Education/Topics/Topics';
 import TopicDetailsScreen from './screens/Education/Topics/TopicDetails';
-import PoliticalCompassEcon from './screens/PoliticalCompassEconomic';
-import PoliticalCompassSocial from './screens/PoliticalCompassSocial';
-import PoliticalCompassLanding from './screens/PoliticalCompassLanding';
-import PoliticalCompassResults from './screens/PoliticalCompassResults';
+import PoliticalCompassEcon from './screens/Profile/PoliticalCompass/PoliticalCompassEconomic';
+import PoliticalCompassSocial from './screens/Profile/PoliticalCompass/PoliticalCompassSocial';
+import PoliticalCompassLanding from './screens/Profile/PoliticalCompass/PoliticalCompassLanding';
+import PoliticalCompassResults from './screens/Profile/PoliticalCompass/PoliticalCompassResults';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -95,12 +100,37 @@ const ProfileStack = props => {
         component={PoliticalCompassSocial}
       />
       <Stack.Screen
-        name="PoliticalCompassResults"
+        name="Political Compass Results"
         component={PoliticalCompassResults}
       />
       <Stack.Screen
         name="Personality Landing"
         component={PersonalityLanding}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Mind"
+        component={PersonalityMind}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Energy"
+        component={PersonalityEnergy}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Nature"
+        component={PersonalityNature}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Tactic"
+        component={PersonalityTactic}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Personality Results"
+        component={PersonalityResults}
         initialParams={props.route.params}
       />
       <Stack.Screen

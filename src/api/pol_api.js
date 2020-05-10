@@ -159,6 +159,51 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async modifyDemographic(id, demographicData) {
+    const config = {
+      method: 'put',
+      endpoint: `/demographics/id/${id}`,
+      jsonData: demographicData,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getPartyDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/party',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getEducationDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/education',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getMaritalDemographics() {
+    const config = {
+      method: 'get',
+      endpoint: '/demographics/marital',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getMaritalDemographicsById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/demographics/marital/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
   /*
    * Settings Endpoints
    */
@@ -329,22 +374,42 @@ export default class Api {
   }
 
   /*
-   * Social Quiz Endpoints
+   * Political Quiz Endpoints
    */
 
-  async createQuiz(userData) {
+  async createPoliticalQuiz(userData) {
     const config = {
       method: 'post',
-      endpoint: '/quiz/',
+      endpoint: '/quiz/political',
       jsonData: userData,
     };
     return this.apiRequest(config).then(parseApiResponse);
   }
 
-  async getQuizScoreByUserId(id) {
+  async getPoliticalQuizScoreByUserId(userid) {
     const config = {
       method: 'get',
-      endpoint: `/quiz/userid/${id}`,
+      endpoint: `/quiz/political/userid/${userid}`,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+  /*
+   * Personality Quiz Endpoints
+   */
+
+  async createPersonalityQuiz(userData) {
+    const config = {
+      method: 'post',
+      endpoint: '/quiz/personality',
+      jsonData: userData,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getPersonalityQuizScoreByUserId(userid) {
+    const config = {
+      method: 'get',
+      endpoint: `/quiz/personality/userid/${userid}`,
     };
     return this.apiRequest(config).then(parseApiResponse);
   }

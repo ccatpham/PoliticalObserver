@@ -4,20 +4,18 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   ScrollView,
+  Alert,
 } from 'react-native';
-import RadioButton from './Components/RadioButton';
-import pol from '../api/apiConfig';
-
-export default class PoliticalCompassSocial extends React.Component {
+import RadioButton from '../../Components/RadioButton';
+export default class PoliticalCompassEconomic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: [
         {
           prompt:
-            'There is now a worrying fusion of information and entertainment.',
+            'If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.',
           number: 0,
           choices: [
             {
@@ -40,7 +38,7 @@ export default class PoliticalCompassSocial extends React.Component {
         },
         {
           prompt:
-            'No one chooses his or her country of birth, so it’s foolish to be proud of it.',
+            'I’d always support my country, whether it was right or wrong.',
           number: 1,
           choices: [
             {
@@ -63,7 +61,7 @@ export default class PoliticalCompassSocial extends React.Component {
         },
         {
           prompt:
-            'Controlling inflation is more important than controlling unemployment.',
+            'Military action that defies international law is sometimes justified.',
           number: 2,
           choices: [
             {
@@ -85,10 +83,7 @@ export default class PoliticalCompassSocial extends React.Component {
           ],
         },
       ],
-      answers1: this.props.route.params.answers,
-      answers2: [0, 0, 0],
-      socialScore: 0,
-      econScore: 0,
+      answers: [0, 0, 0],
       userID: this.props.route.params.userID,
     };
   }
@@ -104,41 +99,18 @@ export default class PoliticalCompassSocial extends React.Component {
         questions[questionNumber].choices[i].selected = false;
       }
     }
-    let answers = this.state.answers2; // create the copy of state array
+    let answers = this.state.answers; // create the copy of state array
     answers[questionNumber] = selection + 1; //new value
     this.setState({
       questions: questions,
-      answers2: answers,
+      answers: answers,
     });
-  };
-
-  calculateQuizScore = async (id, socialQuizAnswers, econQuizAnswers) => {
-    const userObject = {
-      userID: id,
-      socialAnswers: socialQuizAnswers,
-      econAnswers: econQuizAnswers,
-    };
-    await pol.api
-      .createQuiz(userObject)
-      .then(response => {
-        this.setState({socialScore: response.socialScore.toFixed(2)});
-        this.setState({econScore: response.econScore.toFixed(2)});
-        this.props.navigation.navigate('PoliticalCompassResults', {
-          socialScore: this.state.socialScore,
-          econScore: this.state.econScore,
-        });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
   };
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Social </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}> Economy </Text>
         <ScrollView>
           {this.state.questions.map(question => (
             <View style={styles.questionBox}>
@@ -163,11 +135,10 @@ export default class PoliticalCompassSocial extends React.Component {
           <View style={styles.optionButton}>
             <TouchableOpacity
               onPress={() => {
-                this.calculateQuizScore(
-                  this.state.userID,
-                  this.state.answers1,
-                  this.state.answers2,
-                );
+                this.props.navigation.navigate('PoliticalCompassSocial', {
+                  answers: this.state.answers,
+                  userID: this.state.userID,
+                });
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
             </TouchableOpacity>
