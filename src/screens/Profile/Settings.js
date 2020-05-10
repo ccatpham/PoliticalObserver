@@ -11,9 +11,6 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
   }
-  onPressPolitician = () => {
-    alert('hello');
-  };
 
   render() {
     return (

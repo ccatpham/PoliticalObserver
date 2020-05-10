@@ -14,16 +14,17 @@ import {
   VictoryTheme,
   VictoryScatter,
 } from 'victory-native';
-import pol from '../api/apiConfig';
+import pol from '../../api/apiConfig';
+
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: this.props.route.params.user.id,
-      demographicID: this.props.route.params.user.demographicId,
+      userId: this.props.route.params.user.id,
+      demographicId: this.props.route.params.user.demographicId,
       partyAffiliation: '',
       martialStatus: '',
-      ageRange: '',
+      age: '',
       education: '',
       ethnicity: '',
       incomeLevel: '',
@@ -31,6 +32,7 @@ export default class ProfileScreen extends React.Component {
       politicalAffiliation: '',
       state: '',
       personalityType: '',
+      personalityScore: '',
       hasTakenPoliticalTest: false,
       hasTakenPersonalityTest: false,
       socialScore: 0,
@@ -39,31 +41,49 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log(
+      'HasTakenPersonalityTest: ' +
+        this.props.route.params.hasTakenPersonalityTest,
+    );
+    console.log(
+      'Personality Score: ' + this.props.route.params.personalityScore,
+    );
     this.getDemographic();
     this.props.navigation.addListener('focus', () => {
-      this.setState({
-        hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
-        socialScore: this.props.route.params.socialScore,
-        econScore: this.props.route.params.econScore,
-      });
+      if (this.props.route.params.hasTakenPoliticalTest) {
+        this.setState({
+          hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
+          socialScore: this.props.route.params.socialScore,
+          econScore: this.props.route.params.econScore,
+        });
+      }
+      if (this.props.route.params.hasTakenPersonalityTest) {
+        console.log("I'm in has taken personality test");
+        this.setState({
+          hasTakenPersonalityTest: this.props.route.params.hasTakenPersonalityTest,
+          personalityScore: this.props.route.params.personalityScore,
+        });
+        console.log(this.state.personalityScore);
+      }
     });
   };
 
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
+      demographicId: this.props.route.params.user.demographicId,
     });
   };
 
   onPressViewDemographicsInsights = () => {
     this.props.navigation.navigate('Demographic Insights', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
     });
   };
 
   onPressViewIssues = () => {
     this.props.navigation.navigate('Voted On Issues', {
-      userID: this.props.route.params.user.id,
+      userId: this.props.route.params.user.id,
     });
   };
 
@@ -84,9 +104,7 @@ export default class ProfileScreen extends React.Component {
           politicalAffiliation: response.politicalAffiliation,
           state: response.state,
           gender: response.gender,
-        }),
-          console.log(this.state.partyAffiliation);
-        console.log(this.state.martialStatus);
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -105,12 +123,12 @@ export default class ProfileScreen extends React.Component {
             justifyContent: 'center',
             alignSelf: 'center',
           }}
-          source={require('../../res/images/political_spectrum.jpg')}
+          source={require('../../../res/images/political_spectrum.jpg')}
         />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('PoliticalCompassLanding', {
-              userID: this.props.route.params.user.id,
+              userId: this.props.route.params.user.id,
             })
           }>
           <Text style={styles.quizButton}>Go to Quiz</Text>
@@ -167,15 +185,17 @@ export default class ProfileScreen extends React.Component {
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('PoliticalCompassLanding', {
-                userID: this.props.route.params.user.id,
+                userId: this.props.route.params.user.id,
               })
             }>
             <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassLanding', {
-                userID: this.props.route.params.user.id,
+              this.props.navigation.navigate('Political Compass Results', {
+                userId: this.props.route.params.user.id,
+                socialScore: this.state.socialScore,
+                econScore: this.state.econScore,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>
@@ -190,12 +210,12 @@ export default class ProfileScreen extends React.Component {
       <View>
         <Image
           style={styles.personalityImage}
-          source={require('../../res/images/16person.png')}
+          source={require('../../../res/images/16person.png')}
         />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('Personality Landing', {
-              userID: this.props.route.params.user.id,
+              userId: this.props.route.params.user.id,
             })
           }>
           <Text style={styles.quizButton}>Go to Quiz</Text>
@@ -204,31 +224,31 @@ export default class ProfileScreen extends React.Component {
     );
   };
 
-  renderPersonalityPostResults = () => {
+  renderPersonalityPostResults = personalityUri => {
     return (
       <View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
-            <Text>hi</Text>
-          </View>
-          <View style={{flex: 1, marginTop: 50}}>
-            <Text> You are: </Text>
-            <Text> {this.state.personalityType}</Text>
+            <Image
+              style={styles.selfPersonalityImage}
+              source={personalityUri}
+            />
           </View>
         </View>
         <View>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Personality Landing', {
-                userID: this.props.route.params.user.id,
+                userId: this.props.route.params.user.id,
               })
             }>
             <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('Personality Landing', {
-                userID: this.props.route.params.user.id,
+              this.props.navigation.navigate('Personality Results', {
+                userId: this.props.route.params.user.id,
+                personalityScore: this.state.personalityScore,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>
@@ -239,6 +259,39 @@ export default class ProfileScreen extends React.Component {
   };
 
   render() {
+    let personalityUri = require('../../../res/images/biden.jpg');
+    if ((this.props.route.params.personalityScore = 'ISTJ')) {
+      personalityUri = require('../../../res/images/ISTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ENTJ')) {
+      personalityUri = require('../../../res/images/ENTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ENTP')) {
+      personalityUri = require('../../../res/images/ENTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESFJ')) {
+      personalityUri = require('../../../res/images/ESFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESFP')) {
+      personalityUri = require('../../../res/images/ESFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESTJ')) {
+      personalityUri = require('../../../res/images/ESTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ESTP')) {
+      personalityUri = require('../../../res/images/ESTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INFJ')) {
+      personalityUri = require('../../../res/images/INFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INFP')) {
+      personalityUri = require('../../../res/images/INFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INTJ')) {
+      personalityUri = require('../../../res/images/INTJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'INTP')) {
+      personalityUri = require('../../../res/images/INTP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISFJ')) {
+      personalityUri = require('../../../res/images/ISFJ.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISFP')) {
+      personalityUri = require('../../../res/images/ISFP.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ISTJ')) {
+      personalityUri = require('../../../res/images/ISTJ.jpg');
+    } else {
+      personalityUri = require('../../../res/images/trump.jpg');
+    }
+
     return (
       <ScrollView>
         <View>
@@ -256,7 +309,7 @@ export default class ProfileScreen extends React.Component {
             <Text style={styles.headingTextStyle}>Personality Quiz</Text>
             <View>
               {this.state.hasTakenPersonalityTest
-                ? this.renderPersonalityPostResults()
+                ? this.renderPersonalityPostResults(personalityUri)
                 : this.renderPersonalityPreResults()}
             </View>
           </View>
@@ -338,6 +391,12 @@ const styles = StyleSheet.create({
   personalityImage: {
     width: 320,
     height: 250,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  selfPersonalityImage: {
+    width: 250,
+    height: 400,
     justifyContent: 'center',
     alignSelf: 'center',
   },
