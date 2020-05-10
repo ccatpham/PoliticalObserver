@@ -28,7 +28,7 @@ export default class VotedOnIssues extends React.Component {
 
   getUserVotedIssues() {
     pol.api
-      .getUserIssueByUserId(testUserId)
+      .getIssues(testUserId)
       .then(response => {
         this.setState({VotedIssues: response});
       })

@@ -4,7 +4,6 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Picker,
   StyleSheet,
   Alert,
   ScrollView,
@@ -23,13 +22,12 @@ export default class EditDemographic extends React.Component {
       ageRange: '',
       education: '',
       ethnicity: '',
-      incomeLevel: '',
+      income: '',
       occupation: '',
       personalityType: '',
       politicalAffiliation: '',
       state: '',
       gender: '',
-      income: '',
     };
   }
 
@@ -55,7 +53,7 @@ export default class EditDemographic extends React.Component {
     });
   }
 
-  onChangeIncome(incomeLevel) {
+  onChangeIncome(income) {
     this.setState({
       income: income,
     });
@@ -73,7 +71,7 @@ export default class EditDemographic extends React.Component {
           ageRange: response.ageRange,
           education: response.education,
           ethnicity: response.ethnicity,
-          incomeLevel: response.incomeLevel,
+          income: response.income,
           occupation: response.occupation,
           personalityType: response.personalityType,
           politicalAffiliation: response.politicalAffiliation,

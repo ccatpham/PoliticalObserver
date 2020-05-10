@@ -141,7 +141,7 @@ export default class DemographicInsights extends React.Component {
           <View style={styles.shadowContainerColumn}>
             <Text
               style={{alignSelf: 'center', fontWeight: 'bold', marginTop: 10}}>
-              Age
+              Gender
             </Text>
             <View style={{marginHorizontal: 15, flexDirection: 'row'}}>
               <View style={{flex: 1}}>
@@ -155,7 +155,6 @@ export default class DemographicInsights extends React.Component {
                   }
                 />
                 <Text> You are within 30% of users in this gender group.</Text>
-                <Text>{this.state.demographicId}</Text>
               </View>
             </View>
           </View>
@@ -178,7 +177,6 @@ export default class DemographicInsights extends React.Component {
                   colorScale={['tomato', 'orange', 'gold', 'cyan', 'navy']}
                 />
                 <Text> You are within 30% of users in this age group.</Text>
-                <Text>{this.state.demographicId}</Text>
               </View>
             </View>
           </View>
