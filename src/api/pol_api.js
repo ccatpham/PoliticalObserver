@@ -115,6 +115,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getUserInsights(userId) {
+    const config = {
+      method: 'get',
+      endpoint: `/users/${userId}/data/insights`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Dashboard Endpoints
    */
@@ -141,6 +150,28 @@ export default class Api {
     const config = {
       method: 'get',
       endpoint: `/demographics/data/compare/left/${left}/right/${right}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  /*
+   * Notifications Endpoints
+   */
+
+  async getNotificationById(id) {
+    const config = {
+      method: 'get',
+      endpoint: `/notifications/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getRecentNotifications() {
+    const config = {
+      method: 'get',
+      endpoint: '/notifications/recent',
     };
 
     return this.apiRequest(config).then(parseApiResponse);
