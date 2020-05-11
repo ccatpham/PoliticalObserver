@@ -34,9 +34,7 @@ export default class Topics extends React.Component {
       });
   }
 
-  getSource(item) {
-
-  }
+  getSource(item) {}
 
   renderItem = item => {
     let source = require('../../../../res/icons/govt.png');
@@ -59,10 +57,7 @@ export default class Topics extends React.Component {
           });
         }}>
         <View style={styles.imageContainer}>
-          <Image
-            source={source}
-            style={styles.image}
-          />
+          <Image source={source} style={styles.image} />
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{item.title}</Text>

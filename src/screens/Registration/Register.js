@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  StatusBar,
 } from 'react-native';
 import {colors} from '../../styles';
 
@@ -74,7 +75,7 @@ export default class RegisterScreen extends React.Component {
             <TextInput
               style={styles.textInput}
               placeholder={'Email'}
-              placeholderTextColor={colors.gray}
+              placeholderTextColor={colors.polPlaceholderGray}
               onChangeText={email => this.onChangeEmail(email)}
               value={this.state.email}
             />
@@ -82,7 +83,7 @@ export default class RegisterScreen extends React.Component {
               style={styles.textInput}
               secureTextEntry={true}
               placeholder={'Password'}
-              placeholderTextColor={colors.gray}
+              placeholderTextColor={colors.polPlaceholderGray}
               onChangeText={password => this.onChangePassword(password)}
               value={this.state.password}
             />
@@ -90,7 +91,7 @@ export default class RegisterScreen extends React.Component {
               style={styles.textInput}
               secureTextEntry={true}
               placeholder={'Confirm Password'}
-              placeholderTextColor={colors.gray}
+              placeholderTextColor={colors.polPlaceholderGray}
               onChangeText={password => this.onChangeConfirmPassword(password)}
               value={this.state.confirmPassword}
             />
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.polWhite,
   },
   scrollView: {
@@ -142,23 +144,46 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.polBlue,
+    color: colors.black,
     borderRadius: 5,
     backgroundColor: colors.polLightGray,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   continueButtonContainer: {
-    alignSelf: 'center',
     width: 200,
     marginBottom: 40,
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   continueButtonText: {
     textAlign: 'center',
     padding: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.white,
+    color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
