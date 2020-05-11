@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {colors, colorsData} from '../../styles';
 import pol from '../../api/apiConfig';
-import {VictoryPie} from 'victory-native';
+import {VictoryPie, VictoryLegend} from 'victory-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
 export default class CompareDataScreen extends React.Component {
@@ -97,23 +97,41 @@ export default class CompareDataScreen extends React.Component {
   }
 
   renderItem(item) {
+    let legendData = [];
+    item.data.forEach(datum => {
+      legendData.push({name: datum.x});
+    });
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.itemHeaderText}>{item.category}</Text>
-        <VictoryPie
-          data={item.data}
-          colorScale={colorsData[this.state.rightKey]}
-          labelRadius={10}
-          width={150}
-          height={150}
-          padding={0}
-          style={{
-            labels: {
-              fontSize: 16,
-              fontWeight: 'bold',
-            },
-          }}
-        />
+        <View style={styles.itemChartContainer}>
+          <VictoryPie
+            data={item.data}
+            colorScale={colorsData[this.state.rightKey]}
+            width={150}
+            height={150}
+            innerRadius={50}
+            padAngle={({datum}) => datum.y}
+            labelRadius={20}
+            labels={() => ''}
+            padding={0}
+            style={{
+              labels: {
+                fontSize: 16,
+                fontWeight: 'bold',
+              },
+            }}
+          />
+          <VictoryLegend
+            itemsPerRow={3}
+            symbolSpacer={10}
+            padding={0}
+            orientation="horizontal"
+            colorScale={colorsData[this.state.rightKey]}
+            style={{ border: { stroke: "black" } }}
+            data={legendData}
+          />
+        </View>
       </View>
     );
   }
@@ -208,5 +226,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  itemChartContainer: {
   },
 });
