@@ -14,6 +14,7 @@ export const colors = {
   polBlue: '#057ec7',
   polLightGray: '#DFDFDF',
   polGray: '#CECECE',
+  polPlaceholderGray: '#8A8A8A',
   polDarkGray: '#464646',
   polGreen: '#007000',
   clear: 'rgba(255, 255, 255, 0.0)',

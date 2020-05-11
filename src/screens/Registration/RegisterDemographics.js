@@ -240,7 +240,7 @@ export default class RegisterDemographicsScreen extends React.Component {
                 <TextInput
                   style={styles.textInput}
                   placeholder={'Age'}
-                  placeholderTextColor={colors.gray}
+                  placeholderTextColor={colors.polPlaceholderGray}
                   onChangeText={age => this.onChangeAge(age)}
                   keyboardType={'numeric'}
                   value={this.state.age}
@@ -251,7 +251,7 @@ export default class RegisterDemographicsScreen extends React.Component {
                 <TextInput
                   style={styles.textInput}
                   placeholder={'State'}
-                  placeholderTextColor={colors.gray}
+                  placeholderTextColor={colors.polPlaceholderGray}
                   onChangeText={state => this.onChangeState(state)}
                   autoCapitalize={'characters'}
                   maxLength={2}
@@ -320,7 +320,7 @@ export default class RegisterDemographicsScreen extends React.Component {
               <TextInput
                 style={styles.textInput}
                 placeholder={'Occupation'}
-                placeholderTextColor={colors.gray}
+                placeholderTextColor={colors.polPlaceholderGray}
                 onChangeText={occupation => this.onChangeOccupation(occupation)}
                 value={this.state.occupation}
               />
@@ -330,7 +330,7 @@ export default class RegisterDemographicsScreen extends React.Component {
               <TextInput
                 style={styles.textInput}
                 placeholder={'Income Level'}
-                placeholderTextColor={colors.gray}
+                placeholderTextColor={colors.polPlaceholderGray}
                 onChangeText={income => this.onChangeIncome(income)}
                 keyboardType={'numeric'}
                 value={this.state.income}
@@ -400,9 +400,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.polBlue,
+    color: colors.black,
     borderRadius: 5,
     backgroundColor: colors.polLightGray,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   radioButtonContainer: {
     flex: 1,
@@ -429,6 +437,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   continueButtonText: {
     textAlign: 'center',
@@ -436,6 +452,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.white,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   skipButtonContainer: {
     alignSelf: 'center',

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  StatusBar,
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
@@ -20,6 +21,10 @@ export default class LoginScreen extends React.Component {
       email: '',
       password: '',
     };
+  }
+
+  componentDidMount() {
+    StatusBar.setBarStyle('dark-content');
   }
 
   onPressLogin = () => {
@@ -87,14 +92,14 @@ export default class LoginScreen extends React.Component {
           <TextInput
             style={styles.textInput}
             placeholder={'Email'}
-            placeholderTextColor={colors.paleGreen}
+            placeholderTextColor={colors.polPlaceholderGray}
             onChangeText={email => this.onChangeEmail(email)}
             value={this.state.email}
           />
           <TextInput
             style={styles.textInput}
             placeholder={'Password'}
-            placeholderTextColor={colors.paleGreen}
+            placeholderTextColor={colors.polPlaceholderGray}
             onChangeText={password => this.onChangePassword(password)}
             value={this.state.password}
           />
@@ -113,36 +118,60 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.polWhite,
   },
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
-    marginHorizontal: 60,
-  },
-  inputTitleText: {
-    fontSize: 16,
-    color: colors.paleGreen,
   },
   textInput: {
-    fontSize: 16,
-    color: colors.paleGreen,
-    alignSelf: 'center',
+    width: 250,
+    textAlign: 'center',
+    marginVertical: 10,
     paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.black,
+    borderRadius: 5,
+    backgroundColor: colors.polLightGray,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   loginButtonContainer: {
-    marginHorizontal: 60,
+    width: 200,
     marginBottom: 40,
     borderRadius: 20,
     borderWidth: 0,
-    backgroundColor: colors.paleGreen,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   loginButtonText: {
     textAlign: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
     padding: 10,
     fontSize: 16,
-    color: colors.white,
-    overflow: 'hidden',
+    fontWeight: 'bold',
+    color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

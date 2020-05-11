@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  StatusBar,
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
@@ -15,6 +16,10 @@ export default class LandingScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  componentDidMount() {
+    StatusBar.setBarStyle('light-content');
+  }
 
   onPressLogin = () => {
     this.props.navigation.dispatch(
@@ -40,10 +45,7 @@ export default class LandingScreen extends React.Component {
         <SafeAreaView style={styles.container}>
           <View style={styles.overlay} />
           <Text style={styles.appTitle}>Political Observer</Text>
-          <View>
-            <Text style={styles.appDescription}>
-              Your companion for reliable political content
-            </Text>
+          <View style={styles.buttonsContainer}>
             <TouchableOpacity
               style={styles.signUpButtonContainer}
               onPress={this.onPressSignUp}>
@@ -78,56 +80,88 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 60,
   },
+  buttonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   signUpButtonContainer: {
-    marginHorizontal: 60,
+    width: 200,
     marginBottom: 20,
     borderRadius: 20,
     borderWidth: 0,
-    backgroundColor: colors.paleGreen,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   signUpButtonText: {
     textAlign: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
     padding: 10,
     fontSize: 16,
-    color: colors.white,
-    overflow: 'hidden',
+    fontWeight: 'bold',
+    color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   loginButtonContainer: {
-    marginHorizontal: 60,
-    marginBottom: 20,
+    width: 200,
+    marginBottom: 40,
     borderRadius: 20,
     borderWidth: 0,
-    backgroundColor: colors.white,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   loginButtonText: {
     textAlign: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
     padding: 10,
     fontSize: 16,
-    color: colors.paleGreen,
-    overflow: 'hidden',
+    fontWeight: 'bold',
+    color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   appTitle: {
-    textAlign: 'left',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    padding: 20,
-    fontSize: 50,
-    color: colors.white,
-    overflow: 'hidden',
-    fontWeight: 'bold',
-  },
-  appDescription: {
+    flex: 1,
     textAlign: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    padding: 20,
-    fontSize: 25,
-    color: colors.white,
+    margin: 30,
+    fontSize: 50,
+    color: colors.polWhite,
     overflow: 'hidden',
+    fontWeight: 'bold',
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   overlay: {
     position: 'absolute',
