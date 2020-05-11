@@ -34,7 +34,21 @@ export default class Topics extends React.Component {
       });
   }
 
+  getSource(item) {
+
+  }
+
   renderItem = item => {
+    let source = require('../../../../res/icons/govt.png');
+    if (item.subCategory === 'Form of Government') {
+      source = require('../../../../res/icons/govt.png');
+    } else if (item.subCategory === 'Branch') {
+      source = require('../../../../res/icons/balance.png');
+    } else if (item.subCategory === 'Congress') {
+      source = require('../../../../res/icons/capitolIcon.png');
+    } else if (item.subCategory === 'Position') {
+      source = require('../../../../res/icons/speaker.png');
+    }
     return (
       <TouchableOpacity
         style={styles.itemButtonContainer}
@@ -46,7 +60,7 @@ export default class Topics extends React.Component {
         }}>
         <View style={styles.imageContainer}>
           <Image
-            source={require('../../../../res/images/politician.png')}
+            source={source}
             style={styles.image}
           />
         </View>
@@ -81,19 +95,35 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingVertical: 10,
-    marginHorizontal: 20,
   },
   itemButtonContainer: {
     flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
-    backgroundColor: colors.polGray,
+    marginHorizontal: 20,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   imageContainer: {},
   image: {
     height: 75,
     width: 75,
     borderRadius: 37.5,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   contentContainer: {
     flex: 1,
