@@ -28,6 +28,9 @@ export default class EditDemographic extends React.Component {
       ethnicity: '',
       ethnicityValue: '',
       occupation: '',
+      occupationValue: '',
+      income: '',
+      incomeValue: '',
       personalityType: '',
       personalityTypeValue: '',
       politicalAffiliation: '',
@@ -207,6 +210,16 @@ export default class EditDemographic extends React.Component {
       state: state,
     });
   }
+  onChangeIncome(income) {
+    this.setState({
+      income: income,
+    });
+  }
+  onChangeOccupation(occupation) {
+    this.setState({
+      occupation: occupation,
+    });
+  }
 
   onChangeGender(gender) {
     this.setState({
@@ -220,7 +233,8 @@ export default class EditDemographic extends React.Component {
     user.maritalStatus = this.state.maritalStatus;
     user.education = this.state.education;
     user.ethnicity = this.state.ethnicity;
-    // user.occupation = this.state.occupation;
+    user.occupation = this.state.occupation;
+    user.income = this.state.income;
     user.personalityType = this.state.personalityType;
     user.politicalAffiliation = this.state.politicalAffiliation;
     user.state = this.state.state;
@@ -253,7 +267,8 @@ export default class EditDemographic extends React.Component {
           maritalStatus: response.maritalStatus,
           education: response.education,
           ethnicity: response.ethnicity,
-          // occupation: response.occupation,
+          occupation: response.occupation,
+          income: response.income,
           personalityType: response.personalityType,
           politicalAffiliation: response.politicalAffiliation,
           state: response.state,
@@ -278,18 +293,42 @@ export default class EditDemographic extends React.Component {
     return (
       <View>
         <ScrollView>
-          <View>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>State</Text>
             <TextInput
+              fontSize={20}
               style={styles.textInput}
               placeholderTextColor={colors.gray}
               defaultValue={this.state.state}
               onChangeText={stateValue => this.onChangeState(stateValue)}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
+            <Text style={styles.headingTextStyle}>Occupation</Text>
+            <TextInput
+              fontSize={20}
+              style={styles.textInput}
+              placeholderTextColor={colors.gray}
+              defaultValue={this.state.occupation}
+              onChangeText={occupationValue =>
+                this.onChangeOccupation(occupationValue)
+              }
+            />
+          </View>
+          <View style={styles.viewHeadingStyle}>
+            <Text style={styles.headingTextStyle}>Income</Text>
+            <TextInput
+              fontSize={20}
+              style={styles.textInput}
+              placeholderTextColor={colors.gray}
+              defaultValue={this.state.income}
+              onChangeText={incomeValue => this.onChangeIncome(incomeValue)}
+            />
+          </View>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Party Affiliation</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.partyAffiliation}
               data={partyAffiliationChoices}
               onChangeText={partyAffiliationValue => {
@@ -297,9 +336,10 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Ethnicity</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.ethnicity}
               data={ethnicityChoices}
               onChangeText={ethnicityValue => {
@@ -307,9 +347,10 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Education</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.education}
               data={educationChoices}
               onChangeText={educationValue => {
@@ -317,9 +358,10 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Marital Status</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.maritalStatus}
               data={maritalChoices}
               onChangeText={maritalValue => {
@@ -327,9 +369,10 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Personality Type</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.personalityType}
               data={personalityTypeChoices}
               onChangeText={personalityTypeValue => {
@@ -337,9 +380,10 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View style={styles.dividers}>
+          <View style={styles.viewHeadingStyle}>
             <Text style={styles.headingTextStyle}>Gender</Text>
             <Dropdown
+              fontSize={20}
               value={this.state.gender}
               data={genderChoices}
               onChangeText={genderValue => {
@@ -347,7 +391,7 @@ export default class EditDemographic extends React.Component {
               }}
             />
           </View>
-          <View>
+          <View style={styles.buttonHeadingStyle}>
             <TouchableOpacity
               style={styles.submitButton}
               onPress={() => this.onPressSubmit()}>
@@ -361,36 +405,44 @@ export default class EditDemographic extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    margin: 20,
+    justifyContent: 'center',
+  },
+  viewHeadingStyle: {
+    marginLeft: 15,
+    marginTop: 20,
+    width: 350,
+    paddingVertical: 5,
+    paddingLeft: 5,
+    elevation: 1,
+    position: 'relative',
+    borderBottomWidth: 0,
+    backgroundColor: '#dfe6e9',
+  },
+  buttonHeadingStyle: {
+    marginTop: 15,
+    marginBottom: 15,
+    alignSelf: 'center',
+    width: 350,
+  },
   headingTextStyle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     paddingLeft: 5,
   },
-  dropDownContainerStyle: {
-    marginLeft: 10,
-  },
-  fieldTextStyle: {
+  textInput: {
+    width: 335,
+    textAlign: 'center',
+    marginVertical: 10,
+    paddingVertical: 10,
     fontSize: 20,
+    fontWeight: 'bold',
     color: 'black',
-    paddingLeft: 5,
-  },
-  shadowContainerColumn: {
-    paddingVertical: 5,
-    paddingLeft: 5,
-    flexDirection: 'row',
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
-  },
-  dividers: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 3,
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
+    borderRadius: 2,
+    backgroundColor: '#b2bec3',
   },
   submitButton: {
     marginTop: 10,

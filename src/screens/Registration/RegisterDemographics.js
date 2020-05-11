@@ -102,6 +102,8 @@ export default class RegisterDemographicsScreen extends React.Component {
   onPressContinue = () => {
     let user = this.state.user;
     user.age = Number(this.state.age);
+    user.occupation = this.state.occupation;
+    user.income = Number(this.state.income);
     user.state = this.state.state;
 
     let genderChoice = this.state.genderChoices.find(choice => {
