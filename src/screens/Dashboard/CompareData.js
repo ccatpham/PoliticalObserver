@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {colors} from '../../styles';
+import {colors, colorsData} from '../../styles';
 import pol from '../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 import {Dropdown} from 'react-native-material-dropdown';
@@ -18,6 +18,7 @@ export default class CompareDataScreen extends React.Component {
     super(props);
     this.state = {
       data: [],
+      rightKey: '',
       choices: [
         {
           value: 'Age',
@@ -91,7 +92,7 @@ export default class CompareDataScreen extends React.Component {
   }
 
   onChangeRight(value, index, data) {
-    this.setState({right: data[index].key});
+    this.setState({right: data[index].key, rightKey: data[index].key});
     this.compareDemographics();
   }
 
@@ -101,6 +102,7 @@ export default class CompareDataScreen extends React.Component {
         <Text style={styles.itemHeaderText}>{item.category}</Text>
         <VictoryPie
           data={item.data}
+          colorScale={colorsData[this.state.rightKey]}
           labelRadius={10}
           width={150}
           height={150}
