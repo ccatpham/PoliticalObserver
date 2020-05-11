@@ -22,12 +22,13 @@ export default class ProfileScreen extends React.Component {
     this.state = {
       userId: this.props.route.params.user.id,
       demographicId: this.props.route.params.user.demographicId,
+      settingsId: this.props.route.params.user.settingsId,
       partyAffiliation: '',
-      martialStatus: '',
+      maritalStatus: '',
       age: '',
       education: '',
       ethnicity: '',
-      incomeLevel: '',
+      income: '',
       occupation: '',
       politicalAffiliation: '',
       state: '',
@@ -41,13 +42,6 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log(
-      'HasTakenPersonalityTest: ' +
-        this.props.route.params.hasTakenPersonalityTest,
-    );
-    console.log(
-      'Personality Score: ' + this.props.route.params.personalityScore,
-    );
     this.getDemographic();
     this.props.navigation.addListener('focus', () => {
       if (this.props.route.params.hasTakenPoliticalTest) {
@@ -58,13 +52,11 @@ export default class ProfileScreen extends React.Component {
         });
       }
       if (this.props.route.params.hasTakenPersonalityTest) {
-        console.log("I'm in has taken personality test");
         this.setState({
           hasTakenPersonalityTest: this.props.route.params
             .hasTakenPersonalityTest,
           personalityScore: this.props.route.params.personalityScore,
         });
-        console.log(this.state.personalityScore);
       }
     });
   };
@@ -92,14 +84,13 @@ export default class ProfileScreen extends React.Component {
     pol.api
       .getDemographicById(this.props.route.params.user.demographicId)
       .then(response => {
-        console.log(response);
         this.setState({
           partyAffiliation: response.partyAffiliation,
-          martialStatus: response.maritalStatus,
-          ageRange: response.ageRange,
+          maritalStatus: response.maritalStatus,
+          age: response.age,
           education: response.education,
           ethnicity: response.ethnicity,
-          incomeLevel: response.incomeLevel,
+          income: response.income,
           occupation: response.occupation,
           personalityType: response.personalityType,
           politicalAffiliation: response.politicalAffiliation,
@@ -259,6 +250,73 @@ export default class ProfileScreen extends React.Component {
     );
   };
 
+  renderDemographic = () => {
+    return (
+      <View style={styles.shadowContainerColumn}>
+        <Text style={styles.headingTextStyle}>Demographic</Text>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Political Affiliation:</Text>
+            <Text>{this.state.politicalAffiliation}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
+            <Text> {this.state.partyAffiliation}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
+            <Text>{this.state.personalityType}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
+            <Text> {this.state.income}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Age:</Text>
+            <Text> {this.state.age}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Education:</Text>
+            <Text> {this.state.education}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Marital Status:</Text>
+            <Text> {this.state.maritalStatus}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
+            <Text>{this.state.ethnicity}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Gender:</Text>
+            <Text> {this.state.gender}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Education:</Text>
+            <Text> {this.state.education}</Text>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity onPress={() => this.onPressEditDemographics()}>
+            <Text style={styles.quizButton}>Edit Demographics</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.onPressViewDemographicsInsights()}>
+            <Text style={styles.politicalQuizButton}>View Insights</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
   render() {
     let personalityUri = require('../../../res/images/biden.jpg');
     if ((this.props.route.params.personalityScore = 'ISTJ')) {
@@ -315,68 +373,7 @@ export default class ProfileScreen extends React.Component {
             </View>
           </View>
         </View>
-        <View style={styles.shadowContainerColumn}>
-          <Text style={styles.headingTextStyle}>Demographic</Text>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Political Affiliation:</Text>
-              <Text>{this.state.politicalAffiliation}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
-              <Text> {this.state.partyAffiliation}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
-              <Text>{this.state.personalityType}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
-              <Text> {this.state.incomeLevel}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Age:</Text>
-              <Text> {this.state.ageRange}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Education:</Text>
-              <Text> {this.state.education}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Martial Status:</Text>
-              <Text> {this.state.martialStatus}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
-              <Text>{this.state.ethnicity}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Gender:</Text>
-              <Text> {this.state.gender}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Occupation:</Text>
-              <Text> {this.state.occupation}</Text>
-            </View>
-          </View>
-          <View>
-            <TouchableOpacity onPress={() => this.onPressEditDemographics()}>
-              <Text style={styles.quizButton}>Edit Demographics</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.onPressViewDemographicsInsights()}>
-              <Text style={styles.politicalQuizButton}>View Insights</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <View>{this.renderDemographic()}</View>
         <View style={styles.shadowContainerColumn}>
           <Text style={styles.headingTextStyle}>Past Activity</Text>
           <TouchableOpacity onPress={() => this.onPressViewIssues()}>

@@ -11,6 +11,7 @@ import {
 import pol from '../../../api/apiConfig';
 import {colors} from '../../../styles';
 import {Dropdown} from 'react-native-material-dropdown';
+import {CommonActions} from '@react-navigation/native';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class EditDemographic extends React.Component {
       politicalAffiliation: '',
       partyAffiliationValue: '',
       state: '',
+      stateValue: '',
       gender: '',
       genderValue: '',
       partyAffiliationData: [
@@ -82,7 +84,7 @@ export default class EditDemographic extends React.Component {
           value: 'Other',
         },
       ],
-      educationChoices: [
+      educationData: [
         {
           value: 'None',
         },
@@ -200,9 +202,9 @@ export default class EditDemographic extends React.Component {
     });
   }
 
-  onChangeOccupation(occupation) {
+  onChangeState(state) {
     this.setState({
-      occupation: occupation,
+      state: state,
     });
   }
 
@@ -218,29 +220,28 @@ export default class EditDemographic extends React.Component {
     user.maritalStatus = this.state.maritalStatus;
     user.education = this.state.education;
     user.ethnicity = this.state.ethnicity;
-    user.occupation = this.state.occupation;
+    // user.occupation = this.state.occupation;
     user.personalityType = this.state.personalityType;
     user.politicalAffiliation = this.state.politicalAffiliation;
     user.state = this.state.state;
     user.gender = this.state.gender;
-    console.log('demographicId: ' + this.state.demographicId);
-    console.log(this.state.user);
   };
 
   onPressSubmit = () => {
     this.onPressUpdate();
     pol.api
       .modifyDemographic(this.state.demographicId, this.state.user)
-      .then(user => {
-        console.log('Demographic Id: ' + this.state.demographicId);
-        console.log('User id: ' + user.id);
-      })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
           cancelable: false,
         });
       });
-    this.props.navigation.navigate('Profile');
+    this.props.navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Profile'}],
+      }),
+    );
   };
 
   getDemographic = () => {
@@ -252,7 +253,7 @@ export default class EditDemographic extends React.Component {
           maritalStatus: response.maritalStatus,
           education: response.education,
           ethnicity: response.ethnicity,
-          occupation: response.occupation,
+          // occupation: response.occupation,
           personalityType: response.personalityType,
           politicalAffiliation: response.politicalAffiliation,
           state: response.state,
@@ -278,13 +279,12 @@ export default class EditDemographic extends React.Component {
       <View>
         <ScrollView>
           <View>
-            <Text style={styles.headingTextStyle}>Occupation</Text>
+            <Text style={styles.headingTextStyle}>State</Text>
             <TextInput
               style={styles.textInput}
-              placeholder={'Occupation'}
               placeholderTextColor={colors.gray}
-              defaultValue={this.state.occupation}
-              onChangeText={occupation => this.onChangeOccupation(occupation)}
+              defaultValue={this.state.state}
+              onChangeText={stateValue => this.onChangeState(stateValue)}
             />
           </View>
           <View style={styles.dividers}>
@@ -294,14 +294,9 @@ export default class EditDemographic extends React.Component {
               data={partyAffiliationChoices}
               onChangeText={partyAffiliationValue => {
                 this.onChangePartyAffiliation(partyAffiliationValue);
-                console.log(this.state.partyAffiliation);
               }}
             />
           </View>
-          <Text style={styles.headingTextStyle}>State</Text>
-          <TouchableOpacity>
-            <Text style={styles.fieldTextStyle}>{this.state.state}</Text>
-          </TouchableOpacity>
           <View style={styles.dividers}>
             <Text style={styles.headingTextStyle}>Ethnicity</Text>
             <Dropdown
@@ -309,7 +304,6 @@ export default class EditDemographic extends React.Component {
               data={ethnicityChoices}
               onChangeText={ethnicityValue => {
                 this.onChangeEthnicity(ethnicityValue);
-                console.log(this.state.ethnicity);
               }}
             />
           </View>
@@ -320,7 +314,6 @@ export default class EditDemographic extends React.Component {
               data={educationChoices}
               onChangeText={educationValue => {
                 this.onChangeEducation(educationValue);
-                console.log(this.state.education);
               }}
             />
           </View>
@@ -341,7 +334,6 @@ export default class EditDemographic extends React.Component {
               data={personalityTypeChoices}
               onChangeText={personalityTypeValue => {
                 this.onChangePersonalityType(personalityTypeValue);
-                console.log(this.state.personalityType);
               }}
             />
           </View>
@@ -352,7 +344,6 @@ export default class EditDemographic extends React.Component {
               data={genderChoices}
               onChangeText={genderValue => {
                 this.onChangeGender(genderValue);
-                console.log(this.state.gender);
               }}
             />
           </View>
