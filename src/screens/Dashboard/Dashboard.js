@@ -76,13 +76,17 @@ export default class DashboardScreen extends React.Component {
         <View style={styles.candidatesContainer}>
           <View style={styles.leftCandidateContainer}>
             <View style={styles.candidateImageContainer}>
-            { item.leftTitle === 'Biden' ? <Image
-              style={styles.candidateImage}
-              source={require('../../../res/images/biden.jpg')}
-            /> : <Image
-                style={styles.candidateImage}
-                source={require('../../../res/icons/democratIcon.png')}
-            />}
+              {item.leftTitle === 'Biden' ? (
+                <Image
+                  style={styles.candidateImage}
+                  source={require('../../../res/images/biden.jpg')}
+                />
+              ) : (
+                <Image
+                  style={styles.candidateImage}
+                  source={require('../../../res/icons/democratIcon.png')}
+                />
+              )}
             </View>
             <View style={styles.candidateContainer}>
               <Text style={styles.leftCandidateNameText}>{item.leftTitle}</Text>
@@ -97,13 +101,17 @@ export default class DashboardScreen extends React.Component {
               <Text style={styles.rightResultsText}>{item.rightResults}</Text>
             </View>
             <View style={styles.candidateImageContainer}>
-            { item.rightTitle === 'Trump' ? <Image
-                style={styles.candidateImage}
-                source={require('../../../res/images/trump.jpg')}
-            /> : <Image
-                style={styles.candidateImage}
-                source={require('../../../res/icons/republicanIcon.png')}
-            />}
+              {item.rightTitle === 'Trump' ? (
+                <Image
+                  style={styles.candidateImage}
+                  source={require('../../../res/images/trump.jpg')}
+                />
+              ) : (
+                <Image
+                  style={styles.candidateImage}
+                  source={require('../../../res/icons/republicanIcon.png')}
+                />
+              )}
             </View>
           </View>
         </View>
@@ -181,7 +189,11 @@ export default class DashboardScreen extends React.Component {
 
     return (
       <View style={styles.dashboardModuleContainer}>
-        <FlatList data={data} renderItem={({item}) => this.renderItem(item)} scrollEnabled={false} />
+        <FlatList
+          data={data}
+          renderItem={({item}) => this.renderItem(item)}
+          scrollEnabled={false}
+        />
       </View>
     );
   }

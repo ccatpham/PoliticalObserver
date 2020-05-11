@@ -38,11 +38,11 @@ export default class Politicians extends React.Component {
   }
 
   renderItem = item => {
-    let partyColor = colors.black;
+    let partyImage = require('../../../../res/icons/democratIcon.png');
     if (item.party === 'Democrat') {
-      partyColor = colors.polBlue;
+      partyImage = require('../../../../res/icons/democratIcon.png');
     } else if (item.party === 'Republican') {
-      partyColor = colors.polRed;
+      partyImage = require('../../../../res/icons/republicanIcon.png');
     }
 
     let image = '';
@@ -69,7 +69,9 @@ export default class Politicians extends React.Component {
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{item.name}</Text>
           <Text style={styles.subTitleText}>{item.position}</Text>
-          <Text style={[styles.text, {color: partyColor}]}>{item.party}</Text>
+        </View>
+        <View style={styles.imageContainer}>
+          <Image source={partyImage} style={styles.image} />
         </View>
       </TouchableOpacity>
     );

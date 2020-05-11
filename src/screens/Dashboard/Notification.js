@@ -85,6 +85,16 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     margin: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   notificationHeaderText: {
     alignSelf: 'center',
@@ -111,6 +121,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   sectionButtonText: {
     textAlign: 'center',
