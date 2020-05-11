@@ -193,7 +193,7 @@ export default class Api {
   async modifyDemographic(id, demographicData) {
     const config = {
       method: 'put',
-      endpoint: `/demographics/id/${id}`,
+      endpoint: `/demographics/${id}`,
       jsonData: demographicData,
     };
 

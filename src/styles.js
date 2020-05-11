@@ -113,9 +113,14 @@ export const dateFormats = {
 export const styles = StyleSheet.create({
   navigationBar: {
     backgroundColor: colors.polWhite,
-    elevation: 0,
-    shadowOpacity: 0,
-    borderBottomWidth: 0,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   navigationBarTitle: {
     fontSize: 16,
@@ -123,18 +128,39 @@ export const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: colors.polWhite,
-    elevation: 0,
-    shadowOpacity: 0,
-    borderTopWidth: 0,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   tabBarIconSelected: {
     height: 40,
     width: 40,
     tintColor: colors.polBlue,
+    shadowColor: colors.polBlue,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   tabBarIconUnselected: {
     height: 40,
     width: 40,
     tintColor: colors.black,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

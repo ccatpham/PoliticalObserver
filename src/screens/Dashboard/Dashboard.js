@@ -75,10 +75,15 @@ export default class DashboardScreen extends React.Component {
         </Text>
         <View style={styles.candidatesContainer}>
           <View style={styles.leftCandidateContainer}>
-            <Image
+            <View style={styles.candidateImageContainer}>
+            { item.leftTitle === 'Biden' ? <Image
               style={styles.candidateImage}
               source={require('../../../res/images/biden.jpg')}
-            />
+            /> : <Image
+                style={styles.candidateImage}
+                source={require('../../../res/icons/democratIcon.png')}
+            />}
+            </View>
             <View style={styles.candidateContainer}>
               <Text style={styles.leftCandidateNameText}>{item.leftTitle}</Text>
               <Text style={styles.leftResultsText}>{item.leftResults}</Text>
@@ -91,10 +96,15 @@ export default class DashboardScreen extends React.Component {
               </Text>
               <Text style={styles.rightResultsText}>{item.rightResults}</Text>
             </View>
-            <Image
-              style={styles.candidateImage}
-              source={require('../../../res/images/trump.jpg')}
-            />
+            <View style={styles.candidateImageContainer}>
+            { item.rightTitle === 'Trump' ? <Image
+                style={styles.candidateImage}
+                source={require('../../../res/images/trump.jpg')}
+            /> : <Image
+                style={styles.candidateImage}
+                source={require('../../../res/icons/republicanIcon.png')}
+            />}
+            </View>
           </View>
         </View>
         <View style={styles.resultsBarContainer}>
@@ -211,7 +221,7 @@ export default class DashboardScreen extends React.Component {
           onSnapToItem={index =>
             this.setState({activeNotificationSlide: index})
           }
-          sliderWidth={windowWidth - 40}
+          sliderWidth={windowWidth}
           itemWidth={windowWidth - 120}
         />
         <Pagination
@@ -256,10 +266,17 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    margin: 20,
   },
   compareDataButton: {
     marginHorizontal: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   compareDataImage: {
     height: 32,
@@ -267,6 +284,18 @@ const styles = StyleSheet.create({
   },
   dashboardModuleContainer: {
     flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   electionResultsHeaderText: {
     fontSize: 16,
@@ -278,6 +307,7 @@ const styles = StyleSheet.create({
   },
   electionResultsContainer: {
     flex: 1,
+    marginBottom: 8,
   },
   candidatesContainer: {
     flexDirection: 'row',
@@ -292,10 +322,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  candidateImageContainer: {
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   candidateImage: {
     height: 40,
     width: 40,
     borderRadius: 20,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   candidateContainer: {
     marginHorizontal: 8,
@@ -360,14 +408,24 @@ const styles = StyleSheet.create({
   },
   notificationsContainer: {
     flex: 1,
-    marginTop: 10,
   },
   notificationsPaginationStyle: {
     paddingVertical: 0,
+    marginBottom: 8,
   },
   notificationContainer: {
     flex: 1,
-    backgroundColor: colors.polLightGray,
+    marginTop: 20,
+    marginBottom: 8,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   notificationsHeaderContainer: {
     flex: 1,
