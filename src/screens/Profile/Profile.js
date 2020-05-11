@@ -256,8 +256,8 @@ export default class ProfileScreen extends React.Component {
         <Text style={styles.headingTextStyle}>Demographic</Text>
         <View style={{flexDirection: 'row', flex: 1}}>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Political Affiliation:</Text>
-            <Text>{this.state.politicalAffiliation}</Text>
+            <Text style={{fontWeight: 'bold'}}>Gender:</Text>
+            <Text> {this.state.gender}</Text>
           </View>
           <View style={styles.demographicDetail}>
             <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
@@ -292,16 +292,6 @@ export default class ProfileScreen extends React.Component {
           <View style={styles.demographicDetail}>
             <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
             <Text>{this.state.ethnicity}</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Gender:</Text>
-            <Text> {this.state.gender}</Text>
-          </View>
-          <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Education:</Text>
-            <Text> {this.state.education}</Text>
           </View>
         </View>
         <View>
