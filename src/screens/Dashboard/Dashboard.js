@@ -181,7 +181,7 @@ export default class DashboardScreen extends React.Component {
 
     return (
       <View style={styles.dashboardModuleContainer}>
-        <FlatList data={data} renderItem={({item}) => this.renderItem(item)} />
+        <FlatList data={data} renderItem={({item}) => this.renderItem(item)} scrollEnabled={false} />
       </View>
     );
   }
