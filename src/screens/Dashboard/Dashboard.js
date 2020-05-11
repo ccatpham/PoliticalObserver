@@ -104,7 +104,7 @@ export default class DashboardScreen extends React.Component {
               styles.middleResultsBar,
               {
                 flex: item.total - item.leftResults - item.rightResults,
-                marginHorizontal: item.total === 0 && 1,
+                marginHorizontal: item.total === 0 ? 1 : 2,
               },
             ]}
           />
