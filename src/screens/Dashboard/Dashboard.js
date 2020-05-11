@@ -27,6 +27,19 @@ export default class DashboardScreen extends React.Component {
       notifications: [],
       activeNotificationSlide: 0,
     };
+
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={styles.compareDataButton}
+          onPress={() => this.props.navigation.navigate('Compare Data')}>
+          <Image
+            style={styles.compareDataImage}
+            source={require('../../../res/icons/pieChartIcon.png')}
+          />
+        </TouchableOpacity>
+      ),
+    });
   }
 
   componentDidMount() {
@@ -91,7 +104,7 @@ export default class DashboardScreen extends React.Component {
               styles.middleResultsBar,
               {
                 flex: item.total - item.leftResults - item.rightResults,
-                marginHorizontal: item.total === 0 && 1,
+                marginHorizontal: item.total === 0 ? 1 : 2,
               },
             ]}
           />
@@ -211,27 +224,11 @@ export default class DashboardScreen extends React.Component {
             borderRadius: 4,
             backgroundColor: colors.polGray,
           }}
-          inactiveDotStyle={
-            {
-              // Define styles for inactive dots here
-            }
-          }
+          inactiveDotStyle={{}}
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
         />
       </View>
-    );
-  }
-
-  renderData() {
-    return (
-      <TouchableOpacity
-        style={styles.dataContainer}
-        onPress={() => this.props.navigation.navigate('Compare Data')}>
-        <View>
-          <Text>Compare Data</Text>
-        </View>
-      </TouchableOpacity>
     );
   }
 
@@ -241,9 +238,6 @@ export default class DashboardScreen extends React.Component {
         <View style={styles.contentContainer}>
           {this.renderDashboardModule()}
           {this.renderNotifications()}
-          {/*{this.renderNotificationsCarousel()}*/}
-          {/*{this.renderNotificationsPagination()}*/}
-          {this.renderData()}
         </View>
       </View>
     );
@@ -263,6 +257,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     margin: 20,
+  },
+  compareDataButton: {
+    marginHorizontal: 10,
+  },
+  compareDataImage: {
+    height: 32,
+    width: 32,
   },
   dashboardModuleContainer: {
     flex: 3,
@@ -359,10 +360,10 @@ const styles = StyleSheet.create({
   },
   notificationsContainer: {
     flex: 1,
-    marginVertical: 20,
+    marginTop: 10,
   },
   notificationsPaginationStyle: {
-    paddingVertical: 4,
+    paddingVertical: 0,
   },
   notificationContainer: {
     flex: 1,
@@ -393,9 +394,5 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     marginLeft: 2,
-  },
-  dataContainer: {
-    flex: 1,
-    backgroundColor: colors.polGray,
   },
 });
