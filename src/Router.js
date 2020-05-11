@@ -1,6 +1,9 @@
 import React from 'react';
+import {Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {colors, styles} from './styles';
+
 import LandingScreen from './screens/Landing';
 import LoginScreen from './screens/Login';
 import RegisterScreen from './screens/Registration/Register';
@@ -41,7 +44,12 @@ const EducationStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Education"
-      screenOptions={{gestureEnabled: false}}>
+      screenOptions={{
+        gestureEnabled: false,
+        headerTintColor: colors.black,
+        headerStyle: styles.navigationBar,
+        headerBackTitleVisible: false,
+      }}>
       <Stack.Screen
         name="Education"
         component={EducationScreen}
@@ -65,7 +73,12 @@ const DashboardStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Dashboard"
-      screenOptions={{gestureEnabled: false}}>
+      screenOptions={{
+        gestureEnabled: false,
+        headerTintColor: colors.black,
+        headerStyle: styles.navigationBar,
+        headerBackTitleVisible: false,
+      }}>
       <Stack.Screen
         name="Dashboard"
         component={DashboardScreen}
@@ -81,7 +94,12 @@ const ProfileStack = props => {
   return (
     <Stack.Navigator
       initialRouteName="Profile"
-      screenOptions={{gestureEnabled: false}}>
+      screenOptions={{
+        gestureEnabled: false,
+        headerTintColor: colors.black,
+        headerStyle: styles.navigationBar,
+        headerBackTitleVisible: false,
+      }}>
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -157,21 +175,79 @@ const TabNavigator = props => {
   return (
     <Tab.Navigator
       initialRouteName="Dashboard"
-      screenOptions={{gestureEnabled: false, headerShown: false}}>
+      screenOptions={{gestureEnabled: false, headerShown: false}}
+      tabBarOptions={{style: styles.tabBar, showLabel: false}}>
       <Tab.Screen
         name="Dashboard"
         component={DashboardStack}
         initialParams={props.route.params}
+        options={{
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  style={styles.tabBarIconSelected}
+                  source={require('../res/icons/dashboardIcon.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  style={styles.tabBarIconUnselected}
+                  source={require('../res/icons/dashboardIcon.png')}
+                />
+              );
+            }
+          },
+        }}
       />
       <Tab.Screen
         name="Education"
         component={EducationStack}
         initialParams={props.route.params}
+        options={{
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  style={styles.tabBarIconSelected}
+                  source={require('../res/icons/educationIcon.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  style={styles.tabBarIconUnselected}
+                  source={require('../res/icons/educationIcon.png')}
+                />
+              );
+            }
+          },
+        }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileStack}
         initialParams={props.route.params}
+        options={{
+          tabBarIcon: ({focused}) => {
+            if (focused) {
+              return (
+                <Image
+                  style={styles.tabBarIconSelected}
+                  source={require('../res/icons/profileIcon.png')}
+                />
+              );
+            } else {
+              return (
+                <Image
+                  style={styles.tabBarIconUnselected}
+                  source={require('../res/icons/profileIcon.png')}
+                />
+              );
+            }
+          },
+        }}
       />
     </Tab.Navigator>
   );
@@ -181,7 +257,12 @@ export default function AppStack() {
   return (
     <Stack.Navigator
       initialRouteName="Landing"
-      screenOptions={{gestureEnabled: false}}>
+      screenOptions={{
+        gestureEnabled: false,
+        headerTintColor: colors.black,
+        headerStyle: styles.navigationBar,
+        headerBackTitleVisible: false,
+      }}>
       <Stack.Screen
         name="Landing"
         component={LandingScreen}

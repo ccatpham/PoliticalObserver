@@ -30,11 +30,14 @@ export default class DashboardScreen extends React.Component {
 
     this.props.navigation.setOptions({
       headerRight: () => (
-          <TouchableOpacity
-              style={styles.compareDataButton}
-              onPress={() => this.props.navigation.navigate('Compare Data')}>
-            <Image style={styles.compareDataImage} source={require('../../../res/icons/pieChartIcon.png')}/>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.compareDataButton}
+          onPress={() => this.props.navigation.navigate('Compare Data')}>
+          <Image
+            style={styles.compareDataImage}
+            source={require('../../../res/icons/pieChartIcon.png')}
+          />
+        </TouchableOpacity>
       ),
     });
   }

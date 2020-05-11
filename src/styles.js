@@ -1,3 +1,5 @@
+import {StyleSheet} from 'react-native';
+
 export const colors = {
   white: '#ffffff',
   black: '#000000',
@@ -63,3 +65,32 @@ export const colors = {
 export const dateFormats = {
   monthDayYear: 'MMMM D, YYYY',
 };
+
+export const styles = StyleSheet.create({
+  navigationBar: {
+    backgroundColor: colors.polWhite,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderBottomWidth: 0,
+  },
+  navigationBarTitle: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  tabBar: {
+    backgroundColor: colors.polWhite,
+    elevation: 0,
+    shadowOpacity: 0,
+    borderTopWidth: 0,
+  },
+  tabBarIconSelected: {
+    height: 40,
+    width: 40,
+    tintColor: colors.polBlue,
+  },
+  tabBarIconUnselected: {
+    height: 40,
+    width: 40,
+    tintColor: colors.black,
+  },
+});
