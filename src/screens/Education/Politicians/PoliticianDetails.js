@@ -66,23 +66,35 @@ export default class IssueDetails extends React.Component {
           <View style={styles.contentContainer}>
             <View style={styles.imagesContainer}>
               <View style={[styles.imageContainer, {zIndex: 1}]}>
-                {this.state.party === 'Democrat' &&
-                  <Image source={require('../../../../res/icons/democratIcon.png')} style={styles.partyImage}/>
-                }
+                {this.state.party === 'Democrat' && (
+                  <Image
+                    source={require('../../../../res/icons/democratIcon.png')}
+                    style={styles.partyImage}
+                  />
+                )}
               </View>
               <View style={styles.imageContainer}>
                 <Image source={image} style={styles.image} />
               </View>
               <View style={[styles.imageContainer, {zIndex: 1}]}>
-                {this.state.party === 'Republican' &&
-                  <Image source={require('../../../../res/icons/republicanIcon.png')} style={styles.partyImage}/>
-                }
+                {this.state.party === 'Republican' && (
+                  <Image
+                    source={require('../../../../res/icons/republicanIcon.png')}
+                    style={styles.partyImage}
+                  />
+                )}
               </View>
             </View>
             <View style={styles.detailsContainer}>
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>{this.state.name}</Text>
-                <Text style={[styles.subTitleText, {color: colors.partyColors[this.state.party.toLowerCase()]}]}>{this.state.position}</Text>
+                <Text
+                  style={[
+                    styles.subTitleText,
+                    {color: colors.partyColors[this.state.party.toLowerCase()]},
+                  ]}>
+                  {this.state.position}
+                </Text>
               </View>
               <View style={styles.informationContainer}>
                 <Text style={styles.text}>Party: {this.state.party}</Text>
@@ -90,7 +102,7 @@ export default class IssueDetails extends React.Component {
                 <Text style={styles.text}>State: {this.state.state}</Text>
               </View>
               <View style={styles.biographyContainer}>
-                <Text style={styles.text}>     {this.state.bio}</Text>
+                <Text style={styles.text}> {this.state.bio}</Text>
               </View>
             </View>
           </View>

@@ -55,21 +55,20 @@ export default class TopicDetails extends React.Component {
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
             <View style={styles.imageContainer}>
-              <Image
-                source={source}
-                style={styles.image}
-              />
+              <Image source={source} style={styles.image} />
             </View>
             <View style={styles.detailsContainer}>
               <View style={styles.titleContainer}>
                 <Text style={styles.titleText}>{this.state.title}</Text>
-                <Text style={styles.subTitleText}>{this.state.subCategory}</Text>
+                <Text style={styles.subTitleText}>
+                  {this.state.subCategory}
+                </Text>
               </View>
               <View style={styles.informationContainer}>
                 <Text style={styles.text}>{this.state.description}</Text>
               </View>
               <View style={styles.bodyContainer}>
-                <Text style={styles.text}>     {this.state.body}</Text>
+                <Text style={styles.text}> {this.state.body}</Text>
               </View>
             </View>
           </View>
