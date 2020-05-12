@@ -16,9 +16,9 @@ export default class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      confirmPassword: '',
+      email: 't+50@gmail.com',
+      password: '123456',
+      confirmPassword: '123456',
     };
   }
 
@@ -96,7 +96,9 @@ export default class RegisterScreen extends React.Component {
               value={this.state.confirmPassword}
             />
             <View style={styles.termsContainer}>
-              <Text style={styles.termsText}>By creating an account you agree</Text>
+              <Text style={styles.termsText}>
+                By creating an account you agree
+              </Text>
               <View style={styles.termsLineContainer}>
                 <Text style={styles.termsText}>to our </Text>
                 <TouchableOpacity style={styles.termsLinkContainer}>
@@ -183,9 +185,7 @@ const styles = StyleSheet.create({
   termsLineContainer: {
     flexDirection: 'row',
   },
-  termsLinkContainer: {
-
-  },
+  termsLinkContainer: {},
   termsLink: {
     fontSize: 14,
     color: colors.polBlue,
