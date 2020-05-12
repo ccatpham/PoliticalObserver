@@ -57,7 +57,7 @@ export default class ProfileScreen extends React.Component {
       if (this.props.route.params.hasTakenPersonalityTest) {
         this.setState({
           hasTakenPersonalityTest: this.props.route.params
-              .hasTakenPersonalityTest,
+            .hasTakenPersonalityTest,
           personalityScore: this.props.route.params.personalityScore,
         });
       }
@@ -85,239 +85,239 @@ export default class ProfileScreen extends React.Component {
 
   getDemographic = () => {
     pol.api
-        .getDemographicById(this.props.route.params.user.demographicId)
-        .then(response => {
-          this.setState({
-            partyAffiliation: response.partyAffiliation,
-            maritalStatus: response.maritalStatus,
-            age: response.age,
-            education: response.education,
-            ethnicity: response.ethnicity,
-            income: response.income,
-            occupation: response.occupation,
-            personalityType: response.personalityType,
-            politicalAffiliation: response.politicalAffiliation,
-            state: response.state,
-            gender: response.gender,
-          });
-        })
-        .catch(error => {
-          Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-            cancelable: false,
-          });
+      .getDemographicById(this.props.route.params.user.demographicId)
+      .then(response => {
+        this.setState({
+          partyAffiliation: response.partyAffiliation,
+          maritalStatus: response.maritalStatus,
+          age: response.age,
+          education: response.education,
+          ethnicity: response.ethnicity,
+          income: response.income,
+          occupation: response.occupation,
+          personalityType: response.personalityType,
+          politicalAffiliation: response.politicalAffiliation,
+          state: response.state,
+          gender: response.gender,
         });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   renderPoliticalCompassPreResults = () => {
     return (
-        <View>
-          <Image
-              style={{
-                width: 250,
-                height: 250,
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              source={require('../../../res/images/political_spectrum.jpg')}
-          />
-          <TouchableOpacity
-              style={styles.sectionButtonContainer}
-              onPress={() =>
-                  this.props.navigation.navigate('PoliticalCompassLanding', {
-                    userId: this.props.route.params.user.id,
-                  })
-              }>
-            <Text style={styles.sectionButtonText}>Go to Quiz</Text>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <Image
+          style={{
+            width: 250,
+            height: 250,
+            justifyContent: 'center',
+            alignSelf: 'center',
+          }}
+          source={require('../../../res/images/political_spectrum.jpg')}
+        />
+        <TouchableOpacity
+          style={styles.sectionButtonContainer}
+          onPress={() =>
+            this.props.navigation.navigate('PoliticalCompassLanding', {
+              userId: this.props.route.params.user.id,
+            })
+          }>
+          <Text style={styles.sectionButtonText}>Go to Quiz</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
   renderPoliticalCompassPostResults = () => {
     return (
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-              <VictoryChart width={250} height={250}>
-                <VictoryAxis
-                    crossAxis
-                    width={125}
-                    height={125}
-                    domain={[-6, 6]}
-                    theme={VictoryTheme.material}
-                    offsetY={125}
-                    standalone={false}
-                />
-                <VictoryAxis
-                    dependentAxis
-                    crossAxis
-                    width={125}
-                    height={125}
-                    domain={[-6, 6]}
-                    theme={VictoryTheme.material}
-                    offsetX={125}
-                    standalone={false}
-                />
-                <VictoryScatter
-                    style={{data: {fill: '#c43a31'}}}
-                    size={7}
-                    data={[
-                      {
-                        x: Number(this.state.econScore),
-                        y: Number(this.state.socialScore),
-                      },
-                    ]}
-                />
-              </VictoryChart>
-            </View>
-            <View style={{flex: 1, marginTop: 50, marginLeft: 70}}>
-              <Text> You scored: </Text>
-              <Text> Economic: {this.state.socialScore}</Text>
-              <Text> Social : {this.state.econScore}</Text>
-              <Text> You are: </Text>
-              <Text> {this.state.politicalScore}</Text>
-            </View>
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 1}}>
+            <VictoryChart width={250} height={250}>
+              <VictoryAxis
+                crossAxis
+                width={125}
+                height={125}
+                domain={[-6, 6]}
+                theme={VictoryTheme.material}
+                offsetY={125}
+                standalone={false}
+              />
+              <VictoryAxis
+                dependentAxis
+                crossAxis
+                width={125}
+                height={125}
+                domain={[-6, 6]}
+                theme={VictoryTheme.material}
+                offsetX={125}
+                standalone={false}
+              />
+              <VictoryScatter
+                style={{data: {fill: '#c43a31'}}}
+                size={7}
+                data={[
+                  {
+                    x: Number(this.state.econScore),
+                    y: Number(this.state.socialScore),
+                  },
+                ]}
+              />
+            </VictoryChart>
           </View>
-          <View>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() =>
-                    this.props.navigation.navigate('PoliticalCompassLanding', {
-                      userId: this.props.route.params.user.id,
-                    })
-                }>
-              <Text style={styles.sectionButtonText}>Retake Quiz</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() =>
-                    this.props.navigation.navigate('Political Compass Results', {
-                      userId: this.props.route.params.user.id,
-                      socialScore: this.state.socialScore,
-                      econScore: this.state.econScore,
-                      politicalScore: this.state.politicalScore,
-                    })
-                }>
-              <Text style={styles.sectionButtonText}>View Insights</Text>
-            </TouchableOpacity>
+          <View style={{flex: 1, marginTop: 50, marginLeft: 70}}>
+            <Text> You scored: </Text>
+            <Text> Economic: {this.state.socialScore}</Text>
+            <Text> Social : {this.state.econScore}</Text>
+            <Text> You are: </Text>
+            <Text> {this.state.politicalScore}</Text>
           </View>
         </View>
+        <View>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() =>
+              this.props.navigation.navigate('PoliticalCompassLanding', {
+                userId: this.props.route.params.user.id,
+              })
+            }>
+            <Text style={styles.sectionButtonText}>Retake Quiz</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() =>
+              this.props.navigation.navigate('Political Compass Results', {
+                userId: this.props.route.params.user.id,
+                socialScore: this.state.socialScore,
+                econScore: this.state.econScore,
+                politicalScore: this.state.politicalScore,
+              })
+            }>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   };
 
   renderPersonalityPreResults = () => {
     return (
-        <View>
-          <Image
-              style={styles.personalityImage}
-              source={require('../../../res/images/16person.png')}
-          />
-          <TouchableOpacity
-              style={styles.sectionButtonContainer}
-              onPress={() =>
-                  this.props.navigation.navigate('Personality Landing', {
-                    userId: this.props.route.params.user.id,
-                  })
-              }>
-            <Text style={styles.sectionButtonText}>Go to Quiz</Text>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <Image
+          style={styles.personalityImage}
+          source={require('../../../res/images/16person.png')}
+        />
+        <TouchableOpacity
+          style={styles.sectionButtonContainer}
+          onPress={() =>
+            this.props.navigation.navigate('Personality Landing', {
+              userId: this.props.route.params.user.id,
+            })
+          }>
+          <Text style={styles.sectionButtonText}>Go to Quiz</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
   renderPersonalityPostResults = personalityUri => {
     return (
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-              <Image
-                  style={styles.selfPersonalityImage}
-                  source={personalityUri}
-              />
-            </View>
-          </View>
-          <View>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() =>
-                    this.props.navigation.navigate('Personality Landing', {
-                      userId: this.props.route.params.user.id,
-                    })
-                }>
-              <Text style={styles.sectionButtonText}>Retake Quiz</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() =>
-                    this.props.navigation.navigate('Personality Results', {
-                      userId: this.props.route.params.user.id,
-                      personalityScore: this.state.personalityScore,
-                    })
-                }>
-              <Text style={styles.sectionButtonText}>View Insights</Text>
-            </TouchableOpacity>
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 1}}>
+            <Image
+              style={styles.selfPersonalityImage}
+              source={personalityUri}
+            />
           </View>
         </View>
+        <View>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() =>
+              this.props.navigation.navigate('Personality Landing', {
+                userId: this.props.route.params.user.id,
+              })
+            }>
+            <Text style={styles.sectionButtonText}>Retake Quiz</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() =>
+              this.props.navigation.navigate('Personality Results', {
+                userId: this.props.route.params.user.id,
+                personalityScore: this.state.personalityScore,
+              })
+            }>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   };
 
   renderDemographic = () => {
     return (
-        <View>
-          <Text style={styles.headingTextStyle}>Demographic</Text>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Gender:</Text>
-              <Text> {this.state.gender}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
-              <Text> {this.state.partyAffiliation}</Text>
-            </View>
+      <View>
+        <Text style={styles.headingTextStyle}>Demographic</Text>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Gender:</Text>
+            <Text> {this.state.gender}</Text>
           </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
-              <Text>{this.state.personalityType}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
-              <Text> {this.state.income}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Age:</Text>
-              <Text> {this.state.age}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Education:</Text>
-              <Text> {this.state.education}</Text>
-            </View>
-          </View>
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Marital Status:</Text>
-              <Text> {this.state.maritalStatus}</Text>
-            </View>
-            <View style={styles.demographicDetail}>
-              <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
-              <Text>{this.state.ethnicity}</Text>
-            </View>
-          </View>
-          <View>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() => this.onPressEditDemographics()}>
-              <Text style={styles.sectionButtonText}>Edit Demographics</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.sectionButtonContainer}
-                onPress={() => this.onPressViewDemographicsInsights()}>
-              <Text style={styles.sectionButtonText}>View Insights</Text>
-            </TouchableOpacity>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
+            <Text> {this.state.partyAffiliation}</Text>
           </View>
         </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
+            <Text>{this.state.personalityType}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
+            <Text> {this.state.income}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Age:</Text>
+            <Text> {this.state.age}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Education:</Text>
+            <Text> {this.state.education}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Marital Status:</Text>
+            <Text> {this.state.maritalStatus}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
+            <Text>{this.state.ethnicity}</Text>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => this.onPressEditDemographics()}>
+            <Text style={styles.sectionButtonText}>Edit Demographics</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => this.onPressViewDemographicsInsights()}>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   };
 
@@ -357,43 +357,43 @@ export default class ProfileScreen extends React.Component {
     }
 
     return (
-        <ScrollView>
-          <View style={styles.container}>
-            <View style={styles.contentContainer}>
-              <View style={styles.politicalCompassModuleContainer}>
-                <Text style={styles.headingTextStyle}>Political Compass</Text>
-                <View>
-                  {this.state.hasTakenPoliticalTest
-                      ? this.renderPoliticalCompassPostResults()
-                      : this.renderPoliticalCompassPreResults()}
-                </View>
-              </View>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={styles.politicalCompassModuleContainer}>
+              <Text style={styles.headingTextStyle}>Political Compass</Text>
               <View>
-                <View style={styles.politicalCompassModuleContainer}>
-                  <Text style={styles.headingTextStyle}>Personality Quiz</Text>
-                  <View>
-                    {this.state.hasTakenPersonalityTest
-                        ? this.renderPersonalityPostResults(personalityUri)
-                        : this.renderPersonalityPreResults()}
-                  </View>
-                </View>
-              </View>
-              <View style={styles.politicalCompassModuleContainer}>
-                {this.renderDemographic()}
-              </View>
-              <View style={styles.pastActivityModuleContainer}>
-                <Text style={styles.headingTextStyle}>Past Activity</Text>
-                <TouchableOpacity
-                    style={styles.sectionButtonContainer}
-                    onPress={() => this.onPressViewIssues()}>
-                  <Text style={styles.sectionButtonText}>
-                    View Voting History
-                  </Text>
-                </TouchableOpacity>
+                {this.state.hasTakenPoliticalTest
+                  ? this.renderPoliticalCompassPostResults()
+                  : this.renderPoliticalCompassPreResults()}
               </View>
             </View>
+            <View>
+              <View style={styles.politicalCompassModuleContainer}>
+                <Text style={styles.headingTextStyle}>Personality Quiz</Text>
+                <View>
+                  {this.state.hasTakenPersonalityTest
+                    ? this.renderPersonalityPostResults(personalityUri)
+                    : this.renderPersonalityPreResults()}
+                </View>
+              </View>
+            </View>
+            <View style={styles.politicalCompassModuleContainer}>
+              {this.renderDemographic()}
+            </View>
+            <View style={styles.pastActivityModuleContainer}>
+              <Text style={styles.headingTextStyle}>Past Activity</Text>
+              <TouchableOpacity
+                style={styles.sectionButtonContainer}
+                onPress={() => this.onPressViewIssues()}>
+                <Text style={styles.sectionButtonText}>
+                  View Voting History
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -406,6 +406,10 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
   },
   politicalCompassModuleContainer: {
     flex: 3,
