@@ -16,9 +16,9 @@ export default class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 't+50@gmail.com',
-      password: '123456',
-      confirmPassword: '123456',
+      email: '',
+      password: '',
+      confirmPassword: '',
     };
   }
 
