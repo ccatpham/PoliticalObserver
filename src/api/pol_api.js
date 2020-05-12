@@ -424,6 +424,15 @@ export default class Api {
     };
     return this.apiRequest(config).then(parseApiResponse);
   }
+
+  async getPoliticalIdeologyByName(name) {
+    const config = {
+      method: 'get',
+      endpoint: `/ideology/ideology/${name}`,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Personality Quiz Endpoints
    */
@@ -441,6 +450,14 @@ export default class Api {
     const config = {
       method: 'get',
       endpoint: `/quiz/personality/userid/${userid}`,
+    };
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getPersonalityByType(type) {
+    const config = {
+      method: 'get',
+      endpoint: `/personality/personalityType/${type}`,
     };
     return this.apiRequest(config).then(parseApiResponse);
   }

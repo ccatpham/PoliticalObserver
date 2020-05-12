@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Alert,
 } from 'react-native';
 import RadioButton from '../../Components/RadioButton';
 export default class PoliticalCompassEconomic extends React.Component {
@@ -14,8 +13,7 @@ export default class PoliticalCompassEconomic extends React.Component {
     this.state = {
       questions: [
         {
-          prompt:
-            'If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.',
+          prompt: 'The freer the market, the freer the people.',
           number: 0,
           choices: [
             {
@@ -38,7 +36,7 @@ export default class PoliticalCompassEconomic extends React.Component {
         },
         {
           prompt:
-            'I’d always support my country, whether it was right or wrong.',
+            'The only social responsibility of a company should be to deliver a profit to its shareholders.',
           number: 1,
           choices: [
             {
@@ -61,7 +59,7 @@ export default class PoliticalCompassEconomic extends React.Component {
         },
         {
           prompt:
-            'Military action that defies international law is sometimes justified.',
+            'Those with the ability to pay should have access to higher standards of medical care.',
           number: 2,
           choices: [
             {
@@ -82,9 +80,78 @@ export default class PoliticalCompassEconomic extends React.Component {
             },
           ],
         },
+        {
+          prompt:
+            'Because corporations cannot be trusted to voluntarily protect the environment, they require regulation.',
+          number: 3,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
+        {
+          prompt:
+            '“from each according to his ability, to each according to his need” is a fundamentally good idea.',
+          number: 4,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
+        {
+          prompt:
+            'It’s a sad reflection on our society that something as basic as drinking water is now a bottled, branded consumer product.',
+          number: 5,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
       ],
-      answers: [0, 0, 0],
-      userID: this.props.route.params.userID,
+      answers: [0, 0, 0, 0, 0, 0],
+      userId: this.props.route.params.userId,
     };
   }
 
@@ -137,7 +204,7 @@ export default class PoliticalCompassEconomic extends React.Component {
               onPress={() => {
                 this.props.navigation.navigate('PoliticalCompassSocial', {
                   answers: this.state.answers,
-                  userID: this.state.userID,
+                  userId: this.state.userId,
                 });
               }}>
               <Text style={styles.optionButtonFont}> Next </Text>
