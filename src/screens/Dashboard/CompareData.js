@@ -154,26 +154,29 @@ export default class CompareDataScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
-            <View style={styles.comparisonContainer}>
-              <Dropdown
-                containerStyle={styles.dropDownContainerStyle}
-                label="Left Side"
-                data={leftChoices}
-                onChangeText={(value, index, data) =>
-                  this.onChangeLeft(value, index, data)
-                }
-                itemCount={9}
-              />
-              <Text style={styles.byText}>By</Text>
-              <Dropdown
-                containerStyle={styles.dropDownContainerStyle}
-                label="Right Side"
-                data={rightChoices}
-                onChangeText={(value, index, data) =>
-                  this.onChangeRight(value, index, data)
-                }
-                itemCount={9}
-              />
+            <View style={styles.compareDataContainer}>
+              <Text style={styles.titleText}>Compare Demographic Data</Text>
+              <View style={styles.comparisonContainer}>
+                <Dropdown
+                  containerStyle={styles.dropDownContainerStyle}
+                  label="Left Side"
+                  data={leftChoices}
+                  onChangeText={(value, index, data) =>
+                    this.onChangeLeft(value, index, data)
+                  }
+                  itemCount={9}
+                />
+                <Text style={styles.byText}>By</Text>
+                <Dropdown
+                  containerStyle={styles.dropDownContainerStyle}
+                  label="Right Side"
+                  data={rightChoices}
+                  onChangeText={(value, index, data) =>
+                    this.onChangeRight(value, index, data)
+                  }
+                  itemCount={9}
+                />
+              </View>
             </View>
             <View style={styles.dataContainer}>
               <FlatList
@@ -200,14 +203,33 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    margin: 20,
+  },
+  compareDataContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingTop: 10,
   },
   comparisonContainer: {
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 20,
-    backgroundColor: colors.polGray,
   },
   dropDownContainerStyle: {
     flex: 1,
@@ -219,9 +241,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   dataContainer: {
-    backgroundColor: colors.polGray,
+    marginBottom: 10,
   },
-  itemContainer: {},
+  itemContainer: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   itemHeaderText: {
     textAlign: 'center',
     fontSize: 20,
