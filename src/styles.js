@@ -61,6 +61,11 @@ export const colors = {
     '#196F3D',
     '#145A32',
   ],
+  partyColors: {
+    democrat: '#057ec7',
+    republican: '#cf3634',
+    Unaligned: '#464646',
+  },
 };
 
 export const dateFormats = {

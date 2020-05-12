@@ -40,21 +40,37 @@ export default class TopicDetails extends React.Component {
   }
 
   render() {
+    let source = require('../../../../res/icons/govt.png');
+    if (this.state.subCategory === 'Form of Government') {
+      source = require('../../../../res/icons/govt.png');
+    } else if (this.state.subCategory === 'Branch') {
+      source = require('../../../../res/icons/balance.png');
+    } else if (this.state.subCategory === 'Congress') {
+      source = require('../../../../res/icons/capitolIcon.png');
+    } else if (this.state.subCategory === 'Position') {
+      source = require('../../../../res/icons/speaker.png');
+    }
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.contentContainer}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require('../../../../res/images/politician.png')}
-              style={styles.image}
-            />
-          </View>
-          <View style={styles.detailsContainer}>
-            <Text>{this.state.title}</Text>
-            <Text>{this.state.category}</Text>
-            <Text>{this.state.subCategory}</Text>
-            <Text>{this.state.description}</Text>
-            <Text>{this.state.body}</Text>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.contentContainer}>
+            <View style={styles.imageContainer}>
+              <Image source={source} style={styles.image} />
+            </View>
+            <View style={styles.detailsContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.titleText}>{this.state.title}</Text>
+                <Text style={styles.subTitleText}>
+                  {this.state.subCategory}
+                </Text>
+              </View>
+              <View style={styles.informationContainer}>
+                <Text style={styles.text}>{this.state.description}</Text>
+              </View>
+              <View style={styles.bodyContainer}>
+                <Text style={styles.text}> {this.state.body}</Text>
+              </View>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -67,13 +83,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.polWhite,
   },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
   contentContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    margin: 20,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  imagesContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   imageContainer: {
+    flex: 1,
     alignItems: 'center',
-    paddingBottom: 20,
+    marginTop: 10,
+    marginHorizontal: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   image: {
     height: 200,
@@ -82,16 +124,29 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     flex: 1,
-    backgroundColor: colors.polGray,
+    margin: 10,
+  },
+  titleContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  informationContainer: {
+    flex: 1,
+    marginVertical: 20,
+  },
+  biographyContainer: {
+    flex: 1,
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   subTitleText: {
     fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.polDarkGray,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
