@@ -8,8 +8,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
-import {colors} from '../../../styles';
+import {colors, colorsData} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
 
@@ -122,6 +123,16 @@ export default class IssueData extends React.Component {
             height={150}
             padding={0}
             style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
               labels: {
                 fill: colors.polWhite,
                 fontSize: 16,
@@ -165,17 +176,27 @@ export default class IssueData extends React.Component {
             data={data[0]}
             colorScale={data[1]}
             labelPosition="centroid"
-            innerRadius={60}
-            labelRadius={70}
+            innerRadius={50}
+            labelRadius={20}
             padAngle={({datum}) => datum.y * 4}
-            labels={({datum}) => (`${datum.y}` !== '0' ? `${datum.x}` : '')}
-            width={280}
-            height={280}
-            padding={20}
+            labels={() => ''}
+            width={150}
+            height={150}
+            padding={0}
             style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
               labels: {
-                fill: 'black',
-                fontSize: 12,
+                fill: colors.polWhite,
+                fontSize: 16,
                 fontWeight: 'bold',
               },
             }}
@@ -185,19 +206,70 @@ export default class IssueData extends React.Component {
     );
   }
 
+  renderItem(item, index) {
+    return (
+      <View style={styles.itemContainer}>
+        <Text style={styles.itemHeaderText}>{item.category}</Text>
+        <View style={styles.itemChartContainer}>
+          <VictoryPie
+            data={item}
+            colorScale={colorsData[this.state.rightKey]}
+            width={150}
+            height={150}
+            innerRadius={50}
+            padAngle={1}
+            labelRadius={20}
+            labels={() => ''}
+            padding={0}
+            style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
+              labels: {
+                fontSize: 16,
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        </View>
+        <View style={styles.itemKeyContainer}>
+          <FlatList
+            data={item.data}
+            renderItem={({item, index}) => this.renderKey(item, index)}
+            numColumns={4}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          />
+        </View>
+      </View>
+    );
+  }
+
   render() {
     let data = [
-      [this.state.genderData, colors.gender, titleGender],
-      [this.state.partyData, colors.party, titleParty],
-      [this.state.educationData, colors.education, titleEducation],
-      [this.state.ethnicityData, colors.ethnicity, titleEthnicity],
+      this.state.genderData,
+      this.state.partyData,
+      this.state.educationData,
+      this.state.ethnicityData,
     ];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.contentContainer}>
           {this.renderResultsView()}
           <View style={styles.chartsContainer}>
-            {data.map(data => this.renderChartView(data))}
+            <FlatList
+              data={data}
+              renderItem={({item, index}) => this.renderItem(item, index)}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -211,8 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.polWhite,
   },
   contentContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    marginVertical: 10,
   },
   chartsContainer: {
     flex: 1,
@@ -225,6 +296,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
+    marginHorizontal: 20,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   resultsChartContainer: {
     flex: 1,
@@ -257,5 +338,57 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     justifyContent: 'center',
     fontWeight: 'bold',
+  },
+  itemContainer: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  itemHeaderText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  itemChartContainer: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemKeyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  keyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+  },
+  keyColor: {
+    marginRight: 4,
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  keyText: {
+    textAlign: 'center',
   },
 });
