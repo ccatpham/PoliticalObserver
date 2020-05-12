@@ -10,6 +10,8 @@ import RegisterScreen from './screens/Registration/Register';
 import RegisterDemographicsScreen from './screens/Registration/RegisterDemographics';
 import RegisterPersonalityScreen from './screens/Registration/RegisterPersonality';
 import RegisterPoliticalScreen from './screens/Registration/RegisterPolitical';
+import TermsAndConditionsScreen from './screens/Registration/TermsAndConditions';
+import PrivacyPolicyScreen from './screens/Registration/PrivacyPolicy';
 import EducationScreen from './screens/Education/Education';
 import DashboardScreen from './screens/Dashboard/Dashboard';
 import NotificationScreen from './screens/Dashboard/Notification';
@@ -282,6 +284,11 @@ export default function AppStack() {
         name="Register Political"
         component={RegisterPoliticalScreen}
       />
+      <Stack.Screen
+        name="Terms And Conditions"
+        component={TermsAndConditionsScreen}
+      />
+      <Stack.Screen name="Privacy Policy" component={PrivacyPolicyScreen} />
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}

@@ -150,12 +150,12 @@ export default class RegisterPoliticalScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>
-              What is your political standing?
-            </Text>
-          </View>
           <View style={styles.contentContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>
+                What is your political standing?
+              </Text>
+            </View>
             <View style={styles.radioButtonContainer}>
               <Text style={styles.radioButtonHeaderText}>
                 Party Affiliation
@@ -261,14 +261,22 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginHorizontal: 20,
+    margin: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   headerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 20,
-    marginHorizontal: 20,
   },
   headerText: {
     margin: 10,

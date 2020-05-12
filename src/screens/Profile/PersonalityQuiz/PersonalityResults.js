@@ -62,15 +62,18 @@ export default class PersonalityResults extends React.Component {
               Personality Type: {this.state.personalityScore}{' '}
             </Text>
             <Text style={styles.subHeadingTextStyle}> {this.state.name}</Text>
-            <Text style={styles.subHeadingTextStyle}> Who is a {this.state.name} ({this.state.personalityScore})?</Text>
+            <Text style={styles.subHeadingTextStyle}>
+              {' '}
+              Who is a {this.state.name} ({this.state.personalityScore})?
+            </Text>
             <Text>{this.state.description}</Text>
-            <Text> </Text>
+            <Text />
             <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
             <Text>{this.state.weaknesses}</Text>
-            <Text> </Text>
+            <Text />
             <Text style={styles.subHeadingTextStyle}> Strengths </Text>
             <Text>{this.state.strengths}</Text>
-            <Text> </Text>
+            <Text />
             <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
             <Text>{this.state.weaknesses}</Text>
             <View>
