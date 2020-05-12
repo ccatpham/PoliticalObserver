@@ -161,8 +161,8 @@ export default class ProfileScreen extends React.Component {
                 size={7}
                 data={[
                   {
-                    x: Number(this.state.socialScore),
-                    y: Number(this.state.econScore),
+                    x: Number(this.state.econScore),
+                    y: Number(this.state.socialScore),
                   },
                 ]}
               />
