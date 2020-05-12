@@ -68,6 +68,50 @@ export const colors = {
   },
 };
 
+export const colorsData = {
+  age: ['#555555', '#6e6e6e', '#898989', '#a4a4a4', '#c0c0c0', '#dddddd'],
+  gender: ['#02a3fe', '#ec4aa6', '#b3c0c9'],
+  state: [],
+  maritalStatus: ['#d7d7d7', '#333333'],
+  ethnicity: ['#eed2bc', '#784f34', '#fcdabf', '#a66859', '#c3886b', '#ddc29f'],
+  education: ['#58cced', '#49aacf', '#3a89b2', '#2b6995', '#1b4b7a', '#072f5f'],
+  income: [
+    '#b7ffbf',
+    '#a1f1a4',
+    '#8be389',
+    '#73d56e',
+    '#5ac752',
+    '#3cb934',
+    '#00ab08',
+  ],
+  personalityType: [
+    '#b3889d',
+    '#96637c',
+    '#734c5f',
+    '#553042',
+    '#98c26c',
+    '#738d57',
+    '#5a753d',
+    '#44612d',
+    '#73cbcc',
+    '#50a9ab',
+    '#369497',
+    '#1c7679',
+    '#f4d75c',
+    '#e5c82e',
+    '#ccad14',
+    '#bf8f01',
+  ],
+  partyAffiliation: [
+    '#0465a0',
+    '#B42033',
+    '#aa8b05',
+    '#007a42',
+    '#7c43a9',
+    '#898c8f',
+  ],
+};
+
 export const dateFormats = {
   monthDayYear: 'MMMM D, YYYY',
 };

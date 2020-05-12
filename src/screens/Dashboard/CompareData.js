@@ -5,12 +5,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Image,
   View,
 } from 'react-native';
-import {colors} from '../../styles';
+import {colors, colorsData} from '../../styles';
 import pol from '../../api/apiConfig';
-import {VictoryPie} from 'victory-native';
+import {VictoryPie, VictoryLegend} from 'victory-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
 export default class CompareDataScreen extends React.Component {
@@ -18,6 +18,7 @@ export default class CompareDataScreen extends React.Component {
     super(props);
     this.state = {
       data: [],
+      rightKey: '',
       choices: [
         {
           value: 'Age',
@@ -91,27 +92,69 @@ export default class CompareDataScreen extends React.Component {
   }
 
   onChangeRight(value, index, data) {
-    this.setState({right: data[index].key});
+    this.setState({right: data[index].key, rightKey: data[index].key});
     this.compareDemographics();
   }
 
+  renderKey(item, index) {
+    return (
+      <View style={styles.keyContainer}>
+        <View
+          style={[
+            styles.keyColor,
+            {backgroundColor: colorsData[this.state.rightKey][index]},
+          ]}
+        />
+        <Text style={styles.keyText}>{item.x}</Text>
+      </View>
+    );
+  }
+
   renderItem(item) {
+    let data = item.data;
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.itemHeaderText}>{item.category}</Text>
-        <VictoryPie
-          data={item.data}
-          labelRadius={10}
-          width={150}
-          height={150}
-          padding={0}
-          style={{
-            labels: {
-              fontSize: 16,
-              fontWeight: 'bold',
-            },
-          }}
-        />
+        <View style={styles.itemChartContainer}>
+          <VictoryPie
+            data={item.data}
+            colorScale={colorsData[this.state.rightKey]}
+            width={150}
+            height={150}
+            innerRadius={50}
+            padAngle={2}
+            labelRadius={20}
+            labels={() => ''}
+            padding={0}
+            style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
+              labels: {
+                fontSize: 16,
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        </View>
+        <View style={styles.itemKeyContainer}>
+          <FlatList
+            data={item.data}
+            renderItem={({item, index}) => this.renderKey(item, index)}
+            numColumns={4}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -144,7 +187,7 @@ export default class CompareDataScreen extends React.Component {
                   onChangeText={(value, index, data) =>
                     this.onChangeLeft(value, index, data)
                   }
-                  itemCount={9}
+                  itemCount={4}
                 />
                 <Text style={styles.byText}>By</Text>
                 <Dropdown
@@ -154,7 +197,7 @@ export default class CompareDataScreen extends React.Component {
                   onChangeText={(value, index, data) =>
                     this.onChangeRight(value, index, data)
                   }
-                  itemCount={9}
+                  itemCount={4}
                 />
               </View>
             </View>
@@ -162,6 +205,14 @@ export default class CompareDataScreen extends React.Component {
               <FlatList
                 data={this.state.data}
                 renderItem={({item}) => this.renderItem(item)}
+                ListEmptyComponent={
+                  <View style={styles.staleStateImageContainer}>
+                    <Image
+                      style={styles.staleStateImage}
+                      source={require('../../../res/icons/pieChartIcon.png')}
+                    />
+                  </View>
+                }
               />
             </View>
           </View>
@@ -241,5 +292,55 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  itemChartContainer: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemKeyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  keyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+  },
+  keyColor: {
+    marginRight: 4,
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  keyText: {
+    textAlign: 'center',
+  },
+  staleStateImageContainer: {
+    alignSelf: 'center',
+    marginTop: 80,
+    padding: 20,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  staleStateImage: {
+    height: 200,
+    width: 200,
   },
 });
