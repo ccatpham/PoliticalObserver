@@ -95,6 +95,32 @@ export default class RegisterScreen extends React.Component {
               onChangeText={password => this.onChangeConfirmPassword(password)}
               value={this.state.confirmPassword}
             />
+            <View style={styles.termsContainer}>
+              <Text style={styles.termsText}>
+                By creating an account you agree
+              </Text>
+              <View style={styles.termsLineContainer}>
+                <Text style={styles.termsText}>to our </Text>
+                <TouchableOpacity
+                  style={styles.termsLinkContainer}
+                  onPress={() =>
+                    this.props.navigation.navigate('Terms And Conditions')
+                  }>
+                  <Text style={styles.termsLink}>Terms and Conditions</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.termsLineContainer}>
+                <Text style={styles.termsText}>and to our </Text>
+                <TouchableOpacity
+                  style={styles.termsLinkContainer}
+                  onPress={() =>
+                    this.props.navigation.navigate('Privacy Policy')
+                  }>
+                  <Text style={styles.termsLink}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <Text style={styles.termsText}>.</Text>
+              </View>
+            </View>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -155,6 +181,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  termsContainer: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  termsText: {
+    fontSize: 14,
+  },
+  termsLineContainer: {
+    flexDirection: 'row',
+  },
+  termsLinkContainer: {},
+  termsLink: {
+    fontSize: 14,
+    color: colors.polBlue,
   },
   continueButtonContainer: {
     width: 200,

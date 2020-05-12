@@ -7,9 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
-import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
+import {Dropdown} from 'react-native-material-dropdown';
+import auth from '@react-native-firebase/auth';
+import pol from '../../api/apiConfig';
+import {CommonActions} from '@react-navigation/routers';
 
 export default class RegisterDemographicsScreen extends React.Component {
   constructor(props) {
@@ -20,80 +24,139 @@ export default class RegisterDemographicsScreen extends React.Component {
       state: '',
       occupation: '',
       income: '',
-      genderChoices: [
+      gender: null,
+      maritalStatus: null,
+      ethnicity: null,
+      education: null,
+      personalityType: null,
+      partyAffiliation: null,
+      genderData: [
         {
-          label: 'Male',
-          selected: false,
+          value: 'Male',
         },
         {
-          label: 'Female',
-          selected: false,
+          value: 'Female',
         },
         {
-          label: 'Other',
-          selected: false,
-        },
-      ],
-      maritalStatus: [
-        {
-          label: 'Married',
-          selected: false,
-        },
-        {
-          label: 'Single',
-          selected: false,
+          value: 'Other',
         },
       ],
-      ethnicity: [
+      maritalStatusData: [
         {
-          label: 'White',
-          selected: false,
+          value: 'Married',
         },
         {
-          label: 'African American',
-          selected: false,
-        },
-        {
-          label: 'Asian',
-          selected: false,
-        },
-        {
-          label: 'Native American',
-          selected: false,
-        },
-        {
-          label: 'Hispanic',
-          selected: false,
-        },
-        {
-          label: 'Other',
-          selected: false,
+          value: 'Single',
         },
       ],
-      education: [
+      ethnicityData: [
         {
-          label: 'None',
-          selected: false,
+          value: 'White',
         },
         {
-          label: 'Diploma',
-          selected: false,
+          value: 'African American',
         },
         {
-          label: "Associate's",
-          selected: false,
+          value: 'Asian',
         },
         {
-          label: "Bachelor's",
-          selected: false,
+          value: 'Native American',
         },
         {
-          label: "Master's",
-          selected: false,
+          value: 'Hispanic',
         },
         {
-          label: 'Doctoral',
-          selected: false,
+          value: 'Other',
+        },
+      ],
+      educationData: [
+        {
+          value: 'None',
+        },
+        {
+          value: 'Diploma',
+        },
+        {
+          value: "Associate's",
+        },
+        {
+          value: "Bachelor's",
+        },
+        {
+          value: "Master's",
+        },
+        {
+          value: 'Doctoral',
+        },
+      ],
+      personalityTypeData: [
+        {
+          value: 'INTJ',
+        },
+        {
+          value: 'INTP',
+        },
+        {
+          value: 'ENTJ',
+        },
+        {
+          value: 'ENTP',
+        },
+        {
+          value: 'INFJ',
+        },
+        {
+          value: 'INFP',
+        },
+        {
+          value: 'ENFJ',
+        },
+        {
+          value: 'ENFP',
+        },
+        {
+          value: 'ISTJ',
+        },
+        {
+          value: 'ISFJ',
+        },
+        {
+          value: 'ESTJ',
+        },
+        {
+          value: 'ESFJ',
+        },
+        {
+          value: 'ISTP',
+        },
+        {
+          value: 'ISFP',
+        },
+        {
+          value: 'ESTP',
+        },
+        {
+          value: 'ESFP',
+        },
+      ],
+      partyAffiliationData: [
+        {
+          value: 'Democrat',
+        },
+        {
+          value: 'Republican',
+        },
+        {
+          value: 'Libertarian',
+        },
+        {
+          value: 'Green',
+        },
+        {
+          value: 'Constitution',
+        },
+        {
+          value: 'Unaligned',
         },
       ],
     };
@@ -101,48 +164,156 @@ export default class RegisterDemographicsScreen extends React.Component {
 
   onPressContinue = () => {
     let user = this.state.user;
-    user.age = Number(this.state.age);
-    user.occupation = this.state.occupation;
-    user.income = Number(this.state.income);
-    user.state = this.state.state;
 
-    let genderChoice = this.state.genderChoices.find(choice => {
-      return choice.selected === true;
-    });
-    if (genderChoice != null) {
-      user.gender = genderChoice.label;
+    if (this.state.age && this.state.age !== '') {
+      user.age = Number(this.state.age);
     }
 
-    let maritalChoice = this.state.maritalStatus.find(choice => {
-      return choice.selected === true;
-    });
-    if (maritalChoice != null) {
-      user.maritalStatus = maritalChoice.label;
+    if (this.state.state && this.state.state !== '') {
+      user.state = this.state.state;
     }
 
-    let ethnicityChoice = this.state.ethnicity.find(choice => {
-      return choice.selected === true;
-    });
-    if (ethnicityChoice != null) {
-      user.ethnicity = ethnicityChoice.label;
+    if (this.state.gender && this.state.gender !== '') {
+      user.gender = this.state.gender;
     }
 
-    let educationChoice = this.state.education.find(choice => {
-      return choice.selected === true;
-    });
-    if (educationChoice != null) {
-      user.education = educationChoice.label;
+    if (this.state.maritalStatus && this.state.maritalStatus !== '') {
+      user.maritalStatus = this.state.maritalStatus;
     }
 
-    this.props.navigation.navigate('Register Personality', {
-      user: user,
-    });
+    if (this.state.ethnicity && this.state.ethnicity !== '') {
+      user.ethnicity = this.state.ethnicity;
+    }
+
+    if (this.state.education && this.state.education !== '') {
+      user.education = this.state.education;
+    }
+
+    if (this.state.occupation && this.state.occupation !== '') {
+      user.occupation = this.state.occupation;
+    }
+
+    if (this.state.income && this.state.income !== '') {
+      user.income = Number(this.state.income);
+    }
+
+    if (this.state.personalityType && this.state.personalityType !== '') {
+      user.personalityType = this.state.personalityType;
+    }
+
+    if (this.state.partyAffiliation && this.state.partyAffiliation !== '') {
+      user.partyAffiliation = this.state.partyAffiliation;
+    }
+
+    auth()
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   onPressSkip = () => {
-    this.props.navigation.navigate('Register Personality', {
-      user: this.state.user,
-    });
+    let user = this.state.user;
+
+    if (this.state.age && this.state.age !== '') {
+      user.age = Number(this.state.age);
+    }
+
+    if (this.state.state && this.state.state !== '') {
+      user.state = this.state.state;
+    }
+
+    if (this.state.gender && this.state.gender !== '') {
+      user.gender = this.state.gender;
+    }
+
+    if (this.state.maritalStatus && this.state.maritalStatus !== '') {
+      user.maritalStatus = this.state.maritalStatus;
+    }
+
+    if (this.state.ethnicity && this.state.ethnicity !== '') {
+      user.ethnicity = this.state.ethnicity;
+    }
+
+    if (this.state.education && this.state.education !== '') {
+      user.education = this.state.education;
+    }
+
+    if (this.state.occupation && this.state.occupation !== '') {
+      user.occupation = this.state.occupation;
+    }
+
+    if (this.state.income && this.state.income !== '') {
+      user.income = Number(this.state.income);
+    }
+
+    if (this.state.personalityType && this.state.personalityType !== '') {
+      user.personalityType = this.state.personalityType;
+    }
+
+    if (this.state.partyAffiliation && this.state.partyAffiliation !== '') {
+      user.partyAffiliation = this.state.partyAffiliation;
+    }
+
+    auth()
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(this.state.user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   onChangeAge(age) {
@@ -169,87 +340,31 @@ export default class RegisterDemographicsScreen extends React.Component {
     });
   }
 
-  onPressGenderRadioButton = selectedGender => {
-    let genderChoices = this.state.genderChoices;
-    genderChoices.forEach(function(gender) {
-      if (gender === selectedGender) {
-        gender.selected = !gender.selected;
-      } else {
-        gender.selected = false;
-      }
-    });
-    this.setState({
-      genderChoices: genderChoices,
-      gender: selectedGender,
-    });
-  };
-
-  onPressMaritalStatusRadioButton = selectedMaritalStatus => {
-    let maritalStatusChoices = this.state.maritalStatus;
-    maritalStatusChoices.forEach(function(maritalStatus) {
-      if (maritalStatus === selectedMaritalStatus) {
-        maritalStatus.selected = !maritalStatus.selected;
-      } else {
-        maritalStatus.selected = false;
-      }
-    });
-    this.setState({
-      maritalStatus: maritalStatusChoices,
-    });
-  };
-
-  onPressEthnicityRadioButton = selectedEthnicity => {
-    let ethnicityChoices = this.state.ethnicity;
-    ethnicityChoices.forEach(function(ethnicity) {
-      if (ethnicity === selectedEthnicity) {
-        ethnicity.selected = !ethnicity.selected;
-      } else {
-        ethnicity.selected = false;
-      }
-    });
-    this.setState({
-      ethnicity: ethnicityChoices,
-    });
-  };
-
-  onPressEducationRadioButton = selectedEducation => {
-    let educationChoices = this.state.education;
-    educationChoices.forEach(function(education) {
-      if (education === selectedEducation) {
-        education.selected = !education.selected;
-      } else {
-        education.selected = false;
-      }
-    });
-    this.setState({
-      education: educationChoices,
-    });
-  };
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Fill out your demographics</Text>
-          </View>
           <View style={styles.contentContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerText}>Fill out your demographics</Text>
+            </View>
             <View style={styles.textInputRowContainer}>
               <View style={styles.textInputContainer}>
                 <Text style={styles.textInputHeaderText}>Age</Text>
                 <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {marginRight: 5}]}
                   placeholder={'Age'}
                   placeholderTextColor={colors.polPlaceholderGray}
                   onChangeText={age => this.onChangeAge(age)}
                   keyboardType={'numeric'}
+                  maxLength={3}
                   value={this.state.age}
                 />
               </View>
               <View style={styles.textInputContainer}>
                 <Text style={styles.textInputHeaderText}>State</Text>
                 <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {marginLeft: 5}]}
                   placeholder={'State'}
                   placeholderTextColor={colors.polPlaceholderGray}
                   onChangeText={state => this.onChangeState(state)}
@@ -259,93 +374,102 @@ export default class RegisterDemographicsScreen extends React.Component {
                 />
               </View>
             </View>
-            <View style={styles.radioButtonContainer}>
-              <Text style={styles.radioButtonHeaderText}>Gender</Text>
-              <View style={styles.radioButtonRow}>
-                {this.state.genderChoices.map(gender => (
-                  <RadioButton
-                    key={gender.label}
-                    selected={gender.selected}
-                    onPress={() => this.onPressGenderRadioButton(gender)}
-                    label={gender.label}
-                  />
-                ))}
-              </View>
-            </View>
-            <View style={styles.radioButtonContainer}>
-              <Text style={styles.radioButtonHeaderText}>Marital Status</Text>
-              <View style={styles.radioButtonRow}>
-                {this.state.maritalStatus.map(maritalStatus => (
-                  <RadioButton
-                    key={maritalStatus.label}
-                    selected={maritalStatus.selected}
-                    onPress={() =>
-                      this.onPressMaritalStatusRadioButton(maritalStatus)
-                    }
-                    label={maritalStatus.label}
-                  />
-                ))}
-              </View>
-            </View>
-            <View style={styles.radioButtonContainer}>
-              <Text style={styles.radioButtonHeaderText}>Ethnicity</Text>
-              <View style={styles.radioButtonColumn}>
-                {this.state.ethnicity.map(ethnicity => (
-                  <RadioButton
-                    key={ethnicity.label}
-                    selected={ethnicity.selected}
-                    onPress={() => this.onPressEthnicityRadioButton(ethnicity)}
-                    label={ethnicity.label}
-                  />
-                ))}
-              </View>
-            </View>
-            <View style={styles.radioButtonContainer}>
-              <Text style={styles.radioButtonHeaderText}>Education</Text>
-              <View style={styles.radioButtonColumn}>
-                {this.state.education.map(education => (
-                  <RadioButton
-                    key={education.label}
-                    selected={education.selected}
-                    onPress={() => this.onPressEducationRadioButton(education)}
-                    label={education.label}
-                  />
-                ))}
-              </View>
-            </View>
-          </View>
-          <View style={styles.textInputRowContainer}>
-            <View style={styles.textInputContainer}>
-              <Text style={styles.textInputHeaderText}>Occupation</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder={'Occupation'}
-                placeholderTextColor={colors.polPlaceholderGray}
-                onChangeText={occupation => this.onChangeOccupation(occupation)}
-                value={this.state.occupation}
+            <View style={styles.dropDownRowContainer}>
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginRight: 5}]}
+                label="Gender"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.genderData}
+                onChangeText={value => this.setState({gender: value})}
+                itemCount={4}
+              />
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginLeft: 5}]}
+                label="Marital Status"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.maritalStatusData}
+                onChangeText={value => this.setState({maritalStatus: value})}
+                itemCount={4}
               />
             </View>
-            <View style={styles.textInputContainer}>
-              <Text style={styles.textInputHeaderText}>Yearly Income</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder={'Income Level'}
-                placeholderTextColor={colors.polPlaceholderGray}
-                onChangeText={income => this.onChangeIncome(income)}
-                keyboardType={'numeric'}
-                value={this.state.income}
+            <View style={styles.dropDownRowContainer}>
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginRight: 5}]}
+                label="Ethnicity"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.ethnicityData}
+                onChangeText={value => this.setState({ethnicity: value})}
+                itemCount={4}
+              />
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginLeft: 5}]}
+                label="Education"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.educationData}
+                onChangeText={value => this.setState({education: value})}
+                itemCount={4}
+              />
+            </View>
+            <View style={styles.textInputRowContainer}>
+              <View style={[styles.textInputContainer, {marginRight: 5}]}>
+                <Text style={styles.textInputHeaderText}>Occupation</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder={'Occupation'}
+                  placeholderTextColor={colors.polPlaceholderGray}
+                  onChangeText={occupation =>
+                    this.onChangeOccupation(occupation)
+                  }
+                  value={this.state.occupation}
+                />
+              </View>
+              <View style={[styles.textInputContainer, {marginLeft: 5}]}>
+                <Text style={styles.textInputHeaderText}>Yearly Income</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder={'Yearly Income'}
+                  placeholderTextColor={colors.polPlaceholderGray}
+                  onChangeText={income => this.onChangeIncome(income)}
+                  keyboardType={'numeric'}
+                  value={this.state.income}
+                />
+              </View>
+            </View>
+            <View style={styles.dropDownRowContainer}>
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginRight: 5}]}
+                label="Personality Type"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.personalityTypeData}
+                onChangeText={value => this.setState({personalityType: value})}
+                itemCount={4}
+              />
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginLeft: 5}]}
+                label="Party Affiliation"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.partyAffiliationData}
+                onChangeText={value => this.setState({partyAffiliation: value})}
+                itemCount={4}
               />
             </View>
           </View>
           <TouchableOpacity
             style={styles.continueButtonContainer}
             onPress={this.onPressContinue}>
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.skipButtonContainer}
-            onPress={this.onPressSkip}>
-            <Text style={styles.skipButtonText}>Skip</Text>
+            <Text style={styles.continueButtonText}>Register</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -365,7 +489,17 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginHorizontal: 20,
+    margin: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   headerContainer: {
     flex: 1,
@@ -375,7 +509,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   headerText: {
-    margin: 10,
     fontSize: 20,
     color: colors.black,
     fontWeight: 'bold',
@@ -386,13 +519,12 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     flex: 1,
-    paddingHorizontal: 10,
+    marginTop: 10,
   },
   textInputHeaderText: {
-    paddingHorizontal: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.polBlue,
+    color: colors.black,
   },
   textInput: {
     marginVertical: 10,
@@ -412,22 +544,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  radioButtonContainer: {
-    flex: 1,
-    marginVertical: 5,
-  },
-  radioButtonHeaderText: {
-    marginVertical: 5,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.polBlue,
-  },
-  radioButtonRow: {
-    flex: 1,
+  dropDownRowContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  radioButtonColumn: {
+  dropDownContainer: {
     flex: 1,
   },
   continueButtonContainer: {
