@@ -7,10 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
-import RadioButton from '../../components/RadioButton';
 import {colors} from '../../styles';
 import {Dropdown} from 'react-native-material-dropdown';
+import auth from '@react-native-firebase/auth';
+import pol from '../../api/apiConfig';
+import {CommonActions} from '@react-navigation/routers';
 
 export default class RegisterDemographicsScreen extends React.Component {
   constructor(props) {
@@ -25,6 +28,8 @@ export default class RegisterDemographicsScreen extends React.Component {
       maritalStatus: null,
       ethnicity: null,
       education: null,
+      personalityType: null,
+      partyAffiliation: null,
       genderData: [
         {
           value: 'Male',
@@ -84,6 +89,76 @@ export default class RegisterDemographicsScreen extends React.Component {
           value: 'Doctoral',
         },
       ],
+      personalityTypeData: [
+        {
+          value: 'INTJ',
+        },
+        {
+          value: 'INTP',
+        },
+        {
+          value: 'ENTJ',
+        },
+        {
+          value: 'ENTP',
+        },
+        {
+          value: 'INFJ',
+        },
+        {
+          value: 'INFP',
+        },
+        {
+          value: 'ENFJ',
+        },
+        {
+          value: 'ENFP',
+        },
+        {
+          value: 'ISTJ',
+        },
+        {
+          value: 'ISFJ',
+        },
+        {
+          value: 'ESTJ',
+        },
+        {
+          value: 'ESFJ',
+        },
+        {
+          value: 'ISTP',
+        },
+        {
+          value: 'ISFP',
+        },
+        {
+          value: 'ESTP',
+        },
+        {
+          value: 'ESFP',
+        },
+      ],
+      partyAffiliationData: [
+        {
+          value: 'Democrat',
+        },
+        {
+          value: 'Republican',
+        },
+        {
+          value: 'Libertarian',
+        },
+        {
+          value: 'Green',
+        },
+        {
+          value: 'Constitution',
+        },
+        {
+          value: 'Unaligned',
+        },
+      ],
     };
   }
 
@@ -122,15 +197,123 @@ export default class RegisterDemographicsScreen extends React.Component {
       user.income = Number(this.state.income);
     }
 
-    this.props.navigation.navigate('Register Personality', {
-      user: user,
-    });
+    if (this.state.personalityType && this.state.personalityType !== '') {
+      user.personalityType = this.state.personalityType;
+    }
+
+    if (this.state.partyAffiliation && this.state.partyAffiliation !== '') {
+      user.partyAffiliation = this.state.partyAffiliation;
+    }
+
+    auth()
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   onPressSkip = () => {
-    this.props.navigation.navigate('Register Personality', {
-      user: this.state.user,
-    });
+    let user = this.state.user;
+
+    if (this.state.age && this.state.age !== '') {
+      user.age = Number(this.state.age);
+    }
+
+    if (this.state.state && this.state.state !== '') {
+      user.state = this.state.state;
+    }
+
+    if (this.state.gender && this.state.gender !== '') {
+      user.gender = this.state.gender;
+    }
+
+    if (this.state.maritalStatus && this.state.maritalStatus !== '') {
+      user.maritalStatus = this.state.maritalStatus;
+    }
+
+    if (this.state.ethnicity && this.state.ethnicity !== '') {
+      user.ethnicity = this.state.ethnicity;
+    }
+
+    if (this.state.education && this.state.education !== '') {
+      user.education = this.state.education;
+    }
+
+    if (this.state.occupation && this.state.occupation !== '') {
+      user.occupation = this.state.occupation;
+    }
+
+    if (this.state.income && this.state.income !== '') {
+      user.income = Number(this.state.income);
+    }
+
+    if (this.state.personalityType && this.state.personalityType !== '') {
+      user.personalityType = this.state.personalityType;
+    }
+
+    if (this.state.partyAffiliation && this.state.partyAffiliation !== '') {
+      user.partyAffiliation = this.state.partyAffiliation;
+    }
+
+    auth()
+      .createUserWithEmailAndPassword(
+        this.state.user.email.toLowerCase(),
+        this.state.user.password,
+      )
+      .then(() => {
+        pol.api
+          .createUser(this.state.user)
+          .then(user => {
+            this.props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: 'TabNavigator', params: {user: user}}],
+              }),
+            );
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   };
 
   onChangeAge(age) {
@@ -260,16 +443,33 @@ export default class RegisterDemographicsScreen extends React.Component {
                 />
               </View>
             </View>
+            <View style={styles.dropDownRowContainer}>
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginRight: 5}]}
+                label="Personality Type"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.personalityTypeData}
+                onChangeText={value => this.setState({personalityType: value})}
+                itemCount={4}
+              />
+              <Dropdown
+                containerStyle={[styles.dropDownContainer, {marginLeft: 5}]}
+                label="Party Affiliation"
+                labelFontSize={16}
+                labelTextStyle={{fontWeight: 'bold'}}
+                baseColor={colors.black}
+                data={this.state.partyAffiliationData}
+                onChangeText={value => this.setState({partyAffiliation: value})}
+                itemCount={4}
+              />
+            </View>
           </View>
           <TouchableOpacity
             style={styles.continueButtonContainer}
             onPress={this.onPressContinue}>
-            <Text style={styles.continueButtonText}>Continue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.skipButtonContainer}
-            onPress={this.onPressSkip}>
-            <Text style={styles.skipButtonText}>Skip</Text>
+            <Text style={styles.continueButtonText}>Register</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
