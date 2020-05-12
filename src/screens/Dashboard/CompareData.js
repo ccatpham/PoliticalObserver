@@ -18,7 +18,7 @@ export default class CompareDataScreen extends React.Component {
     super(props);
     this.state = {
       data: [],
-      rightKey: 'gender',
+      rightKey: '',
       choices: [
         {
           value: 'Age',
@@ -127,6 +127,16 @@ export default class CompareDataScreen extends React.Component {
             labels={() => ''}
             padding={0}
             style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
               labels: {
                 fontSize: 16,
                 fontWeight: 'bold',
@@ -135,15 +145,15 @@ export default class CompareDataScreen extends React.Component {
           />
         </View>
         <View style={styles.itemKeyContainer}>
-            <FlatList
-              data={item.data}
-              renderItem={({item, index}) => this.renderKey(item, index)}
-              numColumns={4}
-              columnWrapperStyle={{
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-              }}
-            />
+          <FlatList
+            data={item.data}
+            renderItem={({item, index}) => this.renderKey(item, index)}
+            numColumns={4}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          />
         </View>
       </View>
     );
@@ -195,9 +205,14 @@ export default class CompareDataScreen extends React.Component {
               <FlatList
                 data={this.state.data}
                 renderItem={({item}) => this.renderItem(item)}
-                ListEmptyComponent={<Image style={{alignSelf: 'center', marginTop: 100, tintColor: colors.polLightGray}}
-                    source={require('../../../res/icons/pieChartStaleState.png')}
-                />}
+                ListEmptyComponent={
+                  <View style={styles.staleStateImageContainer}>
+                    <Image
+                      style={styles.staleStateImage}
+                      source={require('../../../res/icons/pieChartIcon.png')}
+                    />
+                  </View>
+                }
               />
             </View>
           </View>
@@ -299,8 +314,33 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     borderRadius: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   keyText: {
     textAlign: 'center',
+  },
+  staleStateImageContainer: {
+    alignSelf: 'center',
+    marginTop: 80,
+    padding: 20,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  staleStateImage: {
+    height: 200,
+    width: 200,
   },
 });
