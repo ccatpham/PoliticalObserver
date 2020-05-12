@@ -101,13 +101,21 @@ export default class RegisterScreen extends React.Component {
               </Text>
               <View style={styles.termsLineContainer}>
                 <Text style={styles.termsText}>to our </Text>
-                <TouchableOpacity style={styles.termsLinkContainer}>
+                <TouchableOpacity
+                  style={styles.termsLinkContainer}
+                  onPress={() =>
+                    this.props.navigation.navigate('Terms And Conditions')
+                  }>
                   <Text style={styles.termsLink}>Terms and Conditions</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.termsLineContainer}>
                 <Text style={styles.termsText}>and to our </Text>
-                <TouchableOpacity style={styles.termsLinkContainer}>
+                <TouchableOpacity
+                  style={styles.termsLinkContainer}
+                  onPress={() =>
+                    this.props.navigation.navigate('Privacy Policy')
+                  }>
                   <Text style={styles.termsLink}>Privacy Policy</Text>
                 </TouchableOpacity>
                 <Text style={styles.termsText}>.</Text>
