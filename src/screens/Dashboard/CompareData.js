@@ -187,7 +187,7 @@ export default class CompareDataScreen extends React.Component {
                   onChangeText={(value, index, data) =>
                     this.onChangeLeft(value, index, data)
                   }
-                  itemCount={9}
+                  itemCount={4}
                 />
                 <Text style={styles.byText}>By</Text>
                 <Dropdown
@@ -197,7 +197,7 @@ export default class CompareDataScreen extends React.Component {
                   onChangeText={(value, index, data) =>
                     this.onChangeRight(value, index, data)
                   }
-                  itemCount={9}
+                  itemCount={4}
                 />
               </View>
             </View>
