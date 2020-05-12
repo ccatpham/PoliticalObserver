@@ -88,7 +88,7 @@ export default class IssueDetails extends React.Component {
     return (
       <View style={styles.resultsContainer}>
         <View style={styles.resultsTitleContainer}>
-          <Text style={styles.resultsTitleText}>Thank you for your vote</Text>
+          <Text style={styles.resultsTitleText}>Thank you for your vote!</Text>
         </View>
         <View style={styles.resultsDetailsContainer}>
           <View style={styles.resultsChartContainer}>
@@ -162,32 +162,42 @@ export default class IssueDetails extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.contentContainer}>
-          <View style={styles.detailsContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{this.state.title}</Text>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.contentContainer}>
+            <View style={styles.detailsContainer}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.titleText}>{this.state.title}</Text>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionText}>Description</Text>
+                <View style={styles.sectionTextContainer}>
+                  <Text style={styles.text}>{this.state.description}</Text>
+                </View>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionText}>Pros</Text>
+                <View style={styles.sectionTextContainer}>
+                  <Text style={styles.text}>{this.state.pros}</Text>
+                </View>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionText}>Cons</Text>
+                <View style={styles.sectionTextContainer}>
+                  <Text style={styles.text}>{this.state.cons}</Text>
+                </View>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionText}>Notes</Text>
+                <View style={styles.sectionTextContainer}>
+                  <Text style={styles.text}>{this.state.notes}</Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionText}>Description</Text>
-              <Text style={styles.text}>{this.state.description}</Text>
+            <View style={styles.detailsContainer}>
+              {this.state.voted
+                ? this.renderResultsView()
+                : this.renderVoteView()}
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionText}>Pros</Text>
-              <Text style={styles.text}>{this.state.pros}</Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionText}>Cons</Text>
-              <Text style={styles.text}>{this.state.cons}</Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionText}>Notes</Text>
-              <Text style={styles.text}>{this.state.notes}</Text>
-            </View>
-          </View>
-          <View style={styles.detailsContainer}>
-            {this.state.voted
-              ? this.renderResultsView()
-              : this.renderVoteView()}
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -200,6 +210,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.polWhite,
   },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
   contentContainer: {
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -207,22 +221,39 @@ const styles = StyleSheet.create({
   detailsContainer: {
     flex: 1,
     marginVertical: 10,
-    backgroundColor: colors.polGray,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   titleContainer: {
     flex: 1,
     alignItems: 'center',
+    marginTop: 10,
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   sectionContainer: {
     flex: 1,
+    paddingTop: 10,
   },
   sectionText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  sectionTextContainer: {
+    flex: 1,
+    paddingTop: 4,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
   text: {
     fontSize: 14,
@@ -248,12 +279,28 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     backgroundColor: colors.polGreen,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   voteForText: {
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   voteAgainstButton: {
     height: 40,
@@ -263,12 +310,28 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     backgroundColor: colors.polRed,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   voteAgainstText: {
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   resultsContainer: {
     flex: 1,
@@ -281,6 +344,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+    marginVertical: 10,
   },
   resultsDetailsContainer: {
     flex: 1,
@@ -318,11 +382,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   viewDataText: {
     textAlign: 'center',
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
