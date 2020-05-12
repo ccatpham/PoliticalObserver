@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  Image,
   View,
 } from 'react-native';
 import {colors, colorsData} from '../../styles';
@@ -18,7 +18,7 @@ export default class CompareDataScreen extends React.Component {
     super(props);
     this.state = {
       data: [],
-      rightKey: '',
+      rightKey: 'gender',
       choices: [
         {
           value: 'Age',
@@ -96,11 +96,22 @@ export default class CompareDataScreen extends React.Component {
     this.compareDemographics();
   }
 
+  renderKey(item, index) {
+    return (
+      <View style={styles.keyContainer}>
+        <View
+          style={[
+            styles.keyColor,
+            {backgroundColor: colorsData[this.state.rightKey][index]},
+          ]}
+        />
+        <Text style={styles.keyText}>{item.x}</Text>
+      </View>
+    );
+  }
+
   renderItem(item) {
-    let legendData = [];
-    item.data.forEach(datum => {
-      legendData.push({name: datum.x});
-    });
+    let data = item.data;
     return (
       <View style={styles.itemContainer}>
         <Text style={styles.itemHeaderText}>{item.category}</Text>
@@ -111,7 +122,7 @@ export default class CompareDataScreen extends React.Component {
             width={150}
             height={150}
             innerRadius={50}
-            padAngle={({datum}) => datum.y}
+            padAngle={2}
             labelRadius={20}
             labels={() => ''}
             padding={0}
@@ -122,15 +133,17 @@ export default class CompareDataScreen extends React.Component {
               },
             }}
           />
-          <VictoryLegend
-            itemsPerRow={3}
-            symbolSpacer={10}
-            padding={0}
-            orientation="horizontal"
-            colorScale={colorsData[this.state.rightKey]}
-            style={{ border: { stroke: "black" } }}
-            data={legendData}
-          />
+        </View>
+        <View style={styles.itemKeyContainer}>
+            <FlatList
+              data={item.data}
+              renderItem={({item, index}) => this.renderKey(item, index)}
+              numColumns={4}
+              columnWrapperStyle={{
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+              }}
+            />
         </View>
       </View>
     );
@@ -182,6 +195,9 @@ export default class CompareDataScreen extends React.Component {
               <FlatList
                 data={this.state.data}
                 renderItem={({item}) => this.renderItem(item)}
+                ListEmptyComponent={<Image style={{alignSelf: 'center', marginTop: 100, tintColor: colors.polLightGray}}
+                    source={require('../../../res/icons/pieChartStaleState.png')}
+                />}
               />
             </View>
           </View>
@@ -263,5 +279,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemChartContainer: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemKeyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  keyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+  },
+  keyColor: {
+    marginRight: 4,
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+  },
+  keyText: {
+    textAlign: 'center',
   },
 });
