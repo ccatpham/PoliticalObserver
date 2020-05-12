@@ -38,6 +38,7 @@ export default class ProfileScreen extends React.Component {
       hasTakenPersonalityTest: false,
       socialScore: 0,
       econScore: 0,
+      politicalScore: '',
     };
   }
 
@@ -49,6 +50,7 @@ export default class ProfileScreen extends React.Component {
           hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
           socialScore: this.props.route.params.socialScore,
           econScore: this.props.route.params.econScore,
+          politicalScore: this.props.route.params.politicalScore,
         });
       }
       if (this.props.route.params.hasTakenPersonalityTest) {
@@ -134,24 +136,24 @@ export default class ProfileScreen extends React.Component {
       <View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
-            <VictoryChart width={200} height={200}>
+            <VictoryChart width={250} height={250}>
               <VictoryAxis
                 crossAxis
-                width={100}
-                height={100}
-                domain={[-10, 10]}
+                width={125}
+                height={125}
+                domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetY={100}
+                offsetY={125}
                 standalone={false}
               />
               <VictoryAxis
                 dependentAxis
                 crossAxis
-                width={100}
-                height={100}
-                domain={[-10, 10]}
+                width={125}
+                height={125}
+                domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetX={100}
+                offsetX={125}
                 standalone={false}
               />
               <VictoryScatter
@@ -159,18 +161,19 @@ export default class ProfileScreen extends React.Component {
                 size={7}
                 data={[
                   {
-                    x: this.state.socialScore,
-                    y: this.state.econScore,
+                    x: Number(this.state.socialScore),
+                    y: Number(this.state.econScore),
                   },
                 ]}
               />
             </VictoryChart>
           </View>
-          <View style={{flex: 1, marginTop: 50}}>
+          <View style={{flex: 1, marginTop: 50, marginLeft: 70}}>
             <Text> You scored: </Text>
             <Text> Economic: {this.state.socialScore}</Text>
             <Text> Social : {this.state.econScore}</Text>
-            <Text> You are authoritarian right.</Text>
+            <Text> You are: </Text>
+            <Text> {this.state.politicalScore}</Text>
           </View>
         </View>
         <View>
@@ -188,6 +191,7 @@ export default class ProfileScreen extends React.Component {
                 userId: this.props.route.params.user.id,
                 socialScore: this.state.socialScore,
                 econScore: this.state.econScore,
+                politicalScore: this.state.politicalScore,
               })
             }>
             <Text style={styles.politicalQuizButton}>View Insights</Text>
@@ -309,6 +313,7 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     let personalityUri = require('../../../res/images/biden.jpg');
+
     if ((this.props.route.params.personalityScore = 'ISTJ')) {
       personalityUri = require('../../../res/images/ISTJ.jpg');
     } else if ((this.props.route.params.personalityScore = 'ENTJ')) {
@@ -337,8 +342,8 @@ export default class ProfileScreen extends React.Component {
       personalityUri = require('../../../res/images/ISFP.jpg');
     } else if ((this.props.route.params.personalityScore = 'ISTJ')) {
       personalityUri = require('../../../res/images/ISTJ.jpg');
-    } else {
-      personalityUri = require('../../../res/images/trump.jpg');
+    } else if ((this.props.route.params.personalityScore = 'ENFP')) {
+      personalityUri = require('../../../res/images/ENFP.jpg');
     }
 
     return (
