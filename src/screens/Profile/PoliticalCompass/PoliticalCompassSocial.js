@@ -17,7 +17,7 @@ export default class PoliticalCompassSocial extends React.Component {
       questions: [
         {
           prompt:
-            'There is now a worrying fusion of information and entertainment.',
+            'Abortion, when the woman’s life is not threatened, should always be illegal.',
           number: 0,
           choices: [
             {
@@ -40,7 +40,7 @@ export default class PoliticalCompassSocial extends React.Component {
         },
         {
           prompt:
-            'No one chooses his or her country of birth, so it’s foolish to be proud of it.',
+            'Taxpayers should not be expected to prop up any theatres or museums that cannot survive on a commercial basis.',
           number: 1,
           choices: [
             {
@@ -63,8 +63,76 @@ export default class PoliticalCompassSocial extends React.Component {
         },
         {
           prompt:
-            'Controlling inflation is more important than controlling unemployment.',
+            'Although the electronic age makes official surveillance easier, only wrongdoers need to be worried.',
           number: 2,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
+        {
+          prompt: 'All authority should be questioned.',
+          number: 3,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
+        {
+          prompt:
+            'It’s natural for children to keep some secrets from their parents.\n',
+          number: 4,
+          choices: [
+            {
+              label: 'Strongly Agree',
+              selected: false,
+            },
+            {
+              label: 'Agree',
+              selected: false,
+            },
+            {
+              label: 'Disagree',
+              selected: false,
+            },
+            {
+              label: 'Strongly Disagree',
+              selected: false,
+            },
+          ],
+        },
+        {
+          prompt:
+            'Our civil liberties are being excessively curbed in the name of counter-terrorism.',
+          number: 5,
           choices: [
             {
               label: 'Strongly Agree',
@@ -86,9 +154,10 @@ export default class PoliticalCompassSocial extends React.Component {
         },
       ],
       answers1: this.props.route.params.answers,
-      answers2: [0, 0, 0],
+      answers2: [0, 0, 0, 0, 0, 0],
       socialScore: 0,
       econScore: 0,
+      politicalScore: '',
       userId: this.props.route.params.userId,
     };
   }
@@ -121,11 +190,15 @@ export default class PoliticalCompassSocial extends React.Component {
     await pol.api
       .createPoliticalQuiz(userObject)
       .then(response => {
-        this.setState({socialScore: response.socialScore.toFixed(2)});
-        this.setState({econScore: response.econScore.toFixed(2)});
+        this.setState({
+          socialScore: response.socialScore.toFixed(2),
+          econScore: response.econScore.toFixed(2),
+          politicalScore: response.politicalScore,
+        });
         this.props.navigation.navigate('Political Compass Results', {
           socialScore: this.state.socialScore,
           econScore: this.state.econScore,
+          politicalScore: this.state.politicalScore,
         });
       })
       .catch(error => {
