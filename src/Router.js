@@ -61,7 +61,6 @@ const EducationStack = props => {
       <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />
       <Stack.Screen name="Issue Data" component={IssueDataScreen} />
       <Stack.Screen name="Politicians" component={PoliticiansScreen} />
-      TermsAndConditionsScreen
       <Stack.Screen
         name="Politician Details"
         component={PoliticianDetailsScreen}
