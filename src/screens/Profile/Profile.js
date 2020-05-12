@@ -121,7 +121,7 @@ export default class ProfileScreen extends React.Component {
         />
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate('PoliticalCompassLanding', {
+            this.props.navigation.navigate('Political Compass Landing', {
               userId: this.props.route.params.user.id,
             })
           }>

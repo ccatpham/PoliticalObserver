@@ -106,7 +106,7 @@ const ProfileStack = props => {
         initialParams={props.route.params}
       />
       <Stack.Screen
-        name="PoliticalCompassLanding"
+        name="Political Compass Landing"
         component={PoliticalCompassLanding}
       />
       <Stack.Screen

@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import RadioButton from '../../Components/RadioButton';
+import {colors} from '../../../styles';
 export default class PoliticalCompassEconomic extends React.Component {
   constructor(props) {
     super(props);
@@ -201,13 +202,14 @@ export default class PoliticalCompassEconomic extends React.Component {
           ))}
           <View style={styles.optionButton}>
             <TouchableOpacity
+              style={styles.sectionButtonContainer}
               onPress={() => {
                 this.props.navigation.navigate('PoliticalCompassSocial', {
                   answers: this.state.answers,
                   userId: this.state.userId,
                 });
               }}>
-              <Text style={styles.optionButtonFont}> Next </Text>
+              <Text style={styles.sectionButtonText}> Next </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -236,5 +238,28 @@ const styles = StyleSheet.create({
   questionFont: {
     fontSize: 25,
     color: '#2f3640',
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
