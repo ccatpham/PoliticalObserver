@@ -207,8 +207,18 @@ export default class DashboardScreen extends React.Component {
             notificationId: item.id,
           })
         }>
-        <View style={styles.notificationsHeaderContainer}>
-          <Text style={styles.notificationsHeaderText}>{item.title}</Text>
+        <View style={styles.notificationContentContainer}>
+          <View style={styles.notificationImageContainer}>
+            <Image
+              source={require('../../../res/icons/speaker.png')}
+              style={styles.notificationImage}
+            />
+          </View>
+          <View style={styles.notificationsHeaderContainer}>
+            <Text style={styles.notificationsHeaderText} numberOfLines={2}>
+              {item.title}
+            </Text>
+          </View>
         </View>
         <View style={styles.notificationsViewContainer}>
           <Text style={styles.notificationsViewText}>View Notification</Text>
@@ -259,7 +269,15 @@ export default class DashboardScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           {this.renderDashboardModule()}
-          {this.renderNotifications()}
+          {this.state.notifications.length > 0 ? (
+            this.renderNotifications()
+          ) : (
+            <View style={styles.notificationsEmptyContainer}>
+              <Text style={styles.notificationsEmptyText}>
+                No Notifications
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -429,6 +447,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     marginBottom: 8,
+    padding: 4,
     backgroundColor: colors.polWhite,
     shadowColor: colors.black,
     shadowOffset: {
@@ -439,6 +458,29 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  notificationContentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  notificationImageContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  notificationImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+  },
   notificationsHeaderContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -448,21 +490,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingTop: 2,
   },
   notificationsViewContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 4,
   },
   notificationsViewText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
+    color: colors.polDarkGray,
   },
   arrowIcon: {
-    height: 12,
-    width: 12,
+    height: 10,
+    width: 10,
     marginLeft: 2,
+    tintColor: colors.polDarkGray,
+  },
+  notificationsEmptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  notificationsEmptyText: {
+    textAlign: 'center',
+    alignSelf: 'center',
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.polLightGray,
   },
 });
