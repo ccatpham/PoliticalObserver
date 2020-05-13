@@ -58,7 +58,7 @@ export default class IssueData extends React.Component {
           <VictoryPie
             data={this.state.data}
             colorScale={[colors.polRed, colors.polGreen]}
-            labelRadius={10}
+            labelRadius={20}
             width={150}
             height={150}
             padding={0}
