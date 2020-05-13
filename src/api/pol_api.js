@@ -329,8 +329,26 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getIssuesBySearch(search) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/search/${search}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getUsersIssuesBySearch(userId, search) {
+    const config = {
+      method: 'get',
+      endpoint: `/issues/${userId}/search/${search}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
-   * Politicians Endpoints
+   * Topics Endpoints
    */
 
   async getTopicById(id) {
@@ -346,6 +364,15 @@ export default class Api {
     const config = {
       method: 'get',
       endpoint: '/topics',
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async getTopicsBySearch(search) {
+    const config = {
+      method: 'get',
+      endpoint: `/topics/search/${search}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);

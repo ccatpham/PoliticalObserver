@@ -8,15 +8,18 @@ import {
   Alert,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
+import {SearchBar} from 'react-native-elements';
 
 export default class Topics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: this.props.route.params.userId,
+      search: '',
       data: [],
     };
   }
@@ -33,6 +36,47 @@ export default class Topics extends React.Component {
         });
       });
   }
+
+  updateSearch = search => {
+    this.setState({search});
+    if (search === '') {
+      pol.api
+        .getAllTopics()
+        .then(topics => {
+          this.setState({
+            data: topics,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } else {
+      pol.api
+        .getTopicsBySearch(search)
+        .then(topics => {
+          this.setState({
+            data: topics,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    }
+  };
 
   renderItem = item => {
     let source = require('../../../../res/icons/capitolIcon.png');
@@ -81,12 +125,22 @@ export default class Topics extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <FlatList
-          style={styles.listContainer}
-          data={this.state.data}
-          renderItem={({item}) => this.renderItem(item)}
-          extraData={true}
-        />
+        <ScrollView style={styles.scrollView}>
+          <SearchBar
+            containerStyle={styles.searchContainer}
+            inputContainerStyle={styles.searchInputContainer}
+            inputStyle={styles.searchInput}
+            lightTheme={true}
+            placeholder="Type Here..."
+            onChangeText={this.updateSearch}
+            value={this.state.search}
+          />
+          <FlatList
+            style={styles.listContainer}
+            data={this.state.data}
+            renderItem={({item}) => this.renderItem(item)}
+          />
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -96,6 +150,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.polWhite,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  searchContainer: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  searchInputContainer: {
+    backgroundColor: colors.polLightGray,
+  },
+  searchInput: {
+    color: colors.black,
   },
   listContainer: {
     paddingVertical: 10,
