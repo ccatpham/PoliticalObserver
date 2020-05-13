@@ -390,9 +390,9 @@ export default class RegisterDemographicsScreen extends React.Component {
             </View>
           </View>
           <TouchableOpacity
-            style={styles.continueButtonContainer}
+            style={styles.registerButtonContainer}
             onPress={this.onPressContinue}>
-            <Text style={styles.continueButtonText}>Register</Text>
+            <Text style={styles.registerButtonText}>Register</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
@@ -476,10 +476,11 @@ const styles = StyleSheet.create({
   dropDownContainer: {
     flex: 1,
   },
-  continueButtonContainer: {
+  registerButtonContainer: {
     alignSelf: 'center',
     width: 200,
     marginTop: 20,
+    marginBottom: 40,
     borderRadius: 20,
     borderWidth: 0,
     backgroundColor: colors.polBlue,
@@ -492,7 +493,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  continueButtonText: {
+  registerButtonText: {
     textAlign: 'center',
     padding: 10,
     fontSize: 16,
@@ -506,17 +507,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  skipButtonContainer: {
-    alignSelf: 'center',
-    width: 100,
-  },
-  skipButtonText: {
-    textAlign: 'center',
-    marginVertical: 10,
-    padding: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: colors.polBlue,
   },
 });
