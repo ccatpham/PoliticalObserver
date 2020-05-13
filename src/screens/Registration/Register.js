@@ -22,6 +22,10 @@ export default class RegisterScreen extends React.Component {
     };
   }
 
+  componentDidMount() {
+    StatusBar.setBarStyle('dark-content');
+  }
+
   onPressContinue = () => {
     if (
       this.state.password !== '' &&
