@@ -67,7 +67,7 @@ export default class PoliticalCompassResults extends React.Component {
             </View>
             <View>
               <View style={styles.chartContainer}>
-                <VictoryChart width={340} height={340}>
+                <VictoryChart width={340} height={340} padding={20}>
                   <VictoryAxis
                     crossAxis
                     width={340}

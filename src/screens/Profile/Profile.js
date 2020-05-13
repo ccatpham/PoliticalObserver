@@ -148,7 +148,7 @@ export default class ProfileScreen extends React.Component {
         </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
-            <VictoryChart width={250} height={250}>
+            <VictoryChart width={250} height={250} padding={20}>
               <VictoryAxis
                 crossAxis
                 width={125}
