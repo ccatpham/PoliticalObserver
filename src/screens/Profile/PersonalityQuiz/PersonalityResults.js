@@ -203,9 +203,6 @@ export default class PersonalityResults extends React.Component {
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <View>
-              <Text style={styles.headingTextStyle}>
-                Personality Quiz Results
-              </Text>
               <View>{this.renderPersonalityImage()}</View>
               <View style={styles.questionContainer}>
                 <Text style={styles.subHeadingTextStyle}>
@@ -344,6 +341,7 @@ const styles = StyleSheet.create({
     color: colors.polWhite,
   },
   selfPersonalityImage: {
+    marginTop: 20,
     width: 200,
     height: 300,
     justifyContent: 'center',
