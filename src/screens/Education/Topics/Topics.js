@@ -37,7 +37,7 @@ export default class Topics extends React.Component {
   getSource(item) {}
 
   renderItem = item => {
-    let source = require('../../../../res/icons/govt.png');
+    let source = require('../../../../res/icons/capitolIcon.png');
     if (item.subCategory === 'Form of Government') {
       source = require('../../../../res/icons/govt.png');
     } else if (item.subCategory === 'Branch') {
@@ -45,8 +45,15 @@ export default class Topics extends React.Component {
     } else if (item.subCategory === 'Congress') {
       source = require('../../../../res/icons/capitolIcon.png');
     } else if (item.subCategory === 'Position') {
-      source = require('../../../../res/icons/speaker.png');
+      source = require('../../../../res/icons/positionIcon.png');
+    } else if (item.subCategory === 'Economic System') {
+      source = require('../../../../res/icons/economicsIcon.png');
+    } else if (item.category === 'Government') {
+      source = require('../../../../res/icons/govt.png');
+    } else if (item.category === 'Economics') {
+      source = require('../../../../res/icons/economicsIcon.png');
     }
+
     return (
       <TouchableOpacity
         style={styles.itemButtonContainer}
@@ -106,11 +113,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  imageContainer: {},
-  image: {
-    height: 75,
-    width: 75,
-    borderRadius: 37.5,
+  imageContainer: {
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,
@@ -119,6 +122,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  image: {
+    height: 75,
+    width: 75,
+    borderRadius: 37.5,
   },
   contentContainer: {
     flex: 1,
