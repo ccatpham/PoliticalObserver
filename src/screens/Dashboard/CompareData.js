@@ -174,11 +174,13 @@ export default class CompareDataScreen extends React.Component {
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
             <View style={styles.compareDataContainer}>
-              <Text style={styles.titleText}>Compare Demographic Data</Text>
               <View style={styles.comparisonContainer}>
                 <Dropdown
                   containerStyle={styles.dropDownContainerStyle}
                   label="Left Side"
+                  labelFontSize={16}
+                  labelTextStyle={{fontWeight: 'bold'}}
+                  baseColor={colors.black}
                   data={leftChoices}
                   onChangeText={(value, index, data) =>
                     this.onChangeLeft(value, index, data)
@@ -189,6 +191,9 @@ export default class CompareDataScreen extends React.Component {
                 <Dropdown
                   containerStyle={styles.dropDownContainerStyle}
                   label="Right Side"
+                  labelFontSize={16}
+                  labelTextStyle={{fontWeight: 'bold'}}
+                  baseColor={colors.black}
                   data={rightChoices}
                   onChangeText={(value, index, data) =>
                     this.onChangeRight(value, index, data)
