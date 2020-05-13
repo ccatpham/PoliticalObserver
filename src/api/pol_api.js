@@ -239,10 +239,10 @@ export default class Api {
    * Settings Endpoints
    */
 
-  async getUserSettings(userId) {
+  async getUserSettings(id) {
     const config = {
       method: 'get',
-      endpoint: `/settings/${userId}`,
+      endpoint: `/settings/id/${id}`,
     };
 
     return this.apiRequest(config).then(parseApiResponse);
@@ -257,7 +257,6 @@ export default class Api {
 
     return this.apiRequest(config).then(parseApiResponse);
   }
-
 
   /*
    * Politicians Endpoints

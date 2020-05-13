@@ -6,10 +6,12 @@ import {
   Switch,
   Text,
   ScrollView,
-  Alert,
+  Alert, TouchableOpacity,
 } from 'react-native';
 import {colors} from '../../styles';
 import pol from '../../api/apiConfig';
+import {color} from 'react-native-reanimated';
+import {CommonActions} from "@react-navigation/routers";
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -24,9 +26,29 @@ export default class Settings extends React.Component {
     };
   }
 
-  getSettings = () => {
+  componentDidMount() {
     pol.api
-      .getUserSettings(this.state.settingId)
+      .getUserSettings(this.state.settingsId)
+      .then(response => {
+        this.setState({
+          dataSharing: response.dataSharing,
+          pushNotifications: response.pushNotifications,
+          personalized: response.personalized,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
+  onPressDataSharing = () => {
+    let settings = this.state.settings;
+    settings.dataSharing = !this.state.dataSharing;
+
+    pol.api
+      .modifySettings(this.state.settingsId, settings)
       .then(response => {
         this.setState({
           dataSharing: response.dataSharing,
@@ -41,31 +63,18 @@ export default class Settings extends React.Component {
       });
   };
 
-  onPressDataSharing = () => {
-    let settings = this.state.settings;
-    console.log(this.state.dataSharing);
-    settings.dataSharing = this.state.dataSharing;
-
-    pol.api
-      .modifySettings(this.state.settingId, settings)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  };
-
   onPressPushNotifications = () => {
     let settings = this.state.settings;
-    settings.pushNotifications = this.state.pushNotifications;
+    settings.pushNotifications = !this.state.pushNotifications;
 
     pol.api
-      .modifySettings(this.state.settingId, settings)
+      .modifySettings(this.state.settingsId, settings)
       .then(response => {
-        console.log(response);
+        this.setState({
+          dataSharing: response.dataSharing,
+          pushNotifications: response.pushNotifications,
+          personalized: response.personalized,
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -74,14 +83,18 @@ export default class Settings extends React.Component {
       });
   };
 
-  onPressPersonalization = () => {
+  onPressPersonalized = () => {
     let settings = this.state.settings;
-    settings.personalization = this.state.personalization;
+    settings.personalized = !this.state.personalized;
 
     pol.api
-      .modifySettings(this.state.settingId, settings)
+      .modifySettings(this.state.settingsId, settings)
       .then(response => {
-        console.log(response);
+        this.setState({
+          dataSharing: response.dataSharing,
+          pushNotifications: response.pushNotifications,
+          personalized: response.personalized,
+        });
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -90,79 +103,83 @@ export default class Settings extends React.Component {
       });
   };
 
-  componentDidMount() {
-    console.log('setting id: ' + this.state.settingsId);
-    this.getSettings();
-  }
+  onPressLogout = () => {
+    this.props.navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Landing'}],
+        }),
+    );
+  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
-            <View style={styles.settingModuleContainer}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <View>
-                  <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                    Data Sharing
-                  </Text>
-                </View>
-                <View>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={this.state.dataSharing ? '#f5dd4b' : '#f4f3f4'}
-                    onValueChange={dataSharing => {
-                      this.setState({dataSharing});
-                      this.onPressDataSharing();
-                    }}
-                    value={this.state.dataSharing}
-                  />
-                </View>
+            <View style={styles.settingsModuleContainer}>
+              <View style={styles.settingsTextContainer}>
+                <Text style={styles.settingsText}>Data Sharing</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  trackColor={{
+                    false: colors.polSettingsGray,
+                    true: colors.polSettingsGreen,
+                  }}
+                  thumbColor={colors.polWhite}
+                  onValueChange={dataSharing => {
+                    this.setState({dataSharing});
+                    this.onPressDataSharing();
+                  }}
+                  value={this.state.dataSharing}
+                />
               </View>
             </View>
-            <View style={styles.settingModuleContainer}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <View>
-                  <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                    Push Notifications
-                  </Text>
-                </View>
-                <View>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={
-                      this.state.pushNotifications ? '#f5dd4b' : '#f4f3f4'
-                    }
-                    onValueChange={pushNotifications => {
-                      this.setState({pushNotifications});
-                      this.onPressPushNotifications();
-                    }}
-                    value={this.state.pushNotifications}
-                  />
-                </View>
+            <View style={styles.settingsModuleContainer}>
+              <View style={styles.settingsTextContainer}>
+                <Text style={styles.settingsText}>Push Notifications</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  trackColor={{
+                    false: colors.polSettingsGray,
+                    true: colors.polSettingsGreen,
+                  }}
+                  thumbColor={colors.polWhite}
+                  onValueChange={pushNotifications => {
+                    this.setState({pushNotifications});
+                    this.onPressPushNotifications();
+                  }}
+                  value={this.state.pushNotifications}
+                />
               </View>
             </View>
-            <View style={styles.settingModuleContainer}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <View>
-                  <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                    Personalization
-                  </Text>
-                </View>
-                <View>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={this.state.personalized ? '#f5dd4b' : '#f4f3f4'}
-                    onValueChange={personalized => {
-                      this.setState({personalized});
-                      this.onPressPersonalization();
-                    }}
-                    value={this.state.personalized}
-                  />
-                </View>
+            <View style={styles.settingsModuleContainer}>
+              <View style={styles.settingsTextContainer}>
+                <Text style={styles.settingsText}>Personalization</Text>
+              </View>
+              <View style={styles.switchContainer}>
+                <Switch
+                  trackColor={{
+                    false: colors.polSettingsGray,
+                    true: colors.polSettingsGreen,
+                  }}
+                  thumbColor={colors.polWhite}
+                  onValueChange={personalized => {
+                    this.setState({personalized});
+                    this.onPressPersonalized();
+                  }}
+                  value={this.state.personalized}
+                />
               </View>
             </View>
           </View>
+          <TouchableOpacity
+              style={styles.logoutButtonContainer}
+              onPress={this.onPressLogout}>
+            <Text style={styles.logoutButtonText}>Logout</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
@@ -180,12 +197,53 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginHorizontal: 1,
-  },
-  settingModuleContainer: {
-    marginVertical: 1,
-    padding: 4,
+    margin: 20,
     backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  settingsModuleContainer: {
+    flex: 1,
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  settingsTextContainer: {
+    flex: 1,
+  },
+  settingsText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  switchContainer: {},
+  logoutButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    marginBottom: 40,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  logoutButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,
