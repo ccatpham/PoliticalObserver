@@ -128,7 +128,7 @@ export default class ProfileScreen extends React.Component {
         <TouchableOpacity
           style={styles.sectionButtonContainer}
           onPress={() =>
-            this.props.navigation.navigate('PoliticalCompassLanding', {
+            this.props.navigation.navigate('Political Compass Landing', {
               userId: this.props.route.params.user.id,
             })
           }>
@@ -141,16 +141,20 @@ export default class ProfileScreen extends React.Component {
   renderPoliticalCompassPostResults = () => {
     return (
       <View>
+        <View style={{alignSelf: 'center'}}>
+          <Text style={{fontSize: 18}}>
+            You are a {this.state.politicalScore}
+          </Text>
+        </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
-            <VictoryChart width={250} height={250}>
+            <VictoryChart width={250} height={250} padding={20}>
               <VictoryAxis
                 crossAxis
                 width={125}
                 height={125}
                 domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetY={125}
                 standalone={false}
               />
               <VictoryAxis
@@ -160,7 +164,6 @@ export default class ProfileScreen extends React.Component {
                 height={125}
                 domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetX={125}
                 standalone={false}
               />
               <VictoryScatter
@@ -175,19 +178,17 @@ export default class ProfileScreen extends React.Component {
               />
             </VictoryChart>
           </View>
-          <View style={{flex: 1, marginTop: 50, marginLeft: 70}}>
+          <View style={{flex: 1, marginTop: 50, marginLeft: 100}}>
             <Text> You scored: </Text>
             <Text> Economic: {this.state.socialScore}</Text>
             <Text> Social : {this.state.econScore}</Text>
-            <Text> You are: </Text>
-            <Text> {this.state.politicalScore}</Text>
           </View>
         </View>
         <View>
           <TouchableOpacity
             style={styles.sectionButtonContainer}
             onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassLanding', {
+              this.props.navigation.navigate('Political Compass Landing', {
                 userId: this.props.route.params.user.id,
               })
             }>
