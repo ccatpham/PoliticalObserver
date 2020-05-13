@@ -15,6 +15,7 @@ import {
   VictoryScatter,
 } from 'victory-native';
 import pol from '../../api/apiConfig';
+import {colors} from '../../styles';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -43,8 +44,8 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    this.getDemographic();
-    this.props.navigation.addListener('focus', () => {
+    this.unSubscribe = this.props.navigation.addListener('focus', () => {
+      this.getDemographic();
       if (this.props.route.params.hasTakenPoliticalTest) {
         this.setState({
           hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
@@ -63,6 +64,10 @@ export default class ProfileScreen extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    this.unSubscribe();
+  }
+
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
       userId: this.props.route.params.user.id,
@@ -77,8 +82,9 @@ export default class ProfileScreen extends React.Component {
   };
 
   onPressViewIssues = () => {
-    this.props.navigation.navigate('Voted On Issues', {
+    this.props.navigation.navigate('Issues', {
       userId: this.props.route.params.user.id,
+      isVotingHistory: true,
     });
   };
 
@@ -120,12 +126,13 @@ export default class ProfileScreen extends React.Component {
           source={require('../../../res/images/political_spectrum.jpg')}
         />
         <TouchableOpacity
+          style={styles.sectionButtonContainer}
           onPress={() =>
             this.props.navigation.navigate('PoliticalCompassLanding', {
               userId: this.props.route.params.user.id,
             })
           }>
-          <Text style={styles.quizButton}>Go to Quiz</Text>
+          <Text style={styles.sectionButtonText}>Go to Quiz</Text>
         </TouchableOpacity>
       </View>
     );
@@ -178,14 +185,16 @@ export default class ProfileScreen extends React.Component {
         </View>
         <View>
           <TouchableOpacity
+            style={styles.sectionButtonContainer}
             onPress={() =>
               this.props.navigation.navigate('PoliticalCompassLanding', {
                 userId: this.props.route.params.user.id,
               })
             }>
-            <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
+            <Text style={styles.sectionButtonText}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.sectionButtonContainer}
             onPress={() =>
               this.props.navigation.navigate('Political Compass Results', {
                 userId: this.props.route.params.user.id,
@@ -194,7 +203,7 @@ export default class ProfileScreen extends React.Component {
                 politicalScore: this.state.politicalScore,
               })
             }>
-            <Text style={styles.politicalQuizButton}>View Insights</Text>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -209,12 +218,13 @@ export default class ProfileScreen extends React.Component {
           source={require('../../../res/images/16person.png')}
         />
         <TouchableOpacity
+          style={styles.sectionButtonContainer}
           onPress={() =>
             this.props.navigation.navigate('Personality Landing', {
               userId: this.props.route.params.user.id,
             })
           }>
-          <Text style={styles.quizButton}>Go to Quiz</Text>
+          <Text style={styles.sectionButtonText}>Go to Quiz</Text>
         </TouchableOpacity>
       </View>
     );
@@ -233,21 +243,23 @@ export default class ProfileScreen extends React.Component {
         </View>
         <View>
           <TouchableOpacity
+            style={styles.sectionButtonContainer}
             onPress={() =>
               this.props.navigation.navigate('Personality Landing', {
                 userId: this.props.route.params.user.id,
               })
             }>
-            <Text style={styles.politicalQuizButton}>Retake Quiz</Text>
+            <Text style={styles.sectionButtonText}>Retake Quiz</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.sectionButtonContainer}
             onPress={() =>
               this.props.navigation.navigate('Personality Results', {
                 userId: this.props.route.params.user.id,
                 personalityScore: this.state.personalityScore,
               })
             }>
-            <Text style={styles.politicalQuizButton}>View Insights</Text>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -256,7 +268,7 @@ export default class ProfileScreen extends React.Component {
 
   renderDemographic = () => {
     return (
-      <View style={styles.shadowContainerColumn}>
+      <View>
         <Text style={styles.headingTextStyle}>Demographic</Text>
         <View style={{flexDirection: 'row', flex: 1}}>
           <View style={styles.demographicDetail}>
@@ -299,12 +311,15 @@ export default class ProfileScreen extends React.Component {
           </View>
         </View>
         <View>
-          <TouchableOpacity onPress={() => this.onPressEditDemographics()}>
-            <Text style={styles.quizButton}>Edit Demographics</Text>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => this.onPressEditDemographics()}>
+            <Text style={styles.sectionButtonText}>Edit Demographics</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.sectionButtonContainer}
             onPress={() => this.onPressViewDemographicsInsights()}>
-            <Text style={styles.politicalQuizButton}>View Insights</Text>
+            <Text style={styles.sectionButtonText}>View Insights</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -347,33 +362,41 @@ export default class ProfileScreen extends React.Component {
     }
 
     return (
-      <ScrollView>
-        <View>
-          <View style={styles.shadowContainerColumn}>
-            <Text style={styles.headingTextStyle}>Political Compass</Text>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={styles.politicalCompassModuleContainer}>
+              <Text style={styles.headingTextStyle}>Political Compass</Text>
+              <View>
+                {this.state.hasTakenPoliticalTest
+                  ? this.renderPoliticalCompassPostResults()
+                  : this.renderPoliticalCompassPreResults()}
+              </View>
+            </View>
             <View>
-              {this.state.hasTakenPoliticalTest
-                ? this.renderPoliticalCompassPostResults()
-                : this.renderPoliticalCompassPreResults()}
+              <View style={styles.politicalCompassModuleContainer}>
+                <Text style={styles.headingTextStyle}>Personality Quiz</Text>
+                <View>
+                  {this.state.hasTakenPersonalityTest
+                    ? this.renderPersonalityPostResults(personalityUri)
+                    : this.renderPersonalityPreResults()}
+                </View>
+              </View>
+            </View>
+            <View style={styles.politicalCompassModuleContainer}>
+              {this.renderDemographic()}
+            </View>
+            <View style={styles.pastActivityModuleContainer}>
+              <Text style={styles.headingTextStyle}>Past Activity</Text>
+              <TouchableOpacity
+                style={styles.sectionButtonContainer}
+                onPress={() => this.onPressViewIssues()}>
+                <Text style={styles.sectionButtonText}>
+                  View Voting History
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>
-        <View>
-          <View style={styles.shadowContainerColumn}>
-            <Text style={styles.headingTextStyle}>Personality Quiz</Text>
-            <View>
-              {this.state.hasTakenPersonalityTest
-                ? this.renderPersonalityPostResults(personalityUri)
-                : this.renderPersonalityPreResults()}
-            </View>
-          </View>
-        </View>
-        <View>{this.renderDemographic()}</View>
-        <View style={styles.shadowContainerColumn}>
-          <Text style={styles.headingTextStyle}>Past Activity</Text>
-          <TouchableOpacity onPress={() => this.onPressViewIssues()}>
-            <Text style={styles.quizButton}>View Voting History</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -381,6 +404,48 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  politicalCompassModuleContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  pastActivityModuleContainer: {
+    flex: 3,
+    marginVertical: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   personalityImage: {
     width: 320,
     height: 250,
@@ -403,66 +468,27 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 20,
   },
-  shadowContainerColumn: {
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
     padding: 10,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 3,
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
-  },
-  shadowContainerColumnElectionPack: {
-    padding: 10,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
-    flex: 3,
-    elevation: 1,
-    position: 'relative',
-    borderBottomWidth: 0,
-  },
-  quizButton: {
-    marginTop: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginLeft: 70,
-    marginRight: 70,
-    backgroundColor: '#00BCD4',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-    color: '#fff',
-    textAlign: 'center',
+    fontSize: 16,
     fontWeight: 'bold',
-  },
-  politicalQuizButton: {
-    marginTop: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginLeft: 70,
-    marginRight: 70,
-    backgroundColor: '#00BCD4',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  editDemographicButton: {
-    marginTop: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: '#00BCD4',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
