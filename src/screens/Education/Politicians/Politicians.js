@@ -81,9 +81,9 @@ export default class Politicians extends React.Component {
 
   renderItem = item => {
     let partyImage = require('../../../../res/icons/democratIcon.png');
-    if (item.party === 'Democrat') {
+    if (item.party === 'Democrat' || item.party === 'D') {
       partyImage = require('../../../../res/icons/democratIcon.png');
-    } else if (item.party === 'Republican') {
+    } else if (item.party === 'Republican' || item.party === 'R') {
       partyImage = require('../../../../res/icons/republicanIcon.png');
     }
 

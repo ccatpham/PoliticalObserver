@@ -34,8 +34,6 @@ export default class Topics extends React.Component {
       });
   }
 
-  getSource(item) {}
-
   renderItem = item => {
     let source = require('../../../../res/icons/capitolIcon.png');
     if (item.subCategory === 'Form of Government') {
@@ -52,6 +50,8 @@ export default class Topics extends React.Component {
       source = require('../../../../res/icons/govt.png');
     } else if (item.category === 'Economics') {
       source = require('../../../../res/icons/economicsIcon.png');
+    } else if (item.category === 'Voting') {
+      source = require('../../../../res/icons/votingIcon.png');
     }
 
     return (

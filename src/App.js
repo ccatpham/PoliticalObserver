@@ -15,6 +15,8 @@ const firebaseConfig = {
   persistence: true,
 };
 
+console.disableYellowBox = true;
+
 export default class App extends React.Component {
   constructor() {
     super();

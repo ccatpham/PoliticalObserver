@@ -65,10 +65,10 @@ export default class TopicDetails extends React.Component {
                 </Text>
               </View>
               <View style={styles.informationContainer}>
-                <Text style={styles.text}>{this.state.description}</Text>
-              </View>
-              <View style={styles.bodyContainer}>
-                <Text style={styles.text}> {this.state.body}</Text>
+                <Text style={styles.text}>
+                  {this.state.description}
+                  {this.state.body}
+                </Text>
               </View>
             </View>
           </View>
