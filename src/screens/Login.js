@@ -120,8 +120,8 @@ export default class LoginScreen extends React.Component {
         </View>
         <TouchableOpacity
           style={styles.loginButtonContainer}
-          onPress={this.onPressLogin}>
-          disabled={this.state.isLoggingIn}
+          onPress={this.onPressLogin}
+          disabled={this.state.isLoggingIn}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
