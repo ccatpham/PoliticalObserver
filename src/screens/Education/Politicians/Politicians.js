@@ -24,6 +24,21 @@ export default class Politicians extends React.Component {
     };
   }
 
+  componentDidMount() {
+    pol.api
+      .getAllPoliticians()
+      .then(politicians => {
+        this.setState({
+          data: politicians,
+        });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
+  }
+
   updateSearch = search => {
     this.setState({search});
     if (search === '') {
@@ -64,21 +79,6 @@ export default class Politicians extends React.Component {
         });
     }
   };
-
-  componentDidMount() {
-    pol.api
-      .getAllPoliticians()
-      .then(politicians => {
-        this.setState({
-          data: politicians,
-        });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
 
   renderItem = item => {
     let partyImage = require('../../../../res/icons/democratIcon.png');
@@ -139,7 +139,6 @@ export default class Politicians extends React.Component {
             style={styles.listContainer}
             data={this.state.data}
             renderItem={({item}) => this.renderItem(item)}
-            extraData={true}
           />
         </ScrollView>
       </SafeAreaView>

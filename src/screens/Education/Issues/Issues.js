@@ -8,15 +8,18 @@ import {
   Alert,
   SafeAreaView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
+import {SearchBar} from 'react-native-elements';
 
 export default class IssuesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: this.props.route.params.userId,
+      search: '',
       data: [],
       isVotingHistory: this.props.route.params.isVotingHistory,
     };
@@ -60,6 +63,85 @@ export default class IssuesScreen extends React.Component {
     }
   }
 
+  updateSearch = search => {
+    this.setState({search});
+    if (search === '') {
+      if (this.state.isVotingHistory) {
+        pol.api
+          .getUsersIssues(this.state.userId)
+          .then(response => {
+            this.setState({data: response});
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      } else {
+        pol.api
+          .getAllIssues()
+          .then(issues => {
+            this.setState({
+              data: issues,
+            });
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      }
+    } else {
+      if (this.state.isVotingHistory) {
+        pol.api
+          .getUsersIssuesBySearch(this.state.userId, search)
+          .then(issues => {
+            this.setState({
+              data: issues,
+            });
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      } else {
+        pol.api
+          .getIssuesBySearch(search)
+          .then(issues => {
+            this.setState({
+              data: issues,
+            });
+          })
+          .catch(error => {
+            Alert.alert(
+              'Error',
+              error.code + ' ' + error.message,
+              [{text: 'OK'}],
+              {
+                cancelable: false,
+              },
+            );
+          });
+      }
+    }
+  };
+
   renderItem = item => {
     return (
       <TouchableOpacity
@@ -91,12 +173,22 @@ export default class IssuesScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <FlatList
-          style={styles.listContainer}
-          data={this.state.data}
-          renderItem={({item}) => this.renderItem(item)}
-          extraData={true}
-        />
+        <ScrollView style={styles.scrollView}>
+          <SearchBar
+            containerStyle={styles.searchContainer}
+            inputContainerStyle={styles.searchInputContainer}
+            inputStyle={styles.searchInput}
+            lightTheme={true}
+            placeholder="Type Here..."
+            onChangeText={this.updateSearch}
+            value={this.state.search}
+          />
+          <FlatList
+            style={styles.listContainer}
+            data={this.state.data}
+            renderItem={({item}) => this.renderItem(item)}
+          />
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -106,6 +198,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.polWhite,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  searchContainer: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  searchInputContainer: {
+    backgroundColor: colors.polLightGray,
+  },
+  searchInput: {
+    color: colors.black,
   },
   listContainer: {
     paddingVertical: 10,
