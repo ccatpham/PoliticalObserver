@@ -10,6 +10,8 @@ import RegisterScreen from './screens/Registration/Register';
 import RegisterDemographicsScreen from './screens/Registration/RegisterDemographics';
 import RegisterPersonalityScreen from './screens/Registration/RegisterPersonality';
 import RegisterPoliticalScreen from './screens/Registration/RegisterPolitical';
+import TermsAndConditionsScreen from './screens/Registration/TermsAndConditions';
+import PrivacyPolicyScreen from './screens/Registration/PrivacyPolicy';
 import EducationScreen from './screens/Education/Education';
 import DashboardScreen from './screens/Dashboard/Dashboard';
 import NotificationScreen from './screens/Dashboard/Notification';
@@ -24,7 +26,6 @@ import PersonalityTactic from './screens/Profile/PersonalityQuiz/PersonalityTact
 import PersonalityResults from './screens/Profile/PersonalityQuiz/PersonalityResults';
 import EditDemographics from './screens/Profile/Demographics/EditDemographic';
 import DemographicInsights from './screens/Profile/Demographics/DemographicInsights';
-import VotedOnIssues from './screens/Profile/VotedOnIssues';
 import IssuesScreen from './screens/Education/Issues/Issues';
 import IssueDetailsScreen from './screens/Education/Issues/IssueDetails';
 import IssueDataScreen from './screens/Education/Issues/IssueData';
@@ -161,11 +162,9 @@ const ProfileStack = props => {
         component={DemographicInsights}
         initialParams={props.route.params}
       />
-      <Stack.Screen
-        name="Voted On Issues"
-        component={VotedOnIssues}
-        initialParams={props.route.params}
-      />
+      <Stack.Screen name="Issues" component={IssuesScreen} />
+      <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />
+      <Stack.Screen name="Issue Data" component={IssueDataScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
@@ -282,6 +281,11 @@ export default function AppStack() {
         name="Register Political"
         component={RegisterPoliticalScreen}
       />
+      <Stack.Screen
+        name="Terms And Conditions"
+        component={TermsAndConditionsScreen}
+      />
+      <Stack.Screen name="Privacy Policy" component={PrivacyPolicyScreen} />
       <Stack.Screen
         name="TabNavigator"
         component={TabNavigator}

@@ -71,7 +71,6 @@ export const colors = {
 export const colorsData = {
   age: ['#555555', '#6e6e6e', '#898989', '#a4a4a4', '#c0c0c0', '#dddddd'],
   gender: ['#02a3fe', '#ec4aa6', '#b3c0c9'],
-  state: [],
   maritalStatus: ['#d7d7d7', '#333333'],
   ethnicity: ['#eed2bc', '#784f34', '#fcdabf', '#a66859', '#c3886b', '#ddc29f'],
   education: ['#58cced', '#49aacf', '#3a89b2', '#2b6995', '#1b4b7a', '#072f5f'],

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import RadioButton from '../../Components/RadioButton';
 import pol from '../../../api/apiConfig';
+import {CommonActions} from '@react-navigation/native';
 
 export default class PersonalityTactic extends React.Component {
   constructor(props) {
@@ -119,10 +120,20 @@ export default class PersonalityTactic extends React.Component {
       .createPersonalityQuiz(userObject)
       .then(response => {
         this.setState({personalityScore: response.personalityScore});
-        this.props.navigation.navigate('Personality Results', {
-          personalityScore: this.state.personalityScore,
-          userId: this.state.userId,
-        });
+        this.props.navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'Personality Results',
+                params: {
+                  personalityScore: this.state.personalityScore,
+                  userId: this.state.userId,
+                },
+              },
+            ],
+          }),
+        );
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
