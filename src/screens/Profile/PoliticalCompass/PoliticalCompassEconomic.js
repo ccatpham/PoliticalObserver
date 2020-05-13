@@ -196,7 +196,7 @@ export default class PoliticalCompassEconomic extends React.Component {
                       }
                       label={choice.label}
                       colors={'#f1c40f'}
-                      textStyle={{color: colors.black}}
+                      textStyle={{color: colors.black, marginTop: 2}}
                     />
                   ))}
                 </View>
