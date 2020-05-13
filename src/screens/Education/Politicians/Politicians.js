@@ -7,7 +7,7 @@ import {
   Text,
   Alert,
   SafeAreaView,
-  TouchableOpacity,
+  TouchableOpacity, ScrollView,
 } from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {colors} from '../../../styles';
@@ -122,21 +122,23 @@ export default class Politicians extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <SearchBar
-          containerStyle={styles.searchContainer}
-          inputContainerStyle={styles.searchInputContainer}
-          inputStyle={styles.searchInput}
-          lightTheme={true}
-          placeholder="Type Here..."
-          onChangeText={this.updateSearch}
-          value={this.state.search}
-        />
-        <FlatList
-          style={styles.listContainer}
-          data={this.state.data}
-          renderItem={({item}) => this.renderItem(item)}
-          extraData={true}
-        />
+        <ScrollView style={styles.scrollView}>
+          <SearchBar
+            containerStyle={styles.searchContainer}
+            inputContainerStyle={styles.searchInputContainer}
+            inputStyle={styles.searchInput}
+            lightTheme={true}
+            placeholder="Type Here..."
+            onChangeText={this.updateSearch}
+            value={this.state.search}
+          />
+          <FlatList
+            style={styles.listContainer}
+            data={this.state.data}
+            renderItem={({item}) => this.renderItem(item)}
+            extraData={true}
+          />
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -144,6 +146,10 @@ export default class Politicians extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  scrollView: {
     flex: 1,
     backgroundColor: colors.polWhite,
   },
