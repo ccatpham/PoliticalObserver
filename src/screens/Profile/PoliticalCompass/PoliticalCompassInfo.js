@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center',
+    marginTop: 10,
   },
   sectionButtonContainer: {
     alignSelf: 'center',
