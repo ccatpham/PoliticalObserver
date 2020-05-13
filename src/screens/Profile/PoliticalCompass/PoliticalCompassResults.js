@@ -15,6 +15,7 @@ import {
   VictoryScatter,
 } from 'victory-native';
 import pol from '../../../api/apiConfig';
+import {colors} from '../../../styles';
 export default class PoliticalCompassResults extends React.Component {
   constructor(props) {
     super(props);
@@ -49,59 +50,61 @@ export default class PoliticalCompassResults extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <ScrollView>
-          <View style={{marginTop: 20}}>
-            <Text style={{fontSize: 20, textAlign: 'center'}}>
-              {' '}
-              You are a {this.state.politicalScore}
-            </Text>
-            <Text style={{textAlign: 'center'}}> Social Score: </Text>
-            <Text style={{textAlign: 'center'}}>{this.state.socialScore}</Text>
-            <Text style={{textAlign: 'center'}}> Econ Score: </Text>
-            <Text style={{textAlign: 'center'}}>{this.state.econScore}</Text>
-          </View>
-          <View style={styles.container}>
-            <VictoryChart width={400} height={400}>
-              <VictoryAxis
-                crossAxis
-                width={400}
-                height={400}
-                domain={[-6, 6]}
-                theme={VictoryTheme.material}
-                offsetY={200}
-                standalone={false}
-              />
-              <VictoryAxis
-                dependentAxis
-                crossAxis
-                width={400}
-                height={400}
-                domain={[-6, 6]}
-                theme={VictoryTheme.material}
-                offsetX={200}
-                standalone={false}
-              />
-              <VictoryScatter
-                style={{data: {fill: '#c43a31'}}}
-                size={7}
-                data={[
-                  {
-                    x: Number(this.state.econScore),
-                    y: Number(this.state.socialScore),
-                  },
-                ]}
-              />
-            </VictoryChart>
-            <View style={{marginHorizontal: 20}}>
-              <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                {this.state.politicalScore}
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={{marginTop: 20}}>
+              <Text style={{fontSize: 20, textAlign: 'center'}}>
+                {' '}
+                You are a {this.state.politicalScore}
               </Text>
-              <Text>{this.state.description}</Text>
+              <Text style={{textAlign: 'center'}}> Social Score: </Text>
+              <Text style={{textAlign: 'center'}}>
+                {this.state.socialScore}
+              </Text>
+              <Text style={{textAlign: 'center'}}> Econ Score: </Text>
+              <Text style={{textAlign: 'center'}}>{this.state.econScore}</Text>
             </View>
-            <View>
+            <View style={styles.container}>
+              <VictoryChart width={400} height={400}>
+                <VictoryAxis
+                  crossAxis
+                  width={400}
+                  height={400}
+                  domain={[-6, 6]}
+                  theme={VictoryTheme.material}
+                  offsetY={200}
+                  standalone={false}
+                />
+                <VictoryAxis
+                  dependentAxis
+                  crossAxis
+                  width={400}
+                  height={400}
+                  domain={[-6, 6]}
+                  theme={VictoryTheme.material}
+                  offsetX={200}
+                  standalone={false}
+                />
+                <VictoryScatter
+                  style={{data: {fill: '#c43a31'}}}
+                  size={7}
+                  data={[
+                    {
+                      x: Number(this.state.econScore),
+                      y: Number(this.state.socialScore),
+                    },
+                  ]}
+                />
+              </VictoryChart>
+              <View style={styles.ideologyModuleContainer}>
+                <Text style={styles.ideologyHeadingText}>
+                  {this.state.politicalScore}
+                </Text>
+                <Text style={styles.descriptionStyle}>{this.state.description}</Text>
+              </View>
               <TouchableOpacity
-                style={styles.quizButton}
+                style={styles.sectionButtonContainer}
                 onPress={() =>
                   this.props.navigation.dispatch(
                     CommonActions.reset({
@@ -121,12 +124,12 @@ export default class PoliticalCompassResults extends React.Component {
                     }),
                   )
                 }>
-                <Text style={styles.quizButtonText}>Exit</Text>
+                <Text style={styles.sectionButtonText}>Exit</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -135,25 +138,75 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5fcff',
+    backgroundColor: colors.polWhite,
   },
-  quizButton: {
-    width: 150,
-    marginTop: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    marginLeft: 70,
-    marginRight: 70,
-    backgroundColor: '#00BCD4',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-    color: '#fff',
+  contentContainer: {
+    flex: 1,
   },
-  quizButtonText: {
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 20,
+  },
+  sectionButtonText: {
     textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
+    color: colors.polWhite,
   },
+  ideologyModuleContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  chartModuleContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  ideologyHeadingText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingTop: 2,
+  },
+  descriptionStyle: {
+    marginHorizontal: 10,
+  }
 });

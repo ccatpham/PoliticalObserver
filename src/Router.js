@@ -36,6 +36,7 @@ import TopicsScreen from './screens/Education/Topics/Topics';
 import TopicDetailsScreen from './screens/Education/Topics/TopicDetails';
 import PoliticalCompassEcon from './screens/Profile/PoliticalCompass/PoliticalCompassEconomic';
 import PoliticalCompassSocial from './screens/Profile/PoliticalCompass/PoliticalCompassSocial';
+import PoliticalCompassInfo from './screens/Profile/PoliticalCompass/PoliticalCompassInfo';
 import PoliticalCompassLanding from './screens/Profile/PoliticalCompass/PoliticalCompassLanding';
 import PoliticalCompassResults from './screens/Profile/PoliticalCompass/PoliticalCompassResults';
 
@@ -112,11 +113,15 @@ const ProfileStack = props => {
         component={PoliticalCompassLanding}
       />
       <Stack.Screen
-        name="PoliticalCompassEconomic"
+        name="Political Compass Info"
+        component={PoliticalCompassInfo}
+      />
+      <Stack.Screen
+        name="Political Compass Economic"
         component={PoliticalCompassEcon}
       />
       <Stack.Screen
-        name="PoliticalCompassSocial"
+        name="Political Compass Social"
         component={PoliticalCompassSocial}
       />
       <Stack.Screen

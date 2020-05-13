@@ -200,18 +200,16 @@ export default class PoliticalCompassEconomic extends React.Component {
               ))}
             </View>
           ))}
-          <View style={styles.optionButton}>
-            <TouchableOpacity
-              style={styles.sectionButtonContainer}
-              onPress={() => {
-                this.props.navigation.navigate('PoliticalCompassSocial', {
-                  answers: this.state.answers,
-                  userId: this.state.userId,
-                });
-              }}>
-              <Text style={styles.sectionButtonText}> Next </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => {
+              this.props.navigation.navigate('Political Compass Social', {
+                answers: this.state.answers,
+                userId: this.state.userId,
+              });
+            }}>
+            <Text style={styles.sectionButtonText}> Next </Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import background from '../../../../res/images/landing_background.jpg';
 import {colors} from '../../../styles';
+import {CommonActions} from '@react-navigation/native';
 export default class PoliticalCompassLanding extends React.Component {
   constructor(props) {
     super(props);
@@ -32,16 +33,23 @@ export default class PoliticalCompassLanding extends React.Component {
         <TouchableOpacity
           style={styles.sectionButtonContainer}
           onPress={() =>
-            this.props.navigation.navigate('PoliticalCompassEconomic', {
+            this.props.navigation.navigate('Political Compass Economic', {
               userId: this.state.userId,
             })
           }>
           <Text style={styles.sectionButtonText}>Start the test</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{alignSelf: 'center'}}>
-          <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
-            What is the political compass test?
-          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Political Compass Info', {
+                userId: this.state.userId,
+              })
+            }>
+            <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
+              What is the political compass test?
+            </Text>
+          </TouchableOpacity>
         </TouchableOpacity>
       </ImageBackground>
     );

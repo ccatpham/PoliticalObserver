@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import RadioButton from '../../Components/RadioButton';
 import pol from '../../../api/apiConfig';
+import {colors} from '../../../styles';
 
 export default class PoliticalCompassSocial extends React.Component {
   constructor(props) {
@@ -233,18 +234,17 @@ export default class PoliticalCompassSocial extends React.Component {
               ))}
             </View>
           ))}
-          <View style={styles.optionButton}>
-            <TouchableOpacity
-              onPress={() => {
-                this.calculateQuizScore(
-                  this.state.userId,
-                  this.state.answers1,
-                  this.state.answers2,
-                );
-              }}>
-              <Text style={styles.optionButtonFont}> Next </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.sectionButtonContainer}
+            onPress={() => {
+              this.calculateQuizScore(
+                this.state.userId,
+                this.state.answers1,
+                this.state.answers2,
+              );
+            }}>
+            <Text style={styles.sectionButtonText}> Submit </Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -271,5 +271,28 @@ const styles = StyleSheet.create({
   questionFont: {
     fontSize: 25,
     color: '#2f3640',
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
