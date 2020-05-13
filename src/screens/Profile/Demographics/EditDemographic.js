@@ -12,15 +12,14 @@ import {
 import pol from '../../../api/apiConfig';
 import {colors} from '../../../styles';
 import {Dropdown} from 'react-native-material-dropdown';
-import {CommonActions} from '@react-navigation/native';
 
 export default class EditDemographic extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {},
-      userId: this.props.route.params.user.id,
-      demographicId: this.props.route.params.user.demographicId,
+      userId: this.props.route.params.userId,
+      demographicId: this.props.route.params.demographicId,
       age: '',
       state: '',
       occupation: '',
@@ -165,7 +164,7 @@ export default class EditDemographic extends React.Component {
 
   componentDidMount() {
     pol.api
-      .getDemographicById(this.props.route.params.user.demographicId)
+      .getDemographicById(this.state.demographicId)
       .then(response => {
         this.setState({
           partyAffiliation: response.partyAffiliation,

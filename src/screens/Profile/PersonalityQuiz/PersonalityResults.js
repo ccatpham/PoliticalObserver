@@ -5,18 +5,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   ScrollView,
+  Image,
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import pol from '../../../api/apiConfig';
+import {colors} from '../../../styles';
 export default class PersonalityResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       personalityScore: this.props.route.params.personalityScore,
-      user: this.props.route.params.user,
-      userId: this.props.route.params.user.id,
+      userId: this.props.route.params.userId,
       hasTakenPersonalityTest: true,
       name: '',
       description: '',
@@ -49,36 +49,185 @@ export default class PersonalityResults extends React.Component {
       });
   };
 
+  renderPersonalityImage = () => {
+    if (this.state.personalityScore == 'ISTJ') {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ISTP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ENTJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ENTJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ENTP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ENTP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ESFJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ESFJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ESFP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ESFP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ESTJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ESTJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ESTP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ESTP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'INFJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/INFJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'INFP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/INFP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'INTJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/INFJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'INTP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/INTP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ISFJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ISFJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ISFP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ISFP.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ISTJ')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ISTJ.jpg')}
+          />
+        </View>
+      );
+    } else if ((this.state.personalityScore = 'ENFP')) {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ENFP.jpg')}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Image
+            style={styles.selfPersonalityImage}
+            source={require('../../../../res/images/ISTP.jpg')}
+          />
+        </View>
+      );
+    }
+  };
+
   render() {
     return (
-      <SafeAreaView>
-        <ScrollView>
-          <View style={{margin: 20}}>
-            <Text style={styles.headingTextStyle}>
-              Personality Quiz Results
-            </Text>
-            <Text style={styles.subHeadingTextStyle}>
-              {' '}
-              Personality Type: {this.state.personalityScore}{' '}
-            </Text>
-            <Text style={styles.subHeadingTextStyle}> {this.state.name}</Text>
-            <Text style={styles.subHeadingTextStyle}>
-              {' '}
-              Who is a {this.state.name} ({this.state.personalityScore})?
-            </Text>
-            <Text>{this.state.description}</Text>
-            <Text />
-            <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
-            <Text>{this.state.weaknesses}</Text>
-            <Text />
-            <Text style={styles.subHeadingTextStyle}> Strengths </Text>
-            <Text>{this.state.strengths}</Text>
-            <Text />
-            <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
-            <Text>{this.state.weaknesses}</Text>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
             <View>
+              <View>{this.renderPersonalityImage()}</View>
+              <View style={styles.questionContainer}>
+                <Text style={styles.subHeadingTextStyle}>
+                  {' '}
+                  Who is a {this.state.name} ({this.state.personalityScore})?
+                </Text>
+                <Text>{this.state.description}</Text>
+                <Text />
+              </View>
+              <View style={styles.questionContainer}>
+                <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
+                <Text>{this.state.weaknesses}</Text>
+                <Text />
+              </View>
+              <View style={styles.questionContainer}>
+                <Text style={styles.subHeadingTextStyle}> Strengths </Text>
+                <Text>{this.state.strengths}</Text>
+                <Text />
+              </View>
+              <View style={styles.questionContainer}>
+                <Text style={styles.subHeadingTextStyle}> Weaknesses </Text>
+                <Text>{this.state.weaknesses}</Text>
+              </View>
               <TouchableOpacity
-                style={styles.quizButton}
+                style={styles.sectionButtonContainer}
                 onPress={() =>
                   this.props.navigation.dispatch(
                     CommonActions.reset({
@@ -96,23 +245,17 @@ export default class PersonalityResults extends React.Component {
                     }),
                   )
                 }>
-                <Text style={styles.quizButtonText}>Exit</Text>
+                <Text style={styles.sectionButtonText}>Exit</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5fcff',
-  },
   headingTextStyle: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -124,20 +267,84 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  quizButton: {
-    width: 150,
-    marginVertical: 30,
-    padding: 15,
-    marginHorizontal: 70,
-    backgroundColor: '#00BCD4',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-    color: '#fff',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
   },
-  quizButtonText: {
-    textAlign: 'center',
+  contentContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
+  optionButton: {
+    backgroundColor: '#0984e3',
+    width: '90%',
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  optionButtonFont: {
+    left: '35%',
+    fontSize: 30,
+    color: '#f5f6fa',
+  },
+  questionBox: {
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  questionFont: {
+    fontSize: 21,
+    marginBottom: 7,
+    color: '#2f3640',
     fontWeight: 'bold',
-    color: '#fff',
+  },
+  questionContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 20,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
+  },
+  selfPersonalityImage: {
+    marginTop: 20,
+    width: 200,
+    height: 300,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });

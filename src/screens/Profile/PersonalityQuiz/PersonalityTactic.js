@@ -10,6 +10,7 @@ import {
 import RadioButton from '../../Components/RadioButton';
 import pol from '../../../api/apiConfig';
 import {CommonActions} from '@react-navigation/native';
+import {colors} from '../../../styles';
 
 export default class PersonalityTactic extends React.Component {
   constructor(props) {
@@ -56,7 +57,7 @@ export default class PersonalityTactic extends React.Component {
         },
         {
           prompt:
-            'It would be a challenge for you to spend the whole weekend all by yourself without feeling bored.\n',
+            'It would be a challenge for you to spend the whole weekend all by yourself without feeling bored.',
           number: 2,
           choices: [
             {
@@ -144,31 +145,31 @@ export default class PersonalityTactic extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Tactic </Text>
-        <ScrollView>
-          {this.state.questions.map(question => (
-            <View style={styles.questionBox}>
-              <Text style={styles.questionFont}>{question.prompt}</Text>
-              {question.choices.map(choice => (
-                <RadioButton
-                  key={choice.label}
-                  selected={choice.selected}
-                  onPress={() =>
-                    this.onPressQuestRadioButton(
-                      question.number,
-                      question.choices.indexOf(choice),
-                    )
-                  }
-                  label={choice.label}
-                  colors={'#f1c40f'}
-                  textStyle={{color: '#f1c40f'}}
-                />
-              ))}
-            </View>
-          ))}
-          <View style={styles.optionButton}>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.contentContainer}>
+          <View style={styles.container}>
+            {this.state.questions.map(question => (
+              <View style={styles.questionContainer}>
+                <Text style={styles.questionFont}>{question.prompt}</Text>
+                {question.choices.map(choice => (
+                  <RadioButton
+                    key={choice.label}
+                    selected={choice.selected}
+                    onPress={() =>
+                      this.onPressQuestRadioButton(
+                        question.number,
+                        question.choices.indexOf(choice),
+                      )
+                    }
+                    label={choice.label}
+                    colors={'#f1c40f'}
+                    textStyle={{color: 'colors.black', marginTop: 2}}
+                  />
+                ))}
+              </View>
+            ))}
             <TouchableOpacity
+              style={styles.sectionButtonContainer}
               onPress={() => {
                 this.calculatePersonalityType(
                   this.state.userId,
@@ -177,21 +178,29 @@ export default class PersonalityTactic extends React.Component {
                   this.state.natureAnswers,
                   this.state.tacticAnswers,
                 );
-                // this.updatePersonalityType(
-                //   this.state.userId,
-                //   this.state.personalityType,
-                // );
               }}>
-              <Text style={styles.optionButtonFont}> Submit </Text>
+              <Text style={styles.sectionButtonText}> Submit </Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
   optionButton: {
     backgroundColor: '#0984e3',
     width: '90%',
@@ -206,10 +215,51 @@ const styles = StyleSheet.create({
     color: '#f5f6fa',
   },
   questionBox: {
-    margin: 20,
+    marginLeft: 20,
+    marginBottom: 10,
   },
   questionFont: {
-    fontSize: 25,
+    fontSize: 21,
+    marginBottom: 7,
     color: '#2f3640',
+    fontWeight: 'bold',
+  },
+  questionContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 20,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });

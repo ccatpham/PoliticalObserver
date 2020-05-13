@@ -127,45 +127,16 @@ const ProfileStack = props => {
         name="Political Compass Results"
         component={PoliticalCompassResults}
       />
-      <Stack.Screen
-        name="Personality Landing"
-        component={PersonalityLanding}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Personality Mind"
-        component={PersonalityMind}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Personality Energy"
-        component={PersonalityEnergy}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Personality Nature"
-        component={PersonalityNature}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Personality Tactic"
-        component={PersonalityTactic}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Personality Results"
-        component={PersonalityResults}
-        initialParams={props.route.params}
-      />
-      <Stack.Screen
-        name="Edit Demographics"
-        component={EditDemographics}
-        initialParams={props.route.params}
-      />
+      <Stack.Screen name="Personality Landing" component={PersonalityLanding} />
+      <Stack.Screen name="Personality Mind" component={PersonalityMind} />
+      <Stack.Screen name="Personality Energy" component={PersonalityEnergy} />
+      <Stack.Screen name="Personality Nature" component={PersonalityNature} />
+      <Stack.Screen name="Personality Tactic" component={PersonalityTactic} />
+      <Stack.Screen name="Personality Results" component={PersonalityResults} />
+      <Stack.Screen name="Edit Demographics" component={EditDemographics} />
       <Stack.Screen
         name="Demographic Insights"
         component={DemographicInsights}
-        initialParams={props.route.params}
       />
       <Stack.Screen name="Issues" component={IssuesScreen} />
       <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />

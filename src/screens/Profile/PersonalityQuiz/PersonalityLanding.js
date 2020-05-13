@@ -7,6 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import background from '../../../../res/images/personality_group.jpg';
+import {colors} from '../../../styles';
 export default class PersonalityLanding extends React.Component {
   constructor(props) {
     super(props);
@@ -27,16 +28,15 @@ export default class PersonalityLanding extends React.Component {
             description of who you are and why you do things the way you do.
           </Text>
         </View>
-        <View style={styles.startButtonStyle}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Personality Mind', {
-                userId: this.props.route.params.user.id,
-              })
-            }>
-            <Text style={styles.startButtonFont}>Start the test</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.sectionButtonContainer}
+          onPress={() =>
+            this.props.navigation.navigate('Personality Mind', {
+              userId: this.props.route.params.userId,
+            })
+          }>
+          <Text style={styles.sectionButtonText}>Start the test</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={{alignSelf: 'center'}}>
           <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
             What is the 16 personalities test?
@@ -92,5 +92,28 @@ const styles = StyleSheet.create({
   descriptionTextStyle: {
     color: '#f5f6fa',
     fontWeight: 'bold',
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 20,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
