@@ -18,7 +18,13 @@ export default class LandingScreen extends React.Component {
   };
 
   componentDidMount() {
-    StatusBar.setBarStyle('light-content');
+    this.unSubscribe = this.props.navigation.addListener('focus', () => {
+      StatusBar.setBarStyle('light-content');
+    });
+  }
+
+  componentWillUnmount() {
+    this.unSubscribe();
   }
 
   onPressLogin = () => {

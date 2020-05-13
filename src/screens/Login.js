@@ -8,6 +8,7 @@ import {
   View,
   Alert,
   StatusBar,
+  Image,
 } from 'react-native';
 import {CommonActions} from '@react-navigation/native';
 import {colors} from '../styles';
@@ -20,6 +21,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
+      isLoggingIn: false,
     };
   }
 
@@ -29,6 +31,7 @@ export default class LoginScreen extends React.Component {
 
   onPressLogin = () => {
     if (this.state.email !== '' && this.state.password !== '') {
+      this.setState({isLoggingIn: true});
       auth()
         .signInWithEmailAndPassword(
           this.state.email.toLowerCase(),
@@ -38,6 +41,7 @@ export default class LoginScreen extends React.Component {
           pol.api
             .getUserByEmail(this.state.email.toLowerCase())
             .then(user => {
+              this.setState({isLoggingIn: false});
               this.props.navigation.dispatch(
                 CommonActions.reset({
                   index: 0,
@@ -46,6 +50,7 @@ export default class LoginScreen extends React.Component {
               );
             })
             .catch(error => {
+              this.setState({isLoggingIn: false});
               Alert.alert(
                 'Error',
                 error.code + ' ' + error.message,
@@ -57,6 +62,7 @@ export default class LoginScreen extends React.Component {
             });
         })
         .catch(error => {
+          this.setState({isLoggingIn: false});
           Alert.alert(
             'Error',
             error.code + ' ' + error.message,
@@ -89,24 +95,33 @@ export default class LoginScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder={'Email'}
-            placeholderTextColor={colors.polPlaceholderGray}
-            onChangeText={email => this.onChangeEmail(email)}
-            value={this.state.email}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder={'Password'}
-            placeholderTextColor={colors.polPlaceholderGray}
-            onChangeText={password => this.onChangePassword(password)}
-            value={this.state.password}
-          />
+          <View style={styles.logoImageContainer}>
+            <Image
+              style={styles.logoImage}
+              source={require('../../res/images/polLogo.png')}
+            />
+          </View>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Email'}
+              placeholderTextColor={colors.polPlaceholderGray}
+              onChangeText={email => this.onChangeEmail(email)}
+              value={this.state.email}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder={'Password'}
+              placeholderTextColor={colors.polPlaceholderGray}
+              onChangeText={password => this.onChangePassword(password)}
+              value={this.state.password}
+            />
+          </View>
         </View>
         <TouchableOpacity
           style={styles.loginButtonContainer}
           onPress={this.onPressLogin}>
+          disabled={this.state.isLoggingIn}
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -124,6 +139,28 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoImageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 80,
+    marginBottom: 40,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  logoImage: {
+    width: 300,
+    resizeMode: 'contain',
+  },
+  textInputContainer: {
+    flex: 1,
   },
   textInput: {
     width: 250,
