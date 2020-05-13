@@ -44,8 +44,8 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    this.getDemographic();
-    this.props.navigation.addListener('focus', () => {
+    this.unSubscribe = this.props.navigation.addListener('focus', () => {
+      this.getDemographic();
       if (this.props.route.params.hasTakenPoliticalTest) {
         this.setState({
           hasTakenPoliticalTest: this.props.route.params.hasTakenPoliticalTest,
@@ -63,6 +63,10 @@ export default class ProfileScreen extends React.Component {
       }
     });
   };
+
+  componentWillUnmount() {
+    this.unSubscribe();
+  }
 
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
