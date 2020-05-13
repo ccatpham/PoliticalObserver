@@ -40,7 +40,7 @@ export default class NotificationScreen extends React.Component {
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>{section.sectionTitle}</Text>
         {section.sectionBody && (
-          <Text style={styles.sectionBodyText}> {section.sectionBody}</Text>
+          <Text style={styles.sectionBodyText}>{section.sectionBody}</Text>
         )}
         {section.sectionLink && (
           <TouchableOpacity
