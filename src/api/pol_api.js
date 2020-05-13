@@ -270,6 +270,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getPoliticiansBySearch(search) {
+    const config = {
+      method: 'get',
+      endpoint: `/politicians/search/${search}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Issues Endpoints
    */

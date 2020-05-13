@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import {SearchBar} from 'react-native-elements';
 import {colors} from '../../../styles';
 import pol from '../../../api/apiConfig';
 
@@ -17,16 +18,57 @@ export default class Politicians extends React.Component {
     super(props);
     this.state = {
       userId: this.props.route.params.userId,
+      search: '',
       data: [],
     };
   }
+
+  updateSearch = search => {
+    this.setState({search});
+    if (search === '') {
+      pol.api
+        .getAllPoliticians()
+        .then(politicians => {
+          this.setState({
+            data: politicians,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    } else {
+      pol.api
+        .getPoliticiansBySearch(search)
+        .then(politicians => {
+          this.setState({
+            data: politicians,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
+        });
+    }
+  };
 
   componentDidMount() {
     pol.api
       .getAllPoliticians()
       .then(politicians => {
         this.setState({
-          userId: this.state.userId,
           data: politicians,
         });
       })
@@ -80,6 +122,15 @@ export default class Politicians extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <SearchBar
+          containerStyle={styles.searchContainer}
+          inputContainerStyle={styles.searchInputContainer}
+          inputStyle={styles.searchInput}
+          lightTheme={true}
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={this.state.search}
+        />
         <FlatList
           style={styles.listContainer}
           data={this.state.data}
@@ -95,6 +146,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.polWhite,
+  },
+  searchContainer: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  searchInputContainer: {
+    backgroundColor: colors.polLightGray,
+  },
+  searchInput: {
+    color: colors.black,
   },
   listContainer: {
     paddingVertical: 10,
