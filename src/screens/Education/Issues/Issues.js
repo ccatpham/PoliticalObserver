@@ -18,22 +18,46 @@ export default class IssuesScreen extends React.Component {
     this.state = {
       userId: this.props.route.params.userId,
       data: [],
+      isVotingHistory: this.props.route.params.isVotingHistory,
     };
   }
 
   componentDidMount() {
-    pol.api
-      .getAllIssues()
-      .then(issues => {
-        this.setState({
-          data: issues,
+    if (this.state.isVotingHistory) {
+      pol.api
+        .getUsersIssues(this.state.userId)
+        .then(response => {
+          this.setState({data: response});
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
         });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
+    } else {
+      pol.api
+        .getAllIssues()
+        .then(issues => {
+          this.setState({
+            data: issues,
+          });
+        })
+        .catch(error => {
+          Alert.alert(
+            'Error',
+            error.code + ' ' + error.message,
+            [{text: 'OK'}],
+            {
+              cancelable: false,
+            },
+          );
         });
-      });
+    }
   }
 
   renderItem = item => {

@@ -77,8 +77,9 @@ export default class ProfileScreen extends React.Component {
   };
 
   onPressViewIssues = () => {
-    this.props.navigation.navigate('Voted On Issues', {
+    this.props.navigation.navigate('Issues', {
       userId: this.props.route.params.user.id,
+      isVotingHistory: true,
     });
   };
 

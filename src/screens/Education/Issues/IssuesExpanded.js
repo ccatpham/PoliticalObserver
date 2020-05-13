@@ -86,7 +86,7 @@ export default class IssuesScreen extends React.Component {
 
   fetchAllIssues() {
     pol.api
-      .getIssues(this.state.userId)
+      .getUsersIssues(this.state.userId)
       .then(response => {
         this.setState({issues: response});
       })
