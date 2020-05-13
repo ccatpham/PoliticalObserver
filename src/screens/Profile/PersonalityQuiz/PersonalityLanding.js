@@ -32,7 +32,7 @@ export default class PersonalityLanding extends React.Component {
           style={styles.sectionButtonContainer}
           onPress={() =>
             this.props.navigation.navigate('Personality Mind', {
-              userId: this.props.route.params.user.id,
+              userId: this.props.route.params.userId,
             })
           }>
           <Text style={styles.sectionButtonText}>Start the test</Text>

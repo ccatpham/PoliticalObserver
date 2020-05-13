@@ -117,7 +117,7 @@ export default class PersonalityEnergy extends React.Component {
                     }
                     label={choice.label}
                     colors={'#f1c40f'}
-                    textStyle={{color: 'colors.black', marginTop: 2}}
+                    textStyle={{color: 'black', marginTop: 2}}
                   />
                 ))}
               </View>
