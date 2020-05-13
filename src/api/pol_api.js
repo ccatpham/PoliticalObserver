@@ -248,6 +248,17 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async modifySettings(id, settingsData) {
+    const config = {
+      method: 'put',
+      endpoint: `/settings/${id}`,
+      jsonData: settingsData,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+
   /*
    * Politicians Endpoints
    */
