@@ -77,7 +77,9 @@ export default class IssuesScreen extends React.Component {
           />
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.titleText}>{item.title}</Text>
+          <Text style={styles.titleText} numberOfLines={1}>
+            {item.title}
+          </Text>
           <Text style={styles.text} numberOfLines={2}>
             {item.description}
           </Text>

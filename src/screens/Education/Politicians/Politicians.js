@@ -7,7 +7,8 @@ import {
   Text,
   Alert,
   SafeAreaView,
-  TouchableOpacity, ScrollView,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {colors} from '../../../styles';
@@ -110,7 +111,9 @@ export default class Politicians extends React.Component {
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{item.name}</Text>
-          <Text style={styles.subTitleText}>{item.position}</Text>
+          <Text style={styles.subTitleText} numberOfLines={1}>
+            {item.position}
+          </Text>
         </View>
         <View style={styles.imageContainer}>
           <Image source={partyImage} style={styles.image} />

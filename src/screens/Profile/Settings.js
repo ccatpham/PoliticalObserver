@@ -6,12 +6,13 @@ import {
   Switch,
   Text,
   ScrollView,
-  Alert, TouchableOpacity,
+  Alert,
+  TouchableOpacity,
 } from 'react-native';
 import {colors} from '../../styles';
 import pol from '../../api/apiConfig';
 import {color} from 'react-native-reanimated';
-import {CommonActions} from "@react-navigation/routers";
+import {CommonActions} from '@react-navigation/routers';
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -105,10 +106,10 @@ export default class Settings extends React.Component {
 
   onPressLogout = () => {
     this.props.navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{name: 'Landing'}],
-        }),
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Landing'}],
+      }),
     );
   };
 
@@ -176,8 +177,8 @@ export default class Settings extends React.Component {
             </View>
           </View>
           <TouchableOpacity
-              style={styles.logoutButtonContainer}
-              onPress={this.onPressLogout}>
+            style={styles.logoutButtonContainer}
+            onPress={this.onPressLogout}>
             <Text style={styles.logoutButtonText}>Logout</Text>
           </TouchableOpacity>
         </ScrollView>

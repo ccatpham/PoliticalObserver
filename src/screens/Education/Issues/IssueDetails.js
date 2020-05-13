@@ -95,7 +95,7 @@ export default class IssueDetails extends React.Component {
             <VictoryPie
               data={this.state.data}
               colorScale={[colors.polRed, colors.polGreen]}
-              labelRadius={10}
+              labelRadius={20}
               width={150}
               height={150}
               padding={0}
@@ -157,13 +157,13 @@ export default class IssueDetails extends React.Component {
             style={styles.voteForButton}
             onPress={() => this.onPressVote(true)}
             disabled={this.state.voting}>
-            <Text style={styles.voteForText}>For</Text>
+            <Text style={styles.voteForText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.voteAgainstButton}
             onPress={() => this.onPressVote(false)}
             disabled={this.state.voting}>
-            <Text style={styles.voteAgainstText}>Against</Text>
+            <Text style={styles.voteAgainstText}>No</Text>
           </TouchableOpacity>
         </View>
       </View>

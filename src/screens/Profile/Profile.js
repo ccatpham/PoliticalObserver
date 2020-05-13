@@ -433,45 +433,45 @@ export default class ProfileScreen extends React.Component {
   renderDemographic = () => {
     return (
       <View>
-        <Text style={styles.headingTextStyle}>Demographic</Text>
+        <Text style={styles.headingTextStyle}>Demographics</Text>
         <View style={{flexDirection: 'row', flex: 1}}>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Gender:</Text>
-            <Text> {this.state.gender}</Text>
+            <Text style={{fontWeight: 'bold'}}>Gender</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.gender}</Text>
           </View>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Party Affiliation:</Text>
-            <Text> {this.state.partyAffiliation}</Text>
+            <Text style={{fontWeight: 'bold'}}>Party Affiliation</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.partyAffiliation}</Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', flex: 1}}>
           <View style={styles.demographicDetail}>
             <Text style={{fontWeight: 'bold'}}>Personality Type</Text>
-            <Text>{this.state.personalityType}</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.personalityType}</Text>
           </View>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Yearly Income:</Text>
-            <Text> {this.state.income}</Text>
-          </View>
-        </View>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Age:</Text>
-            <Text> {this.state.age}</Text>
-          </View>
-          <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Education:</Text>
-            <Text> {this.state.education}</Text>
+            <Text style={{fontWeight: 'bold'}}>Yearly Income</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.income}</Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', flex: 1}}>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Marital Status:</Text>
-            <Text> {this.state.maritalStatus}</Text>
+            <Text style={{fontWeight: 'bold'}}>Age</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.age}</Text>
           </View>
           <View style={styles.demographicDetail}>
-            <Text style={{fontWeight: 'bold'}}>Ethnicity:</Text>
-            <Text>{this.state.ethnicity}</Text>
+            <Text style={{fontWeight: 'bold'}}>Education</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.education}</Text>
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Marital Status</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.maritalStatus}</Text>
+          </View>
+          <View style={styles.demographicDetail}>
+            <Text style={{fontWeight: 'bold'}}>Ethnicity</Text>
+            <Text style={{paddingLeft: 8}}>{this.state.ethnicity}</Text>
           </View>
         </View>
         <View>
