@@ -7,6 +7,8 @@ import {
   ImageBackground,
 } from 'react-native';
 import background from '../../../../res/images/landing_background.jpg';
+import {colors} from '../../../styles';
+import {CommonActions} from '@react-navigation/native';
 export default class PoliticalCompassLanding extends React.Component {
   constructor(props) {
     super(props);
@@ -28,20 +30,26 @@ export default class PoliticalCompassLanding extends React.Component {
             Compass. Your responses should not be overthought.
           </Text>
         </View>
-        <View style={styles.startButtonStyle}>
+        <TouchableOpacity
+          style={styles.sectionButtonContainer}
+          onPress={() =>
+            this.props.navigation.navigate('Political Compass Economic', {
+              userId: this.state.userId,
+            })
+          }>
+          <Text style={styles.sectionButtonText}>Start the test</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{alignSelf: 'center'}}>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('PoliticalCompassEconomic', {
+              this.props.navigation.navigate('Political Compass Info', {
                 userId: this.state.userId,
               })
             }>
-            <Text style={styles.startButtonFont}>Start the test</Text>
+            <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
+              What is the political compass test?
+            </Text>
           </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={{alignSelf: 'center'}}>
-          <Text style={{color: '#f5f6fa', textDecorationLine: 'underline'}}>
-            What is the political compass test?
-          </Text>
         </TouchableOpacity>
       </ImageBackground>
     );
@@ -93,5 +101,28 @@ const styles = StyleSheet.create({
   descriptionTextStyle: {
     color: '#f5f6fa',
     fontWeight: 'bold',
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 10,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
