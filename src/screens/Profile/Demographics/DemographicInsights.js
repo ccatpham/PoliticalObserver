@@ -128,13 +128,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: colors.polWhite,
   },
-  comparisonContainer: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginBottom: 20,
-    backgroundColor: colors.polGray,
-  },
   itemContainer: {
     marginVertical: 10,
     marginHorizontal: 20,
