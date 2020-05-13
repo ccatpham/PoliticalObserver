@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import RadioButton from '../../Components/RadioButton';
+import {colors} from '../../../styles';
 
 export default class PersonalityNature extends React.Component {
   constructor(props) {
@@ -98,49 +99,63 @@ export default class PersonalityNature extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Text style={{fontWeight: 'bold', fontSize: 30}}> Nature </Text>
-        <ScrollView>
-          {this.state.questions.map(question => (
-            <View style={styles.questionBox}>
-              <Text style={styles.questionFont}>{question.prompt}</Text>
-              {question.choices.map(choice => (
-                <RadioButton
-                  key={choice.label}
-                  selected={choice.selected}
-                  onPress={() =>
-                    this.onPressQuestRadioButton(
-                      question.number,
-                      question.choices.indexOf(choice),
-                    )
-                  }
-                  label={choice.label}
-                  colors={'#f1c40f'}
-                  textStyle={{color: '#f1c40f'}}
-                />
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View>
+              {this.state.questions.map(question => (
+                <View style={styles.questionContainer}>
+                  <Text style={styles.questionFont}>{question.prompt}</Text>
+                  {question.choices.map(choice => (
+                    <RadioButton
+                      key={choice.label}
+                      selected={choice.selected}
+                      onPress={() =>
+                        this.onPressQuestRadioButton(
+                          question.number,
+                          question.choices.indexOf(choice),
+                        )
+                      }
+                      label={choice.label}
+                      colors={'#f1c40f'}
+                      textStyle={{color: 'colors.black', marginTop: 2}}
+                    />
+                  ))}
+                </View>
               ))}
+              <TouchableOpacity
+                style={styles.sectionButtonContainer}
+                onPress={() => {
+                  this.props.navigation.navigate('Personality Tactic', {
+                    energyAnswers: this.state.energyAnswers,
+                    mindAnswers: this.state.mindAnswers,
+                    natureAnswers: this.state.natureAnswers,
+                    userId: this.state.userId,
+                  });
+                }}>
+                <Text style={styles.sectionButtonText}> Next </Text>
+              </TouchableOpacity>
             </View>
-          ))}
-          <View style={styles.optionButton}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate('Personality Tactic', {
-                  energyAnswers: this.state.energyAnswers,
-                  mindAnswers: this.state.mindAnswers,
-                  natureAnswers: this.state.natureAnswers,
-                  userId: this.state.userId,
-                });
-              }}>
-              <Text style={styles.optionButtonFont}> Next </Text>
-            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
+  },
   optionButton: {
     backgroundColor: '#0984e3',
     width: '90%',
@@ -155,10 +170,51 @@ const styles = StyleSheet.create({
     color: '#f5f6fa',
   },
   questionBox: {
-    margin: 20,
+    marginLeft: 20,
+    marginBottom: 10,
   },
   questionFont: {
-    fontSize: 25,
+    fontSize: 21,
+    marginBottom: 7,
     color: '#2f3640',
+    fontWeight: 'bold',
+  },
+  questionContainer: {
+    flex: 3,
+    marginTop: 20,
+    marginHorizontal: 20,
+    padding: 4,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sectionButtonContainer: {
+    alignSelf: 'center',
+    width: 200,
+    borderRadius: 20,
+    borderWidth: 0,
+    backgroundColor: colors.polBlue,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    margin: 20,
+  },
+  sectionButtonText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.polWhite,
   },
 });
