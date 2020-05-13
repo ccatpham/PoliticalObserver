@@ -239,83 +239,6 @@ export default class RegisterDemographicsScreen extends React.Component {
       });
   };
 
-  onPressSkip = () => {
-    let user = this.state.user;
-
-    if (this.state.age && this.state.age !== '') {
-      user.age = Number(this.state.age);
-    }
-
-    if (this.state.state && this.state.state !== '') {
-      user.state = this.state.state;
-    }
-
-    if (this.state.gender && this.state.gender !== '') {
-      user.gender = this.state.gender;
-    }
-
-    if (this.state.maritalStatus && this.state.maritalStatus !== '') {
-      user.maritalStatus = this.state.maritalStatus;
-    }
-
-    if (this.state.ethnicity && this.state.ethnicity !== '') {
-      user.ethnicity = this.state.ethnicity;
-    }
-
-    if (this.state.education && this.state.education !== '') {
-      user.education = this.state.education;
-    }
-
-    if (this.state.occupation && this.state.occupation !== '') {
-      user.occupation = this.state.occupation;
-    }
-
-    if (this.state.income && this.state.income !== '') {
-      user.income = Number(this.state.income);
-    }
-
-    if (this.state.personalityType && this.state.personalityType !== '') {
-      user.personalityType = this.state.personalityType;
-    }
-
-    if (this.state.partyAffiliation && this.state.partyAffiliation !== '') {
-      user.partyAffiliation = this.state.partyAffiliation;
-    }
-
-    auth()
-      .createUserWithEmailAndPassword(
-        this.state.user.email.toLowerCase(),
-        this.state.user.password,
-      )
-      .then(() => {
-        pol.api
-          .createUser(this.state.user)
-          .then(user => {
-            this.props.navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{name: 'TabNavigator', params: {user: user}}],
-              }),
-            );
-          })
-          .catch(error => {
-            Alert.alert(
-              'Error',
-              error.code + ' ' + error.message,
-              [{text: 'OK'}],
-              {
-                cancelable: false,
-              },
-            );
-          });
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  };
-
   onChangeAge(age) {
     this.setState({
       age: age,
@@ -358,7 +281,7 @@ export default class RegisterDemographicsScreen extends React.Component {
                   onChangeText={age => this.onChangeAge(age)}
                   keyboardType={'numeric'}
                   maxLength={3}
-                  value={this.state.age}
+                  value={this.state.age.toString()}
                 />
               </View>
               <View style={styles.textInputContainer}>
@@ -418,8 +341,8 @@ export default class RegisterDemographicsScreen extends React.Component {
                 itemCount={4}
               />
             </View>
-            <View style={styles.textInputRowContainer}>
-              <View style={[styles.textInputContainer, {marginRight: 5}]}>
+            <View style={styles.textInputColContainer}>
+              <View style={styles.textInputContainer}>
                 <Text style={styles.textInputHeaderText}>Occupation</Text>
                 <TextInput
                   style={styles.textInput}
@@ -431,7 +354,7 @@ export default class RegisterDemographicsScreen extends React.Component {
                   value={this.state.occupation}
                 />
               </View>
-              <View style={[styles.textInputContainer, {marginLeft: 5}]}>
+              <View style={styles.textInputContainer}>
                 <Text style={styles.textInputHeaderText}>Yearly Income</Text>
                 <TextInput
                   style={styles.textInput}
@@ -439,7 +362,7 @@ export default class RegisterDemographicsScreen extends React.Component {
                   placeholderTextColor={colors.polPlaceholderGray}
                   onChangeText={income => this.onChangeIncome(income)}
                   keyboardType={'numeric'}
-                  value={this.state.income}
+                  value={this.state.income.toString()}
                 />
               </View>
             </View>
@@ -516,6 +439,9 @@ const styles = StyleSheet.create({
   textInputRowContainer: {
     flex: 1,
     flexDirection: 'row',
+  },
+  textInputColContainer: {
+    flex: 1,
   },
   textInputContainer: {
     flex: 1,
