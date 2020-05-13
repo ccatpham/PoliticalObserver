@@ -70,7 +70,8 @@ export default class IssueDetails extends React.Component {
           <View style={styles.contentContainer}>
             <View style={styles.imagesContainer}>
               <View style={[styles.imageContainer, {zIndex: 1}]}>
-                {(this.state.party === 'Democrat' || this.state.party === 'D') && (
+                {(this.state.party === 'Democrat' ||
+                  this.state.party === 'D') && (
                   <Image
                     source={require('../../../../res/icons/democratIcon.png')}
                     style={styles.partyImage}
@@ -81,7 +82,8 @@ export default class IssueDetails extends React.Component {
                 <Image source={image} style={styles.image} />
               </View>
               <View style={[styles.imageContainer, {zIndex: 1}]}>
-                {(this.state.party === 'Republican' || this.state.party === 'R') && (
+                {(this.state.party === 'Republican' ||
+                  this.state.party === 'R') && (
                   <Image
                     source={require('../../../../res/icons/republicanIcon.png')}
                     style={styles.partyImage}
@@ -120,7 +122,9 @@ export default class IssueDetails extends React.Component {
                 {this.state.website !== '' && (
                   <TouchableOpacity
                     style={styles.websiteButtonContainer}
-                    onPress={() => Linking.openURL('https://' + this.state.website)}>
+                    onPress={() =>
+                      Linking.openURL('https://' + this.state.website)
+                    }>
                     <Text style={styles.websiteButtonText}>Website</Text>
                   </TouchableOpacity>
                 )}
