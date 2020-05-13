@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Linking,
 } from 'react-native';
 import {colors, dateFormats} from '../../../styles';
 import pol from '../../../api/apiConfig';
@@ -26,6 +27,9 @@ export default class IssueDetails extends React.Component {
       state: '',
       dateOfBirth: null,
       bio: '',
+      address: '',
+      phone: '',
+      website: '',
     };
   }
 
@@ -96,13 +100,34 @@ export default class IssueDetails extends React.Component {
                   {this.state.position}
                 </Text>
               </View>
+              <Text style={styles.sectionText}>Information</Text>
               <View style={styles.informationContainer}>
-                <Text style={styles.text}>Party: {this.state.party}</Text>
-                <Text style={styles.text}>Born: {dateOfBirth}</Text>
-                <Text style={styles.text}>State: {this.state.state}</Text>
+                {this.state.party !== '' && (
+                  <Text style={styles.text}>Party: {this.state.party}</Text>
+                )}
+                {dateOfBirth !== '' && (
+                  <Text style={styles.text}>Born: {dateOfBirth}</Text>
+                )}
+                {this.state.state !== '' && (
+                  <Text style={styles.text}>State: {this.state.state}</Text>
+                )}
+                {this.state.address !== '' && (
+                  <Text style={styles.text}>Address: {this.state.address}</Text>
+                )}
+                {this.state.phone !== '' && (
+                  <Text style={styles.text}>Phone: {this.state.phone}</Text>
+                )}
+                {this.state.website !== '' && (
+                  <TouchableOpacity
+                    style={styles.websiteButtonContainer}
+                    onPress={() => Linking.openURL(this.state.website)}>
+                    <Text style={styles.websiteButtonText}>Website</Text>
+                  </TouchableOpacity>
+                )}
               </View>
+              <Text style={styles.sectionText}>Biography</Text>
               <View style={styles.biographyContainer}>
-                <Text style={styles.text}> {this.state.bio}</Text>
+                <Text style={styles.text}>{this.state.bio}</Text>
               </View>
             </View>
           </View>
@@ -167,13 +192,28 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     alignItems: 'center',
+    marginBottom: 16,
   },
   informationContainer: {
     flex: 1,
-    marginVertical: 20,
+    paddingTop: 4,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
+  sectionText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  websiteButtonContainer: {},
+  websiteButtonText: {
+    fontSize: 14,
+    color: colors.polBlue,
   },
   biographyContainer: {
     flex: 1,
+    paddingTop: 4,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
   titleText: {
     fontSize: 24,
