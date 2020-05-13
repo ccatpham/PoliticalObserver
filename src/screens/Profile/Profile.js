@@ -44,6 +44,7 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
+      console.log(this.props.route.params.user);
     this.unSubscribe = this.props.navigation.addListener('focus', () => {
       this.getDemographic();
       if (this.props.route.params.hasTakenPoliticalTest) {
@@ -71,7 +72,7 @@ export default class ProfileScreen extends React.Component {
   onPressEditDemographics = () => {
     this.props.navigation.navigate('Edit Demographics', {
       userId: this.props.route.params.user.id,
-      demographicId: this.props.route.params.user.demographicId,
+      demographicId: this.state.demographicId,
     });
   };
 
@@ -90,7 +91,7 @@ export default class ProfileScreen extends React.Component {
 
   getDemographic = () => {
     pol.api
-      .getDemographicById(this.props.route.params.user.demographicId)
+      .getDemographicById(this.state.demographicId)
       .then(response => {
         this.setState({
           partyAffiliation: response.partyAffiliation,
