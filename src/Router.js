@@ -138,7 +138,7 @@ const ProfileStack = props => {
         name="Demographic Insights"
         component={DemographicInsights}
       />
-      <Stack.Screen name="Issues" component={IssuesScreen} />
+      <Stack.Screen name="Voting History" component={IssuesScreen} />
       <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />
       <Stack.Screen name="Issue Data" component={IssueDataScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
