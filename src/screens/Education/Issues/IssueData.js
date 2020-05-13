@@ -1,23 +1,16 @@
 import React from 'react';
 import {
-  Image,
   StyleSheet,
   View,
   Text,
   Alert,
   SafeAreaView,
-  TouchableOpacity,
   ScrollView,
   FlatList,
 } from 'react-native';
-import {colors, colorsData} from '../../../styles';
+import {colors, colorsIssueData} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
-
-const titleGender = {title: 'Gender'};
-const titleParty = {title: 'Party'};
-const titleEducation = {title: 'Education'};
-const titleEthnicity = {title: 'Ethnicity'};
 
 export default class IssueData extends React.Component {
   constructor(props) {
@@ -29,22 +22,11 @@ export default class IssueData extends React.Component {
       title: this.props.route.params.issueTitle,
       description: this.props.route.params.issueDescription,
       data: [],
-      genderData: [],
-      partyData: [],
-      educationData: [],
-      ethnicityData: [],
+      issueData: [],
     };
   }
 
   componentDidMount() {
-    this.getIssueData();
-    this.getIssueGenderStats();
-    this.getIssuePartyStats();
-    this.getIssueEducationStats();
-    this.getIssueEthnicityStats();
-  }
-
-  getIssueData() {
     pol.api
       .getIssueById(this.state.userId, this.state.issueId)
       .then(issueResponse => {
@@ -57,52 +39,10 @@ export default class IssueData extends React.Component {
           cancelable: false,
         });
       });
-  }
-
-  getIssueGenderStats() {
     pol.api
-      .getIssueDataGenderByIssueId(this.state.issueId)
+      .getIssueDataByIssueId(this.state.issueId)
       .then(response => {
-        this.setState({genderData: response.gender});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssuePartyStats() {
-    pol.api
-      .getIssueDataPartyByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({partyData: response.party});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssueEducationStats() {
-    pol.api
-      .getIssueDataEducationByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({educationData: response.education});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssueEthnicityStats() {
-    pol.api
-      .getIssueDataEthnicityByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({ethnicityData: response.ethnicity});
+        this.setState({issueData: response});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -165,59 +105,19 @@ export default class IssueData extends React.Component {
     );
   }
 
-  renderChartView(data) {
-    return (
-      <View style={styles.chartViewContainer}>
-        <View style={styles.chartContainer}>
-          <Text style={styles.chartTitle}>
-            {data[2].title} division of yes and no votes.
-          </Text>
-          <VictoryPie
-            data={data[0]}
-            colorScale={data[1]}
-            labelPosition="centroid"
-            innerRadius={50}
-            labelRadius={20}
-            padAngle={({datum}) => datum.y * 4}
-            labels={() => ''}
-            width={150}
-            height={150}
-            padding={0}
-            style={{
-              parent: {
-                shadowColor: colors.black,
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 5,
-              },
-              labels: {
-                fill: colors.polWhite,
-                fontSize: 16,
-                fontWeight: 'bold',
-              },
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  renderItem(item, index) {
+  renderItem(item) {
+    let key = item.key;
     return (
       <View style={styles.itemContainer}>
-        <Text style={styles.itemHeaderText}>{item.category}</Text>
+        <Text style={styles.itemHeaderText}>{item.type}</Text>
         <View style={styles.itemChartContainer}>
           <VictoryPie
-            data={item}
-            colorScale={colorsData[this.state.rightKey]}
+            data={item.data}
+            colorScale={colorsIssueData[item.key]}
             width={150}
             height={150}
             innerRadius={50}
-            padAngle={1}
+            padAngle={2}
             labelRadius={20}
             labels={() => ''}
             padding={0}
@@ -242,7 +142,19 @@ export default class IssueData extends React.Component {
         <View style={styles.itemKeyContainer}>
           <FlatList
             data={item.data}
-            renderItem={({item, index}) => this.renderKey(item, index)}
+            renderItem={({item, index}) => {
+              return (
+                <View style={styles.keyContainer}>
+                  <View
+                    style={[
+                      styles.keyColor,
+                      {backgroundColor: colorsIssueData[key][index]},
+                    ]}
+                  />
+                  <Text style={styles.keyText}>{item.x}</Text>
+                </View>
+              );
+            }}
             numColumns={4}
             columnWrapperStyle={{
               justifyContent: 'space-between',
@@ -255,20 +167,14 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let data = [
-      this.state.genderData,
-      this.state.partyData,
-      this.state.educationData,
-      this.state.ethnicityData,
-    ];
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.contentContainer}>
-          {this.renderResultsView()}
-          <View style={styles.chartsContainer}>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.contentContainer}>
+            {this.renderResultsView()}
             <FlatList
-              data={data}
-              renderItem={({item, index}) => this.renderItem(item, index)}
+              data={this.state.issueData}
+              renderItem={({item}) => this.renderItem(item)}
             />
           </View>
         </ScrollView>
@@ -282,15 +188,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.polWhite,
   },
-  contentContainer: {
-    marginVertical: 10,
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
   },
-  chartsContainer: {
+  contentContainer: {
     flex: 1,
     marginVertical: 10,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
   },
   resultsDetailsContainer: {
     flex: 1,

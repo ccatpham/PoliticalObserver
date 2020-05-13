@@ -165,27 +165,27 @@ export default class EditDemographic extends React.Component {
 
   componentDidMount() {
     pol.api
-        .getDemographicById(this.props.route.params.user.demographicId)
-        .then(response => {
-          this.setState({
-            partyAffiliation: response.partyAffiliation,
-            maritalStatus: response.maritalStatus,
-            education: response.education,
-            ethnicity: response.ethnicity,
-            occupation: response.occupation,
-            income: response.income,
-            personalityType: response.personalityType,
-            politicalAffiliation: response.politicalAffiliation,
-            state: response.state,
-            gender: response.gender,
-            age: response.age,
-          });
-        })
-        .catch(error => {
-          Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-            cancelable: false,
-          });
+      .getDemographicById(this.props.route.params.user.demographicId)
+      .then(response => {
+        this.setState({
+          partyAffiliation: response.partyAffiliation,
+          maritalStatus: response.maritalStatus,
+          education: response.education,
+          ethnicity: response.ethnicity,
+          occupation: response.occupation,
+          income: response.income,
+          personalityType: response.personalityType,
+          politicalAffiliation: response.politicalAffiliation,
+          state: response.state,
+          gender: response.gender,
+          age: response.age,
         });
+      })
+      .catch(error => {
+        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
+          cancelable: false,
+        });
+      });
   }
 
   onChangeAge(age) {

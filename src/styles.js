@@ -18,8 +18,15 @@ export const colors = {
   polDarkGray: '#464646',
   polGreen: '#007000',
   clear: 'rgba(255, 255, 255, 0.0)',
-  gender: ['#CD6155', '#C0392B', '#A93226', '#52BE80', '#27AE60', '#229954'],
-  party: [
+  genderIssueData: [
+    '#CD6155',
+    '#C0392B',
+    '#A93226',
+    '#52BE80',
+    '#27AE60',
+    '#229954',
+  ],
+  partyIssueData: [
     '#CD6155',
     '#C0392B',
     '#A93226',
@@ -33,7 +40,7 @@ export const colors = {
     '#196F3D',
     '#145A32',
   ],
-  education: [
+  educationIssueData: [
     '#CD6155',
     '#C0392B',
     '#A93226',
@@ -47,7 +54,7 @@ export const colors = {
     '#196F3D',
     '#145A32',
   ],
-  ethnicity: [
+  ethnicityIssueData: [
     '#CD6155',
     '#C0392B',
     '#A93226',
@@ -66,6 +73,13 @@ export const colors = {
     republican: '#cf3634',
     Unaligned: '#464646',
   },
+};
+
+export const colorsIssueData = {
+  gender: colors.genderIssueData,
+  partyAffiliation: colors.partyIssueData,
+  education: colors.educationIssueData,
+  ethnicity: colors.ethnicityIssueData,
 };
 
 export const colorsData = {
