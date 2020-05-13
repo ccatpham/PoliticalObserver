@@ -17,6 +17,8 @@ export const colors = {
   polPlaceholderGray: '#8A8A8A',
   polDarkGray: '#464646',
   polGreen: '#007000',
+  polSettingsGreen: '#76d672',
+  polSettingsGray: '#767577',
   clear: 'rgba(255, 255, 255, 0.0)',
   genderIssueData: [
     '#CD6155',

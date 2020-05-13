@@ -239,10 +239,20 @@ export default class Api {
    * Settings Endpoints
    */
 
-  async getUserSettings(userId) {
+  async getUserSettings(id) {
     const config = {
       method: 'get',
-      endpoint: `/settings/${userId}`,
+      endpoint: `/settings/id/${id}`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
+  async modifySettings(id, settingsData) {
+    const config = {
+      method: 'put',
+      endpoint: `/settings/${id}`,
+      jsonData: settingsData,
     };
 
     return this.apiRequest(config).then(parseApiResponse);

@@ -45,7 +45,12 @@ export default class ProfileScreen extends React.Component {
       headerRight: () => (
         <TouchableOpacity
           style={styles.settingsButton}
-          onPress={() => this.props.navigation.navigate('Settings')}>
+          onPress={() =>
+            this.props.navigation.navigate('Settings', {
+              userId: this.state.userId,
+              settingsId: this.state.settingsId,
+            })
+          }>
           <Image
             style={styles.settingsImage}
             source={require('../../../res/icons/settingsIcon.png')}
@@ -56,7 +61,6 @@ export default class ProfileScreen extends React.Component {
   }
 
   componentDidMount = () => {
-      console.log(this.props.route.params.user);
     this.unSubscribe = this.props.navigation.addListener('focus', () => {
       this.getDemographic();
       if (this.props.route.params.hasTakenPoliticalTest) {
