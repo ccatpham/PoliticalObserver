@@ -79,6 +79,7 @@ export default class ProfileScreen extends React.Component {
   onPressViewDemographicsInsights = () => {
     this.props.navigation.navigate('Demographic Insights', {
       userId: this.props.route.params.user.id,
+      demographicId: this.props.route.params.user.demographicId,
     });
   };
 

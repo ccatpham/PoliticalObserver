@@ -16,7 +16,7 @@ export default class DemographicInsights extends React.Component {
     super(props);
     this.state = {
       userId: this.props.route.params.userId,
-      demographicId: this.props.route.params.user.demographicId,
+      demographicId: this.props.route.params.demographicId,
       data: [],
     };
   }

@@ -137,7 +137,6 @@ const ProfileStack = props => {
       <Stack.Screen
         name="Demographic Insights"
         component={DemographicInsights}
-        initialParams={props.route.params}
       />
       <Stack.Screen name="Issues" component={IssuesScreen} />
       <Stack.Screen name="Issue Details" component={IssueDetailsScreen} />
