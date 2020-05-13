@@ -23,19 +23,19 @@ export default class PoliticalCompassInfo extends React.Component {
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
           <View style={styles.contentContainer}>
-            <View>
-              <Text style={styles.titleFont}>
-                {' '}
-                What is the Political Compass?{' '}
-              </Text>
-            </View>
-            <View>
-              <Image
-                style={{width: 350, height: 250, margin: 20}}
-                source={require('../../../../res/images/PoliticalIdeologyChart.jpg')}
-              />
-            </View>
             <View style={styles.ideologyInfoContainer}>
+              <View>
+                <Text style={styles.titleFont}>
+                  {' '}
+                  What is the Political Compass?{' '}
+                </Text>
+              </View>
+              <View>
+                <Image
+                  style={{width: 300, height: 200, margin: 20}}
+                  source={require('../../../../res/images/PoliticalIdeologyChart.jpg')}
+                />
+              </View>
               <Text>
                 In social studies, a political ideology is a certain set of
                 ethical ideals, principles, doctrines, myths or symbols of a
@@ -53,25 +53,6 @@ export default class PoliticalCompassInfo extends React.Component {
                 methods: the most appropriate way to achieve this goal.
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.sectionButtonContainer}
-              onPress={() =>
-                this.props.navigation.dispatch(
-                  CommonActions.reset({
-                    index: 0,
-                    routes: [
-                      {
-                        name: 'Political Compass Landing',
-                        params: {
-                          userId: this.state.userId,
-                        },
-                      },
-                    ],
-                  }),
-                )
-              }>
-              <Text style={styles.sectionButtonText}>Exit</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -126,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 3,
     marginTop: 20,
     marginHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 20,
     padding: 4,
     backgroundColor: colors.polWhite,
     shadowColor: colors.black,
