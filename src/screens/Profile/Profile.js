@@ -41,6 +41,18 @@ export default class ProfileScreen extends React.Component {
       econScore: 0,
       politicalScore: '',
     };
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => this.props.navigation.navigate('Settings')}>
+          <Image
+            style={styles.settingsImage}
+            source={require('../../../res/icons/settingsIcon.png')}
+          />
+        </TouchableOpacity>
+      ),
+    });
   }
 
   componentDidMount = () => {
@@ -410,12 +422,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.polWhite,
   },
-  contentContainer: {
-    flex: 1,
-  },
   scrollView: {
     flex: 1,
     backgroundColor: colors.polWhite,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  settingsButton: {
+    marginHorizontal: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  settingsImage: {
+    height: 32,
+    width: 32,
   },
   politicalCompassModuleContainer: {
     flex: 3,
