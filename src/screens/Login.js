@@ -21,6 +21,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
+      isLoggingIn: false,
     };
   }
 
@@ -30,6 +31,7 @@ export default class LoginScreen extends React.Component {
 
   onPressLogin = () => {
     if (this.state.email !== '' && this.state.password !== '') {
+      this.setState({isLoggingIn: true});
       auth()
         .signInWithEmailAndPassword(
           this.state.email.toLowerCase(),
@@ -39,6 +41,7 @@ export default class LoginScreen extends React.Component {
           pol.api
             .getUserByEmail(this.state.email.toLowerCase())
             .then(user => {
+              this.setState({isLoggingIn: false});
               this.props.navigation.dispatch(
                 CommonActions.reset({
                   index: 0,
@@ -47,6 +50,7 @@ export default class LoginScreen extends React.Component {
               );
             })
             .catch(error => {
+              this.setState({isLoggingIn: false});
               Alert.alert(
                 'Error',
                 error.code + ' ' + error.message,
@@ -58,6 +62,7 @@ export default class LoginScreen extends React.Component {
             });
         })
         .catch(error => {
+          this.setState({isLoggingIn: false});
           Alert.alert(
             'Error',
             error.code + ' ' + error.message,
@@ -116,6 +121,7 @@ export default class LoginScreen extends React.Component {
         <TouchableOpacity
           style={styles.loginButtonContainer}
           onPress={this.onPressLogin}>
+          disabled={this.state.isLoggingIn}
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </SafeAreaView>
