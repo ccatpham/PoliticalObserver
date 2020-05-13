@@ -29,10 +29,6 @@ export default class CompareDataScreen extends React.Component {
           key: 'gender',
         },
         {
-          value: 'State',
-          key: 'state',
-        },
-        {
           value: 'Marital Status',
           key: 'maritalStatus',
         },
