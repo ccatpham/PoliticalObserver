@@ -88,16 +88,6 @@ export default class Politicians extends React.Component {
       partyImage = require('../../../../res/icons/republicanIcon.png');
     }
 
-    let image = require('../../../../res/images/politician.png');
-    if (item.name === 'Bernie Sanders') {
-      image = require('../../../../res/images/sanders.png');
-    } else if (item.name === 'Donald Trump') {
-      image = require('../../../../res/images/trump.jpg');
-    } else if (item.name === 'Mike Pence') {
-      image = require('../../../../res/images/pence.jpg');
-    } else if (item.name === 'Joe Biden') {
-      image = require('../../../../res/images/biden.jpg');
-    }
     return (
       <TouchableOpacity
         style={styles.itemButtonContainer}
@@ -107,7 +97,7 @@ export default class Politicians extends React.Component {
           });
         }}>
         <View style={styles.imageContainer}>
-          <Image source={image} style={styles.image} />
+          <Image source={item.imageUrl ? item.imageUrl : require('../../../../res/images/politician.png')} style={styles.image} />
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.titleText}>{item.name}</Text>

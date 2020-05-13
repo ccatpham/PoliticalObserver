@@ -29,7 +29,8 @@ export default class IssueDetails extends React.Component {
       bio: '',
       address: '',
       phone: '',
-      website: '',
+      website: null,
+      imageUrl: null,
     };
   }
 
@@ -47,17 +48,6 @@ export default class IssueDetails extends React.Component {
   }
 
   render() {
-    let image = require('../../../../res/images/politician.png');
-    if (this.state.name === 'Bernie Sanders') {
-      image = require('../../../../res/images/sanders.png');
-    } else if (this.state.name === 'Donald Trump') {
-      image = require('../../../../res/images/trump.jpg');
-    } else if (this.state.name === 'Mike Pence') {
-      image = require('../../../../res/images/pence.jpg');
-    } else if (this.state.name === 'Joe Biden') {
-      image = require('../../../../res/images/biden.jpg');
-    }
-
     let dateOfBirth = '';
     if (this.state.dateOfBirth !== null) {
       dateOfBirth = moment(this.state.dateOfBirth).format(
@@ -79,7 +69,7 @@ export default class IssueDetails extends React.Component {
                 )}
               </View>
               <View style={styles.imageContainer}>
-                <Image source={image} style={styles.image} />
+                <Image source={this.state.imageUrl ? this.state.imageUrl : require('../../../../res/images/politician.png')} style={styles.image} />
               </View>
               <View style={[styles.imageContainer, {zIndex: 1}]}>
                 {(this.state.party === 'Republican' ||
@@ -119,11 +109,11 @@ export default class IssueDetails extends React.Component {
                 {this.state.phone !== '' && (
                   <Text style={styles.text}>Phone: {this.state.phone}</Text>
                 )}
-                {this.state.website !== '' && (
+                {this.state.website !== null && (
                   <TouchableOpacity
                     style={styles.websiteButtonContainer}
                     onPress={() =>
-                      Linking.openURL('https://' + this.state.website)
+                      Linking.openURL('https://' + this.state.website.uri)
                     }>
                     <Text style={styles.websiteButtonText}>Website</Text>
                   </TouchableOpacity>
