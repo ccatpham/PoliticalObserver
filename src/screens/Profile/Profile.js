@@ -142,7 +142,9 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <View style={{alignSelf: 'center'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>You are a {this.state.politicalScore}</Text>
+          <Text style={{fontSize: 18}}>
+            You are a {this.state.politicalScore}
+          </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
@@ -153,7 +155,6 @@ export default class ProfileScreen extends React.Component {
                 height={125}
                 domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetY={125}
                 standalone={false}
               />
               <VictoryAxis
@@ -163,7 +164,6 @@ export default class ProfileScreen extends React.Component {
                 height={125}
                 domain={[-6, 6]}
                 theme={VictoryTheme.material}
-                offsetX={125}
                 standalone={false}
               />
               <VictoryScatter
