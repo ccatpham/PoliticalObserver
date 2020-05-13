@@ -120,7 +120,7 @@ export default class IssueDetails extends React.Component {
                 {this.state.website !== '' && (
                   <TouchableOpacity
                     style={styles.websiteButtonContainer}
-                    onPress={() => Linking.openURL(this.state.website)}>
+                    onPress={() => Linking.openURL('https://' + this.state.website)}>
                     <Text style={styles.websiteButtonText}>Website</Text>
                   </TouchableOpacity>
                 )}

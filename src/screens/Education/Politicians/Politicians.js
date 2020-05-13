@@ -87,7 +87,7 @@ export default class Politicians extends React.Component {
       partyImage = require('../../../../res/icons/republicanIcon.png');
     }
 
-    let image = '';
+    let image = require('../../../../res/images/politician.png');
     if (item.name === 'Bernie Sanders') {
       image = require('../../../../res/images/sanders.png');
     } else if (item.name === 'Donald Trump') {
