@@ -100,6 +100,16 @@ export default class IssueDetails extends React.Component {
               height={150}
               padding={0}
               style={{
+                parent: {
+                  shadowColor: colors.black,
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+                  elevation: 5,
+                },
                 labels: {
                   fill: colors.polWhite,
                   fontSize: 16,

@@ -404,6 +404,15 @@ export default class Api {
     return this.apiRequest(config).then(parseApiResponse);
   }
 
+  async getIssueDataByIssueId(issueid) {
+    const config = {
+      method: 'get',
+      endpoint: `/issuedata/issueid/${issueid}/`,
+    };
+
+    return this.apiRequest(config).then(parseApiResponse);
+  }
+
   /*
    * Political Quiz Endpoints
    */

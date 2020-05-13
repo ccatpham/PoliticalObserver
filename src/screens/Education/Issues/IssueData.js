@@ -1,22 +1,16 @@
 import React from 'react';
 import {
-  Image,
   StyleSheet,
   View,
   Text,
   Alert,
   SafeAreaView,
-  TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
-import {colors} from '../../../styles';
+import {colors, colorsIssueData} from '../../../styles';
 import pol from '../../../api/apiConfig';
 import {VictoryPie} from 'victory-native';
-
-const titleGender = {title: 'Gender'};
-const titleParty = {title: 'Party'};
-const titleEducation = {title: 'Education'};
-const titleEthnicity = {title: 'Ethnicity'};
 
 export default class IssueData extends React.Component {
   constructor(props) {
@@ -28,22 +22,11 @@ export default class IssueData extends React.Component {
       title: this.props.route.params.issueTitle,
       description: this.props.route.params.issueDescription,
       data: [],
-      genderData: [],
-      partyData: [],
-      educationData: [],
-      ethnicityData: [],
+      issueData: [],
     };
   }
 
   componentDidMount() {
-    this.getIssueData();
-    this.getIssueGenderStats();
-    this.getIssuePartyStats();
-    this.getIssueEducationStats();
-    this.getIssueEthnicityStats();
-  }
-
-  getIssueData() {
     pol.api
       .getIssueById(this.state.userId, this.state.issueId)
       .then(issueResponse => {
@@ -56,52 +39,10 @@ export default class IssueData extends React.Component {
           cancelable: false,
         });
       });
-  }
-
-  getIssueGenderStats() {
     pol.api
-      .getIssueDataGenderByIssueId(this.state.issueId)
+      .getIssueDataByIssueId(this.state.issueId)
       .then(response => {
-        this.setState({genderData: response.gender});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssuePartyStats() {
-    pol.api
-      .getIssueDataPartyByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({partyData: response.party});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssueEducationStats() {
-    pol.api
-      .getIssueDataEducationByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({educationData: response.education});
-      })
-      .catch(error => {
-        Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
-          cancelable: false,
-        });
-      });
-  }
-
-  getIssueEthnicityStats() {
-    pol.api
-      .getIssueDataEthnicityByIssueId(this.state.issueId)
-      .then(response => {
-        this.setState({ethnicityData: response.ethnicity});
+        this.setState({issueData: response});
       })
       .catch(error => {
         Alert.alert('Error', error.code + ' ' + error.message, [{text: 'OK'}], {
@@ -122,6 +63,16 @@ export default class IssueData extends React.Component {
             height={150}
             padding={0}
             style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
               labels: {
                 fill: colors.polWhite,
                 fontSize: 16,
@@ -154,30 +105,60 @@ export default class IssueData extends React.Component {
     );
   }
 
-  renderChartView(data) {
+  renderItem(item) {
+    let key = item.key;
     return (
-      <View style={styles.chartViewContainer}>
-        <View style={styles.chartContainer}>
-          <Text style={styles.chartTitle}>
-            {data[2].title} division of yes and no votes.
-          </Text>
+      <View style={styles.itemContainer}>
+        <Text style={styles.itemHeaderText}>{item.type}</Text>
+        <View style={styles.itemChartContainer}>
           <VictoryPie
-            data={data[0]}
-            colorScale={data[1]}
-            labelPosition="centroid"
-            innerRadius={60}
-            labelRadius={70}
-            padAngle={({datum}) => datum.y * 4}
-            labels={({datum}) => (`${datum.y}` !== '0' ? `${datum.x}` : '')}
-            width={280}
-            height={280}
-            padding={20}
+            data={item.data}
+            colorScale={colorsIssueData[item.key]}
+            width={150}
+            height={150}
+            innerRadius={50}
+            padAngle={2}
+            labelRadius={20}
+            labels={() => ''}
+            padding={0}
             style={{
+              parent: {
+                shadowColor: colors.black,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+              },
               labels: {
-                fill: 'black',
-                fontSize: 12,
+                fontSize: 16,
                 fontWeight: 'bold',
               },
+            }}
+          />
+        </View>
+        <View style={styles.itemKeyContainer}>
+          <FlatList
+            data={item.data}
+            renderItem={({item, index}) => {
+              return (
+                <View style={styles.keyContainer}>
+                  <View
+                    style={[
+                      styles.keyColor,
+                      {backgroundColor: colorsIssueData[key][index]},
+                    ]}
+                  />
+                  <Text style={styles.keyText}>{item.x}</Text>
+                </View>
+              );
+            }}
+            numColumns={4}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
             }}
           />
         </View>
@@ -186,18 +167,15 @@ export default class IssueData extends React.Component {
   }
 
   render() {
-    let data = [
-      [this.state.genderData, colors.gender, titleGender],
-      [this.state.partyData, colors.party, titleParty],
-      [this.state.educationData, colors.education, titleEducation],
-      [this.state.ethnicityData, colors.ethnicity, titleEthnicity],
-    ];
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.contentContainer}>
-          {this.renderResultsView()}
-          <View style={styles.chartsContainer}>
-            {data.map(data => this.renderChartView(data))}
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.contentContainer}>
+            {this.renderResultsView()}
+            <FlatList
+              data={this.state.issueData}
+              renderItem={({item}) => this.renderItem(item)}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -210,21 +188,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.polWhite,
   },
-  contentContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.polWhite,
   },
-  chartsContainer: {
+  contentContainer: {
     flex: 1,
     marginVertical: 10,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.polWhite,
   },
   resultsDetailsContainer: {
     flex: 1,
     flexDirection: 'row',
     marginVertical: 10,
+    marginHorizontal: 20,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   resultsChartContainer: {
     flex: 1,
@@ -257,5 +243,57 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     justifyContent: 'center',
     fontWeight: 'bold',
+  },
+  itemContainer: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    padding: 10,
+    backgroundColor: colors.polWhite,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  itemHeaderText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  itemChartContainer: {
+    flex: 1,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemKeyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  keyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 4,
+  },
+  keyColor: {
+    marginRight: 4,
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  keyText: {
+    textAlign: 'center',
   },
 });
